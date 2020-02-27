@@ -42,6 +42,7 @@ public class Test {
         public String Test(){return "cc";}
     }
 
+
     public static void main(String[] args) {
         List<A> deck = new ArrayList<A>();
         deck.add(new A());

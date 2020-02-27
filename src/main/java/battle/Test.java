@@ -21,6 +21,7 @@ public class Test extends SimpleApplication {
 
 
     Picture last = new Picture("null");
+
     public Test() {
         super(new StatsAppState(), new AudioListenerState(), new DebugKeysAppState(),
                 new HandCards());
@@ -53,42 +54,41 @@ public class Test extends SimpleApplication {
             int x = evt.getX();
             int y = evt.getY();
 
-            Vector2f screenCoord = new Vector2f(x,y);
+            Vector2f screenCoord = new Vector2f(x, y);
             Vector3f worldCoord = cam.getWorldCoordinates(screenCoord, 1f);
             Vector3f worldCoord2 = cam.getWorldCoordinates(screenCoord, 0f);
 
 // 然后计算视线方向
-            Vector3f dir = worldCoord.subtract(worldCoord2);
+            Vector3f dir = worldCoord2.subtract(worldCoord);
             dir.normalizeLocal();
 
 // 生成射线
-            Ray ray = new Ray(new Vector3f(x,y,0), dir);
+            Ray ray = new Ray(new Vector3f(x, y, 0), dir);
             CollisionResults results = new CollisionResults();
             guiNode.collideWith(ray, results);
 
             if (results.size() > 0) {
                 // 获得离射线原点最近的交点
-                Picture closest = (Picture)(results.getClosestCollision().getGeometry());
-                System.out.println(closest.getName());
-                if (last!=closest){
+                Picture closest = (Picture) (results.getClosestCollision().getGeometry());
+                if (last != closest) {
                     closest.setWidth(400);
                     closest.setHeight(400);
-                    closest.move(0,0,1);
-                    if (!last.getName().equals("null")){
-                        last.setWidth(300);
-                        last.setHeight(300);
-                        last.move(0,0,0);
-                    }
-                    last = closest;
-                }
-
-            }else{
-                if (!last.getName().equals("null")){
+                    Vector3f location = closest.getLocalTranslation();
+                    closest.setLocalTranslation(location.x,location.y,1);
+              
                     last.setWidth(300);
                     last.setHeight(300);
-                    last.move(0,0,0);
-                    last.setName("null");
+                    location =last.getLocalTranslation();
+                    last.setLocalTranslation(location.x,location.y,0);
+                    last = closest;
                 }
+            } else {
+                last.setWidth(300);
+                last.setHeight(300);
+                Vector3f location = last.getLocalTranslation();
+                last.setLocalTranslation(location.x,location.y,0);
+                last.setName("null");
+
             }
 
 

@@ -96,7 +96,7 @@ public class HandCards extends BaseAppState {
             double x = this.positions[length][i][0];
             double y = this.positions[length][i][1];
             double angle = this.positions[length][i][2];
-            card.setPosition((float) x, (float) y);
+            card.setLocalTranslation((float)x, (float)y,1);
             card.rotate(0, 0, (float) angle);
             rootNode.attachChild(card);
             rootNode.attachChild(card);
