@@ -16,6 +16,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.system.AppSettings;
 import com.jme3.ui.Picture;
+import appState.HandCards;
 
 public class Test extends SimpleApplication {
 
@@ -24,97 +25,16 @@ public class Test extends SimpleApplication {
 
     public Test() {
         super(new StatsAppState(), new AudioListenerState(), new DebugKeysAppState(),
-                new HandCards());
+               new HandCards());
     }
 
     @Override
     public void simpleInitApp() {
-        inputManager.addRawInputListener(new MyRawInputListener());
+
 
     }
 
-    // 原始输入监听器
-    class MyRawInputListener implements RawInputListener {
 
-        /**
-         * 键盘输入事件
-         */
-        @Override
-        public void onKeyEvent(KeyInputEvent evt) {
-            int keyCode = evt.getKeyCode();
-            boolean isPressed = evt.isPressed();
-
-        }
-
-        /**
-         * 鼠标输入事件
-         */
-        @Override
-        public void onMouseMotionEvent(MouseMotionEvent evt) {
-            int x = evt.getX();
-            int y = evt.getY();
-
-            Vector2f screenCoord = new Vector2f(x, y);
-            Vector3f worldCoord = cam.getWorldCoordinates(screenCoord, 1f);
-            Vector3f worldCoord2 = cam.getWorldCoordinates(screenCoord, 0f);
-
-// 然后计算视线方向
-            Vector3f dir = worldCoord2.subtract(worldCoord);
-            dir.normalizeLocal();
-
-// 生成射线
-            Ray ray = new Ray(new Vector3f(x, y, 0), dir);
-            CollisionResults results = new CollisionResults();
-            guiNode.collideWith(ray, results);
-
-            if (results.size() > 0) {
-                // 获得离射线原点最近的交点
-                Picture closest = (Picture) (results.getClosestCollision().getGeometry());
-                if (last != closest) {
-                    closest.setWidth(400);
-                    closest.setHeight(400);
-                    Vector3f location = closest.getLocalTranslation();
-                    closest.setLocalTranslation(location.x,location.y,1);
-              
-                    last.setWidth(300);
-                    last.setHeight(300);
-                    location =last.getLocalTranslation();
-                    last.setLocalTranslation(location.x,location.y,0);
-                    last = closest;
-                }
-            } else {
-                last.setWidth(300);
-                last.setHeight(300);
-                Vector3f location = last.getLocalTranslation();
-                last.setLocalTranslation(location.x,location.y,0);
-                last.setName("null");
-
-            }
-
-
-        }
-
-        public void onMouseButtonEvent(MouseButtonEvent evt) {
-        }
-
-        @Override
-        public void beginInput() {
-        }
-
-        @Override
-        public void endInput() {
-        }
-
-
-        public void onJoyAxisEvent(JoyAxisEvent evt) {
-        }
-
-        public void onJoyButtonEvent(JoyButtonEvent evt) {
-        }
-
-        public void onTouchEvent(TouchEvent evt) {
-        }
-    }
 
     public static void main(String[] args) {
         // 配置参数
