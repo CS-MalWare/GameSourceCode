@@ -21,32 +21,32 @@ public class HandCards extends BaseAppState {
     private SimpleApplication app;
     //    private double height = app.getCamera().getHeight();
 //    private double width = app.getCamera().getWidth();
-    private double height = 900;
-    private double width = 1600;
-    private double left = width / 6.0;
-    private double right = width / 6.0 * 5;
+    private double height = 900; //屏幕高度
+    private double width = 1600;  // 屏幕宽度
 
-    private double deckWidth = width / 3.0 * 2;
-    private float ratio = (float) (width / 1600.0);
 
-    private double top = -25 * ratio;
-    private double verticalDiff_left = 22 * ratio;
+    private float ratio = (float) (width / 1600.0);  //缩放比例
+
+    private double top = -25 * ratio;  //第一张牌距离屏幕高度
+    private double verticalDiff_left = 22 * ratio;  //竖向位移
     private double verticalDiff_right = 15 * ratio;
-    private double horizontalDiff= 120 * ratio;
+    private double horizontalDiff= 120 * ratio; //横向位移
 
-    public double cardWidth = 200 * ratio;
-    public double cardHeight = 260 * ratio;
+    public double cardWidth = 200 * ratio;  //卡片宽度
+    public double cardHeight = 260 * ratio;  //卡片高度
 
-    private float rotateRate_left = FastMath.PI / 180 * 3;
+    private float rotateRate_left = FastMath.PI / 180 * 3;   //旋转速率
     private float rotateRate_right = -FastMath.PI / 180 * 4;
 
-    private Node rootNode = new Node("HandCards");
+    private Node rootNode = new Node("HandCards");  //主节点
 
-    private double[][][] positions = new double[20][20][3];
+    private double[][][] positions = new double[20][20][3]; //存放每张牌的位置
 
 
     private MyRawInputListener cardListener;
 
+
+    // 事先计算每张牌的位置
     protected double[][] computePosition(int num) {
         if (num == 0) return null;
         double[][] result = new double[num][3];
@@ -76,7 +76,7 @@ public class HandCards extends BaseAppState {
         return result;
     }
 
-
+    // 初始化卡片
     protected Picture newCard(@org.jetbrains.annotations.NotNull String path) {
         String[] paths = path.split("/");
         String name = paths[paths.length - 1];
@@ -173,6 +173,8 @@ public class HandCards extends BaseAppState {
             if (results.size() > 0) {
                 // 获得离射线原点最近的交点
                 Picture closest = (Picture) (results.getClosestCollision().getGeometry());
+
+                // 使鼠标放上去的卡牌放大,并且放置在屏幕中央
                 if (last != closest) {
                     closest.setWidth((float) (cardWidth *1.25));
                     closest.setHeight((float) (cardHeight *1.25));
@@ -193,6 +195,7 @@ public class HandCards extends BaseAppState {
                     guiNode.attachChild(center);
                 }
             } else {
+                // 使卡牌恢复原状
                 last.setWidth((float) cardWidth);
                 last.setHeight((float) cardHeight);
                 Vector3f location = last.getLocalTranslation();
