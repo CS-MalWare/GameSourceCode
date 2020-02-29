@@ -108,6 +108,7 @@ public class HandCards extends BaseAppState {
             double angle = this.positions[length][i][2];
             card.setPosition((float) x, (float) y);
             card.rotate(0, 0, (float) angle);
+//            card.rotateUpTo(new Vector3f(0, 0, (float) angle));
             rootNode.attachChild(card);
             i++;
         }
@@ -202,6 +203,7 @@ public class HandCards extends BaseAppState {
                 last.setLocalTranslation(location.x,location.y,0);
                 last = new Picture("null");
                 center.removeFromParent();
+
             }
 
 

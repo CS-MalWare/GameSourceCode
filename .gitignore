@@ -1,3 +1,2 @@
-src/main/resources/Cards/*
-src/main/resources/Models/*
 /target/
+/src/main/resources/
