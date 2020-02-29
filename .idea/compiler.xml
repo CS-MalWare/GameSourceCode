@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="App" />
         <module name="app" />
+        <module name="GameSourceCode" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />

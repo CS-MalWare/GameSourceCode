@@ -42,6 +42,7 @@ public class HandCards extends BaseAppState {
 
     private double[][][] positions = new double[20][20][3]; //存放每张牌的位置
 
+    private List<Picture> cards;
 
     private MyRawInputListener cardListener;
 
@@ -78,12 +79,12 @@ public class HandCards extends BaseAppState {
 
     // 初始化卡片
     protected Picture newCard(@org.jetbrains.annotations.NotNull String path) {
-        String[] paths = path.split("/");
-        String name = paths[paths.length - 1];
-        Picture card = new Picture(path);
-        card.setHeight((float) cardHeight);
-        card.setWidth((float) cardWidth);
-        card.setImage(app.getAssetManager(), path, true);
+        String[] paths = path.split("/");//将卡牌路径拆开
+        String name = paths[paths.length - 1];//获取卡牌名称
+        Picture card = new Picture(path);//创建卡牌
+        card.setHeight((float) cardHeight);//设置宽高
+        card.setWidth((float) cardWidth);//设置宽高
+        card.setImage(app.getAssetManager(), path, true);//将卡牌添加进Assetmanager
         return card;
     }
 
@@ -93,7 +94,7 @@ public class HandCards extends BaseAppState {
         this.cardListener = new MyRawInputListener();
         for (int i = 0; i < 20; i++) this.positions[i] = this.computePosition(i);
 
-        List<Picture> cards = new ArrayList<Picture>();
+        cards = new ArrayList<Picture>();
         cards.add(newCard("Cards/caster/attack/冰雷破(+).png"));
         cards.add(newCard("Cards/caster/attack/双龙炼狱.png"));
         cards.add(newCard("Cards/caster/attack/奥数冲击(+).png"));
@@ -136,8 +137,8 @@ public class HandCards extends BaseAppState {
 
 
     class MyRawInputListener implements RawInputListener {
-        Picture last = new Picture("null");
-        Picture center = new Picture("null");
+        Picture last = new Picture("null");//上次划过的图片
+        Picture center = new Picture("null");//屏幕中心的图片
         /**
          * 键盘输入事件
          */
@@ -153,42 +154,43 @@ public class HandCards extends BaseAppState {
          */
         @Override
         public void onMouseMotionEvent(MouseMotionEvent evt) {
-            int x = evt.getX();
-            int y = evt.getY();
-            Camera cam = app.getCamera();
+            int x = evt.getX();//得到鼠标的横坐标
+            int y = evt.getY();//得到鼠标的纵坐标
+            Camera cam = app.getCamera();//获得摄像机引用
             Vector2f screenCoord = new Vector2f(x, y);
             Vector3f worldCoord = cam.getWorldCoordinates(screenCoord, 1f);
             Vector3f worldCoord2 = cam.getWorldCoordinates(screenCoord, 0f);
-
+            //通过得到鼠标位置，生成一个二维向量，然后通过设定不同的竖坐标，获得应该的视线方向
 // 然后计算视线方向
             Vector3f dir = worldCoord.subtract(worldCoord2);
-            dir.normalizeLocal();
+            dir.normalizeLocal();//获得该方向单位向量
 
 // 生成射线
-            Node guiNode = app.getGuiNode();
+            Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
 
             Ray ray = new Ray(new Vector3f(x, y, 100), dir);
             CollisionResults results = new CollisionResults();
-            guiNode.collideWith(ray, results);
+            guiNode.collideWith(ray, results);//检测guinode 中所有图形对象 和 ray 的碰撞
 
             if (results.size() > 0) {
-                // 获得离射线原点最近的交点
+                // 获得离射线原点最近的交点所在的图片
                 Picture closest = (Picture) (results.getClosestCollision().getGeometry());
 
                 // 使鼠标放上去的卡牌放大,并且放置在屏幕中央
                 if (last != closest) {
+                    System.out.println(closest);
                     closest.setWidth((float) (cardWidth *1.25));
                     closest.setHeight((float) (cardHeight *1.25));
                     Vector3f location = closest.getLocalTranslation();
-                    closest.setLocalTranslation(location.x,location.y,1);
+                    closest.setLocalTranslation(location.x,location.y,1);//通过竖坐标增加来使得图片在前显示
 
                     last.setWidth((float) cardWidth);
                     last.setHeight((float) cardHeight);
                     location =last.getLocalTranslation();
-                    last.setLocalTranslation(location.x,location.y,0);
+                    last.setLocalTranslation(location.x,location.y,0);//图片还原
                     last = closest;
                     center.removeFromParent();
-                    center =newCard(closest.getName());
+                    center = newCard(closest.getName());
                     center.setPosition((float) ((width-cardWidth *1.5)/2.0),  (float) ((height-cardHeight)/2.0));
                     center.setWidth((float) (cardWidth *1.5));
                     center.setHeight((float) (cardHeight *1.5));
