@@ -17,7 +17,7 @@ import com.jme3.scene.control.AbstractControl;
 public class CardMotionControl extends AbstractControl {
 
     // 运动速度
-    private float walkSpeed = 0.01f;
+    private float walkSpeed = 800f;
     private float speedFactor = 1.0f;
 
     // 运动的方向向量
@@ -46,7 +46,7 @@ public class CardMotionControl extends AbstractControl {
     private float rotateDir;
 
     public CardMotionControl() {
-        this(0.01f, FastMath.PI / 180 / 100);
+        this(100f, 0);
     }
 
     public CardMotionControl(float walkSpeed, float rotateSpeed) {
@@ -88,19 +88,22 @@ public class CardMotionControl extends AbstractControl {
             rotateDir = -1.0f;
         }
         // 计算运动方向
-        walkDir = target.subtract(loc);
-        walkDir.normalizeLocal();
+
+        this.walkDir = target.subtract(this.loc);
+//        System.out.printf("%f, %f\n",walkDir.x,walkDir.y);
+        this.walkDir.normalizeLocal();
 
     }
 
     @Override
     public void setSpatial(Spatial spatial) {
         super.setSpatial(spatial);
+        if (spatial==null) return;
         // 初始化位置
         Vector3f location = spatial.getLocalTranslation();
-        loc = new Vector2f(location.x, location.y);
+        this.loc = new Vector2f(location.x, location.y);
         z = location.z;
-        this.curAngle = spatial.getLocalRotation().getZ();
+        this.curAngle = spatial.getLocalRotation().getZ() *2;
 
     }
 
@@ -125,7 +128,7 @@ public class CardMotionControl extends AbstractControl {
             // 计算离目标点的距离
             float dist = loc.distance(target);
             if (this.rotateSpeed == 0) {
-
+//                System.out.println("initialize rotateSpeed");
                 int times = (int) (dist / stepDist);
                 this.rotateSpeed = (tarAngle - curAngle) / times;
             }
@@ -133,21 +136,25 @@ public class CardMotionControl extends AbstractControl {
 
             if (stepDist <= dist) {
                 // 计算位移
+//                System.out.println("moved");
                 walkDir.mult(stepDist, step);
                 loc.addLocal(step);
 
                 Vector3f next = new Vector3f(loc.x, loc.y, this.z);
                 spatial.setLocalTranslation(next);
+//                System.out.printf("name: %s, x: %f, y: %f\n",spatial.getName(),next.x,next.y);
                 spatial.rotate(0, 0, rotateSpeed);
 
             } else {
                 // 可以到达目标点
+//                System.out.println("reach");
                 walkDir = null;
                 rotateDir = 0;
                 spatial.setLocalTranslation(target.x, target.y, this.z);
-                curAngle = spatial.getLocalRotation().getZ();
+                curAngle = spatial.getLocalRotation().getZ() *2;
                 spatial.rotate(0, 0, tarAngle - curAngle);
                 target = null;
+                this.spatial.removeControl(this);
             }
 
         }

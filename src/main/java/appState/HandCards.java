@@ -4,19 +4,20 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.collision.CollisionResults;
+import com.jme3.input.KeyInput;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.*;
-import com.jme3.math.FastMath;
-import com.jme3.math.Ray;
-import com.jme3.math.Vector2f;
-import com.jme3.math.Vector3f;
+import com.jme3.math.*;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.ui.Picture;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import control.CardMotionControl;
 
 public class HandCards extends BaseAppState {
     private SimpleApplication app;
@@ -46,6 +47,7 @@ public class HandCards extends BaseAppState {
     private List<Picture> cards;
 
     private MyRawInputListener cardListener;
+
 
 
     // 事先计算每张牌的位置
@@ -112,7 +114,11 @@ public class HandCards extends BaseAppState {
             double angle = this.positions[length][i][2];
             card.setPosition((float) x, (float) y);
             card.rotate(0, 0, (float) angle);
+
+//            System.out.println(angle);
 //            card.rotateUpTo(new Vector3f(0, 0, (float) angle));
+//            Quaternion rotate = card.getLocalRotation();
+//            System.out.printf("z: %f \n",rotate.getZ());
             rootNode.attachChild(card);
             i++;
         }
@@ -123,7 +129,7 @@ public class HandCards extends BaseAppState {
 
     @Override
     protected void cleanup(Application app) {
-
+        cards.clear();
     }
 
     @Override
@@ -139,6 +145,35 @@ public class HandCards extends BaseAppState {
     }
 
 
+    private void drawCards(int num){
+        int size0 = cards.size();
+        cards.add(newCard("Cards/caster/attack/冰雷破(+).png"));
+
+        int size = cards.size();
+        for (int i=size0;i <size ;i++){
+            Picture card = cards.get(i);
+            card.setPosition(1400,-25);
+            rootNode.attachChild(card);
+        }
+        for (int i=0;i <size ;i++){
+            Picture card = cards.get(i);
+//            System.out.printf("原来 x: %f, y: %f, angle: %f\n",card.getLocalTranslation().x,card.getLocalTranslation().y,card.getLocalRotation().getZ()*2);
+            CardMotionControl control = new CardMotionControl();
+            control.setSpatial(card);
+            if(i >= size0)
+                control.setWalkSpeed(1200f);
+            double[] position = positions[size][i];
+            double x = position[0];
+            double y = position[1];
+            double angle= position[2];
+//            System.out.printf("新位置 x: %f, y: %f, angle: %f\n",x,y,angle);
+            control.setTarget(new Vector2f((float)x,(float)y), (float) angle);
+            card.addControl(control);
+        }
+
+
+    }
+
     class MyRawInputListener implements RawInputListener {
         Picture last = new Picture("null");//上次划过的图片
         Picture center = new Picture("null");//屏幕中心的图片
@@ -149,6 +184,9 @@ public class HandCards extends BaseAppState {
         public void onKeyEvent(KeyInputEvent evt) {
             int keyCode = evt.getKeyCode();
             boolean isPressed = evt.isPressed();
+            if (keyCode == KeyInput.KEY_L && isPressed){
+                drawCards(1);
+            }
 
         }
 
@@ -242,13 +280,14 @@ public class HandCards extends BaseAppState {
     }
 
     public static void main(String[] args) {
-        HandCards a = new HandCards();
-        double[][] result = a.computePosition(5);
-        for (double[] x : result) {
-            for (double y : x) {
-                System.out.print(y + "  ");
-            }
-            System.out.println();
-        }
+//        HandCards a = new HandCards();
+//        double[][] result = a.computePosition(5);
+//        for (double[] x : result) {
+//            for (double y : x) {
+//                System.out.print(y + "  ");
+//            }
+//            System.out.println();
+//        }
+        System.out.println(FastMath.PI / 180 * 3);
     }
 }
