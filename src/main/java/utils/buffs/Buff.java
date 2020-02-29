@@ -1,86 +1,39 @@
 package utils.buffs;
 
 import character.Role;
-
+import com.jme3.ui.Picture;
 
 public class Buff {
-    public enum TYPE {BUFF, DEBUFF}
+    private String name;//buff的名称
+    private String description;//buff的文字描述
+    private Picture buffPicture;//buff的图片
+    private Role role;//buff绑定的人
 
-    public enum TIME {LASTING,FOREVER}
-
-    private String name;
-    protected int layer;
-    private TYPE type;
-    private TIME time;
-    protected Role role;
-    private String description;
-
-
-    public Buff(String name, int layer, TYPE type, TIME time, String description) {
+    public Buff(String name, String description,Picture buffPicture, Role role) {
         this.name = name;
-        this.layer = layer;
-        this.type = type;
-        this.time = time;
         this.description = description;
-    }
-
-    public void func(){
-
-    }
-
-
-    public void bind(Role role) {
+        this.buffPicture = buffPicture;
         this.role = role;
     }
 
+    //返回buff名称
     public String getName() {
         return name;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
+    //返回buff描述
     public String getDescription() {
         return description;
     }
 
-    public int getLayer() {
-        return layer;
+    //返回buff图标
+    public Picture getBuffPicture() {
+        return buffPicture;
     }
 
-    public TYPE getType() {
-        return type;
-    }
-
-    public TIME getTime() {
-        return time;
-    }
-
-    public void setLayer(int layer) {
-        this.layer = layer;
-    }
-
-    public boolean dec() {
-        this.layer -= 1;
-        return this.layer <= 0;
-    }
-
-    public boolean decBy(int time) {
-        this.layer -= time;
-        return this.layer <= 0;
-    }
-
-    public void inc() {
-        this.layer += 1;
-    }
-
-    public void incBy(int time) {
-        this.layer += time;
-    }
-
-    public void clean(){
-        this.layer =0;
+    //返回buff生效的人
+    public Role getRole() {
+        return role;
     }
 
 }

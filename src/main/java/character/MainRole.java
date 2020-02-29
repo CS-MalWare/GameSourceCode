@@ -88,7 +88,9 @@ public class MainRole extends Role {
     }
 
 
-
+    public void setDraw(int num){
+        this.draw = num;
+    }
     public void incDraw(int num) {
         this.draw += num;
     }

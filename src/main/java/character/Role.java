@@ -1,7 +1,9 @@
 package character;
 
 public class Role {
-    public enum ROLE{MAINROLE,NPC,ENEMY};
+    public enum ROLE {MAINROLE, NPC, ENEMY}
+
+    ;
     protected int totalHP; //总血量
     protected int HP; // 当前血量
     private String src; //模型路径
@@ -33,8 +35,9 @@ public class Role {
         this.HP = HP;
         this.src = src;
         this.role = role;
-        this.multiplyingDealDamage=1;
-        this.multiplyingGetDamage=1;
+        this.multiplyingDealDamage = 1;
+        this.multiplyingGetDamage = 1;
+        this.multiplyingGetBlock = 1;
     }
 
     public int getTotalHP() {
@@ -71,12 +74,12 @@ public class Role {
         this.HP -= damage;
     }
 
-    public void getHealed(int heal){
+    public void getHealed(int heal) {
         this.HP += heal;
     }
 
-    public void Attack(Role role,int damage){
-        damage = (int) (damage *this.multiplyingDealDamage);
+    public void Attack(Role role, int damage) {
+        damage = (int) (damage * this.multiplyingDealDamage);
         role.getDamage(damage);
     }
 
@@ -89,8 +92,16 @@ public class Role {
         this.dodge += num;
     }
 
-    public void incArtifact(int num){
+    public void incArtifact(int num) {
         this.artifact += num;
+    }
+
+    public void incDexterity(int num) {
+        this.dexterity += num;
+    }
+
+    public void incStrength(int num) {
+        this.strength += num;
     }
 
     public boolean isUnableAttack() {
@@ -108,6 +119,5 @@ public class Role {
     public void setUnableSkill(boolean unableSkill) {
         this.unableSkill = unableSkill;
     }
-
 
 }
