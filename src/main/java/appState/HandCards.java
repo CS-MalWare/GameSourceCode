@@ -11,6 +11,7 @@ import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.ui.Picture;
 
@@ -99,6 +100,8 @@ public class HandCards extends BaseAppState {
         cards.add(newCard("Cards/caster/attack/双龙炼狱.png"));
         cards.add(newCard("Cards/caster/attack/奥数冲击(+).png"));
         cards.add(newCard("Cards/caster/power/思维窃取(+).png"));
+        cards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
+        cards.add(newCard("Cards/caster/skill/召唤法弗纳(+).png"));
 
 
         int i = 0;
@@ -109,6 +112,7 @@ public class HandCards extends BaseAppState {
             double angle = this.positions[length][i][2];
             card.setPosition((float) x, (float) y);
             card.rotate(0, 0, (float) angle);
+//            card.rotateUpTo(new Vector3f(0, 0, (float) angle));
             rootNode.attachChild(card);
             i++;
         }
@@ -173,15 +177,20 @@ public class HandCards extends BaseAppState {
 
             if (results.size() > 0) {
                 // 获得离射线原点最近的交点所在的图片
-                Picture closest = (Picture) (results.getClosestCollision().getGeometry());
+                Geometry res = results.getClosestCollision().getGeometry();
+                Picture closest;
+                if (res instanceof Picture) {
+                    closest = (Picture) res;
+                } else {
+                    return;
+                }
 
                 // 使鼠标放上去的卡牌放大,并且放置在屏幕中央
                 if (last != closest) {
-                    System.out.println(closest);
-                    closest.setWidth((float) (cardWidth *1.25));
-                    closest.setHeight((float) (cardHeight *1.25));
+                    closest.setWidth((float) (cardWidth * 1.25));
+                    closest.setHeight((float) (cardHeight * 1.25));
                     Vector3f location = closest.getLocalTranslation();
-                    closest.setLocalTranslation(location.x,location.y,1);//通过竖坐标增加来使得图片在前显示
+                    closest.setLocalTranslation(location.x, location.y, 1);//通过竖坐标增加来使得图片在前显示
 
                     last.setWidth((float) cardWidth);
                     last.setHeight((float) cardHeight);
@@ -204,6 +213,7 @@ public class HandCards extends BaseAppState {
                 last.setLocalTranslation(location.x,location.y,0);
                 last = new Picture("null");
                 center.removeFromParent();
+
             }
 
 
