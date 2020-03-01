@@ -13,7 +13,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.ui.Picture;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class HandCards extends BaseAppState {
     private double top = -25 * ratio;  //第一张牌距离屏幕高度
     private double verticalDiff_left = 22 * ratio;  //竖向位移
     private double verticalDiff_right = 15 * ratio;
-    private double horizontalDiff= 120 * ratio; //横向位移
+    private double horizontalDiff = 120 * ratio; //横向位移
 
     public double cardWidth = 200 * ratio;  //卡片宽度
     public double cardHeight = 260 * ratio;  //卡片高度
@@ -47,7 +46,6 @@ public class HandCards extends BaseAppState {
     private List<Picture> cards;
 
     private MyRawInputListener cardListener;
-
 
 
     // 事先计算每张牌的位置
@@ -71,7 +69,7 @@ public class HandCards extends BaseAppState {
             }
         } else {
             int center = num / 2;
-            result[center] = new double[]{centerPosition, top,  0};
+            result[center] = new double[]{centerPosition, top, 0};
             for (int i = 0; i <= center; i++) {
                 result[center - i] = new double[]{centerPosition - i * horizontalDiff, top - i * verticalDiff_left, rotateRate_left * i};
                 result[center + i] = new double[]{centerPosition + i * horizontalDiff, top - i * verticalDiff_right, rotateRate_right * i};
@@ -98,12 +96,12 @@ public class HandCards extends BaseAppState {
         for (int i = 0; i < 20; i++) this.positions[i] = this.computePosition(i);
 
         cards = new ArrayList<Picture>();
-        cards.add(newCard("Cards/caster/attack/冰雷破(+).png"));
-        cards.add(newCard("Cards/caster/attack/双龙炼狱.png"));
-        cards.add(newCard("Cards/caster/attack/奥数冲击(+).png"));
-        cards.add(newCard("Cards/caster/power/思维窃取(+).png"));
-        cards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
-        cards.add(newCard("Cards/caster/skill/召唤法弗纳(+).png"));
+        cards.add(newCard("Cards/caster/attack/星陨.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
 
 
         int i = 0;
@@ -145,38 +143,105 @@ public class HandCards extends BaseAppState {
     }
 
 
-    private void drawCards(int num){
-        int size0 = cards.size();
-        cards.add(newCard("Cards/caster/attack/冰雷破(+).png"));
+    private void drawCards(int num) {
+        int size0 = cards.size();//获取当前还没有抽卡的手牌数量
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
 
-        int size = cards.size();
-        for (int i=size0;i <size ;i++){
+        int size = cards.size();//获得新手牌数量
+        //放置新卡牌
+        for (int i = size0; i < size; i++) {
             Picture card = cards.get(i);
-            card.setPosition(1400,-25);
+            card.setPosition(1400, -25);
             rootNode.attachChild(card);
         }
-        for (int i=0;i <size ;i++){
+
+        adjustAllCardsPosition(size, size0);
+
+
+    }
+
+    //多张卡变动时调整卡牌位置，如果传入的size0是-1，那么就是一张卡牌的调节
+    private void adjustAllCardsPosition(int size, int size0) {
+        for (int i = 0; i < size; i++) {
             Picture card = cards.get(i);
 //            System.out.printf("原来 x: %f, y: %f, angle: %f\n",card.getLocalTranslation().x,card.getLocalTranslation().y,card.getLocalRotation().getZ()*2);
             CardMotionControl control = new CardMotionControl();
             control.setSpatial(card);
-            if(i >= size0)
-                control.setWalkSpeed(1200f);
+
+            //size0为-1说明是单张卡牌当操作，不需要调整移动速度
+            if (size0 != -1)
+                if (i >= size0)
+                    control.setWalkSpeed(1200f);
+
+
             double[] position = positions[size][i];
             double x = position[0];
             double y = position[1];
-            double angle= position[2];
+            double angle = position[2];
 //            System.out.printf("新位置 x: %f, y: %f, angle: %f\n",x,y,angle);
-            control.setTarget(new Vector2f((float)x,(float)y), (float) angle);
+            control.setTarget(new Vector2f((float) x, (float) y), (float) angle);
             card.addControl(control);
         }
+    }
+
+    //卡牌打出时候的操作
+    private void useCards(Picture picture) {
+        cards.remove(picture);
+        rootNode.detachChild(picture);
+        int size = cards.size();
+        adjustAllCardsPosition(size, -1);
+
+    }
 
 
+    private CollisionResults getCurrentPointCard(MouseMotionEvent evt){
+        int x = evt.getX();//得到鼠标的横坐标
+        int y = evt.getY();//得到鼠标的纵坐标
+        Camera cam = app.getCamera();//获得摄像机引用
+        Vector2f screenCoord = new Vector2f(x, y);
+        Vector3f worldCoord = cam.getWorldCoordinates(screenCoord, 1f);
+        Vector3f worldCoord2 = cam.getWorldCoordinates(screenCoord, 0f);
+        //通过得到鼠标位置，生成一个二维向量，然后通过设定不同的竖坐标，获得应该的视线方向
+// 然后计算视线方向
+        Vector3f dir = worldCoord.subtract(worldCoord2);
+        dir.normalizeLocal();//获得该方向单位向量
+
+// 生成射线
+        Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
+
+        Ray ray = new Ray(new Vector3f(x, y, 100), dir);
+        CollisionResults results = new CollisionResults();
+        guiNode.collideWith(ray, results);//检测guinode 中所有图形对象 和 ray 的碰撞
+
+        return results;
+    }
+
+    private CollisionResults getCurrentPointCard(MouseButtonEvent evt){
+        int x = evt.getX();//得到鼠标的横坐标
+        int y = evt.getY();//得到鼠标的纵坐标
+        Camera cam = app.getCamera();//获得摄像机引用
+        Vector2f screenCoord = new Vector2f(x, y);
+        Vector3f worldCoord = cam.getWorldCoordinates(screenCoord, 1f);
+        Vector3f worldCoord2 = cam.getWorldCoordinates(screenCoord, 0f);
+        //通过得到鼠标位置，生成一个二维向量，然后通过设定不同的竖坐标，获得应该的视线方向
+// 然后计算视线方向
+        Vector3f dir = worldCoord.subtract(worldCoord2);
+        dir.normalizeLocal();//获得该方向单位向量
+
+// 生成射线
+        Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
+
+        Ray ray = new Ray(new Vector3f(x, y, 100), dir);
+        CollisionResults results = new CollisionResults();
+        guiNode.collideWith(ray, results);//检测guinode 中所有图形对象 和 ray 的碰撞
+
+        return results;
     }
 
     class MyRawInputListener implements RawInputListener {
         Picture last = new Picture("null");//上次划过的图片
         Picture center = new Picture("null");//屏幕中心的图片
+
         /**
          * 键盘输入事件
          */
@@ -184,7 +249,7 @@ public class HandCards extends BaseAppState {
         public void onKeyEvent(KeyInputEvent evt) {
             int keyCode = evt.getKeyCode();
             boolean isPressed = evt.isPressed();
-            if (keyCode == KeyInput.KEY_L && isPressed){
+            if (keyCode == KeyInput.KEY_L && isPressed) {
                 drawCards(1);
             }
 
@@ -195,24 +260,7 @@ public class HandCards extends BaseAppState {
          */
         @Override
         public void onMouseMotionEvent(MouseMotionEvent evt) {
-            int x = evt.getX();//得到鼠标的横坐标
-            int y = evt.getY();//得到鼠标的纵坐标
-            Camera cam = app.getCamera();//获得摄像机引用
-            Vector2f screenCoord = new Vector2f(x, y);
-            Vector3f worldCoord = cam.getWorldCoordinates(screenCoord, 1f);
-            Vector3f worldCoord2 = cam.getWorldCoordinates(screenCoord, 0f);
-            //通过得到鼠标位置，生成一个二维向量，然后通过设定不同的竖坐标，获得应该的视线方向
-// 然后计算视线方向
-            Vector3f dir = worldCoord.subtract(worldCoord2);
-            dir.normalizeLocal();//获得该方向单位向量
-
-// 生成射线
-            Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
-
-            Ray ray = new Ray(new Vector3f(x, y, 100), dir);
-            CollisionResults results = new CollisionResults();
-            guiNode.collideWith(ray, results);//检测guinode 中所有图形对象 和 ray 的碰撞
-
+            CollisionResults results = getCurrentPointCard(evt);
             if (results.size() > 0) {
                 // 获得离射线原点最近的交点所在的图片
                 Geometry res = results.getClosestCollision().getGeometry();
@@ -232,15 +280,16 @@ public class HandCards extends BaseAppState {
 
                     last.setWidth((float) cardWidth);
                     last.setHeight((float) cardHeight);
-                    location =last.getLocalTranslation();
-                    last.setLocalTranslation(location.x,location.y,0);//图片还原
+                    location = last.getLocalTranslation();
+                    last.setLocalTranslation(location.x, location.y, 0);//图片还原
                     last = closest;
                     center.removeFromParent();
                     center = newCard(closest.getName());
-                    center.setPosition((float) ((width-cardWidth *1.5)/2.0),  (float) ((height-cardHeight)/2.0));
-                    center.setWidth((float) (cardWidth *1.5));
-                    center.setHeight((float) (cardHeight *1.5));
+                    center.setPosition((float) ((width - cardWidth * 1.5) / 2.0), (float) ((height - cardHeight) / 2.0));
+                    center.setWidth((float) (cardWidth * 1.5));
+                    center.setHeight((float) (cardHeight * 1.5));
 
+                    Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
                     guiNode.attachChild(center);
                 }
             } else {
@@ -248,7 +297,7 @@ public class HandCards extends BaseAppState {
                 last.setWidth((float) cardWidth);
                 last.setHeight((float) cardHeight);
                 Vector3f location = last.getLocalTranslation();
-                last.setLocalTranslation(location.x,location.y,0);
+                last.setLocalTranslation(location.x, location.y, 0);
                 last = new Picture("null");
                 center.removeFromParent();
 
@@ -258,6 +307,21 @@ public class HandCards extends BaseAppState {
         }
 
         public void onMouseButtonEvent(MouseButtonEvent evt) {
+            //如果是鼠标按下去
+            if (evt.isPressed()) {
+                //获得当前鼠标选中的位置
+                CollisionResults results = getCurrentPointCard(evt);
+                if (results.size() > 0) {
+                    // 获得离射线原点最近的交点所在的图片
+                    Geometry res = results.getClosestCollision().getGeometry();
+                    Picture closest;
+                    //如果选中的是卡牌
+                    if (res instanceof Picture) {
+                        closest = (Picture) res;
+                        useCards(closest);
+                    }
+                }
+            }
         }
 
         @Override
