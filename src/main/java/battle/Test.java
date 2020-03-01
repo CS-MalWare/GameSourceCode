@@ -10,11 +10,12 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.input.KeyInput;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.*;
-import com.jme3.math.FastMath;
-import com.jme3.math.Ray;
-import com.jme3.math.Vector2f;
-import com.jme3.math.Vector3f;
+import com.jme3.light.AmbientLight;
+import com.jme3.light.DirectionalLight;
+import com.jme3.material.Material;
+import com.jme3.math.*;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import com.jme3.ui.Picture;
 import appState.HandCards;
@@ -27,13 +28,29 @@ public class Test extends SimpleApplication {
 
     public Test() {
         super(new StatsAppState(), new AudioListenerState(), new DebugKeysAppState(),
-               new EnemyState(),new HandCards() );
+                new EnemyState(), new HandCards());
     }
 
     @Override
     public void simpleInitApp() {
 
+    }
 
+    public void addLight() {
+        // 定向光
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection(new Vector3f(-1, -2, -3));
+
+        // 环境光
+        AmbientLight ambient = new AmbientLight();
+
+        // 调整光照亮度
+        ColorRGBA lightColor = new ColorRGBA();
+        sun.setColor(lightColor.mult(0.6f));
+        ambient.setColor(lightColor.mult(0.4f));
+
+        rootNode.addLight(sun);
+        rootNode.addLight(ambient);
     }
 
 

@@ -4,6 +4,7 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.collision.CollisionResults;
+import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.*;
@@ -11,6 +12,7 @@ import com.jme3.math.*;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.ui.Picture;
 
 import java.util.ArrayList;
@@ -96,14 +98,19 @@ public class HandCards extends BaseAppState {
         for (int i = 0; i < 20; i++) this.positions[i] = this.computePosition(i);
 
         cards = new ArrayList<Picture>();
-        cards.add(newCard("Cards/caster/attack/星陨.png"));
-        cards.add(newCard("Cards/caster/attack/充钱.png"));
-        cards.add(newCard("Cards/caster/attack/充钱.png"));
-        cards.add(newCard("Cards/caster/attack/充钱.png"));
-        cards.add(newCard("Cards/caster/attack/充钱.png"));
-        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//        cards.add(newCard("Cards/caster/attack/星陨.png"));
+//        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//        cards.add(newCard("Cards/caster/attack/充钱.png"));
 
-
+        cards.add(newCard("Cards/caster/attack/双龙炼狱(+).png"));
+        cards.add(newCard("Cards/caster/attack/奥数冲击.png"));
+        cards.add(newCard("Cards/caster/attack/流星雨(+).png"));
+        cards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
+        cards.add(newCard("Cards/caster/attack/爆破(+).png"));
+        cards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
         int i = 0;
         int length = cards.size();
         for (Picture card : cards) {
@@ -145,7 +152,8 @@ public class HandCards extends BaseAppState {
 
     private void drawCards(int num) {
         int size0 = cards.size();//获取当前还没有抽卡的手牌数量
-        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/power/时空裂隙(+).png"));
 
         int size = cards.size();//获得新手牌数量
         //放置新卡牌
@@ -194,7 +202,7 @@ public class HandCards extends BaseAppState {
     }
 
 
-    private CollisionResults getCurrentPointCard(MouseMotionEvent evt){
+    private CollisionResults getGuiCollision(MouseMotionEvent evt) {
         int x = evt.getX();//得到鼠标的横坐标
         int y = evt.getY();//得到鼠标的纵坐标
         Camera cam = app.getCamera();//获得摄像机引用
@@ -216,7 +224,8 @@ public class HandCards extends BaseAppState {
         return results;
     }
 
-    private CollisionResults getCurrentPointCard(MouseButtonEvent evt){
+
+    private CollisionResults getGuiCollision(MouseButtonEvent evt) {
         int x = evt.getX();//得到鼠标的横坐标
         int y = evt.getY();//得到鼠标的纵坐标
         Camera cam = app.getCamera();//获得摄像机引用
@@ -237,6 +246,7 @@ public class HandCards extends BaseAppState {
 
         return results;
     }
+
 
     class MyRawInputListener implements RawInputListener {
         Picture last = new Picture("null");//上次划过的图片
@@ -260,14 +270,19 @@ public class HandCards extends BaseAppState {
          */
         @Override
         public void onMouseMotionEvent(MouseMotionEvent evt) {
-            CollisionResults results = getCurrentPointCard(evt);
+            CollisionResults results = getGuiCollision(evt);
             if (results.size() > 0) {
                 // 获得离射线原点最近的交点所在的图片
                 Geometry res = results.getClosestCollision().getGeometry();
                 Picture closest;
+
                 if (res instanceof Picture) {
                     closest = (Picture) res;
                 } else {
+//                    for (int i = 0; i < results.size();i++){
+//                        res =results.getCollision(i).getGeometry();
+//                        System.out.println(res.getName());
+//                    }
                     return;
                 }
 
@@ -309,16 +324,19 @@ public class HandCards extends BaseAppState {
         public void onMouseButtonEvent(MouseButtonEvent evt) {
             //如果是鼠标按下去
             if (evt.isPressed()) {
+//                System.out.println(evt.getX());
+//                System.out.println(evt.getY());
                 //获得当前鼠标选中的位置
-                CollisionResults results = getCurrentPointCard(evt);
-                if (results.size() > 0) {
+                CollisionResults guiResults = getGuiCollision(evt);
+                if (guiResults.size() > 0) {
                     // 获得离射线原点最近的交点所在的图片
-                    Geometry res = results.getClosestCollision().getGeometry();
+                    Geometry res = guiResults.getClosestCollision().getGeometry();
                     Picture closest;
                     //如果选中的是卡牌
                     if (res instanceof Picture) {
                         closest = (Picture) res;
                         useCards(closest);
+                        // 如果选中的是某个角色
                     }
                 }
             }
