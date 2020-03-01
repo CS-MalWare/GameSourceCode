@@ -28,7 +28,7 @@ public class HandCards extends BaseAppState {
 
     private float ratio = (float) (width / 1600.0);  //缩放比例
 
-    private double top = -25 * ratio;  //第一张牌距离屏幕高度
+    private double top = -20 * ratio;  //第一张牌距离屏幕高度
     private double verticalDiff_left = 22 * ratio;  //竖向位移
     private double verticalDiff_right = 15 * ratio;
     private double horizontalDiff = 120 * ratio; //横向位移
@@ -61,15 +61,15 @@ public class HandCards extends BaseAppState {
         if (num % 2 == 0) {
             int center1 = num / 2 - 1;
             int center2 = num / 2;
-            result[center1] = new double[]{centerPosition - horizontalDiff / 2, top, 0};
-            result[center2] = new double[]{centerPosition + horizontalDiff / 2, top, 0};
+            result[center1] = new double[]{centerPosition - horizontalDiff / 2, top - 20, 0};
+            result[center2] = new double[]{centerPosition + horizontalDiff / 2, top - 20, 0};
             for (int i = 0; i <= center1; i++) {
                 result[center1 - i] = new double[]{centerPosition - horizontalDiff / 2 - horizontalDiff * i, top - i * verticalDiff_left, rotateRate_left * i};
                 result[center2 + i] = new double[]{centerPosition + horizontalDiff / 2 + horizontalDiff * i, top - i * verticalDiff_right, rotateRate_right * i};
             }
         } else {
             int center = num / 2;
-            result[center] = new double[]{centerPosition, top, 0};
+            result[center] = new double[]{centerPosition, top - 20, 0};
             for (int i = 0; i <= center; i++) {
                 result[center - i] = new double[]{centerPosition - i * horizontalDiff, top - i * verticalDiff_left, rotateRate_left * i};
                 result[center + i] = new double[]{centerPosition + i * horizontalDiff, top - i * verticalDiff_right, rotateRate_right * i};
