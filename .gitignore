@@ -1,2 +1,5 @@
 /target/
 /src/main/resources/
+*/.DS_Store
+.DS_Store
+*/*/.DS_Store
