@@ -49,6 +49,8 @@ public class HandCards extends BaseAppState {
 
     private MyRawInputListener cardListener;
 
+    private Picture choosen;
+
 
     // 事先计算每张牌的位置
     protected double[][] computePosition(int num) {
@@ -323,6 +325,7 @@ public class HandCards extends BaseAppState {
 
         public void onMouseButtonEvent(MouseButtonEvent evt) {
             //如果是鼠标按下去
+
             if (evt.isPressed()) {
 //                System.out.println(evt.getX());
 //                System.out.println(evt.getY());
@@ -335,9 +338,15 @@ public class HandCards extends BaseAppState {
                     //如果选中的是卡牌
                     if (res instanceof Picture) {
                         closest = (Picture) res;
-                        useCards(closest);
+                        choosen = closest;
+//                        useCards(closest);
                         // 如果选中的是某个角色
                     }
+                }
+            } else if (evt.isReleased()) {
+                Geometry enemyChoosen = app.getStateManager().getState(EnemyState.class).getChoosen();
+                if (choosen != null && enemyChoosen != null) {
+                    useCards(choosen);
                 }
             }
         }

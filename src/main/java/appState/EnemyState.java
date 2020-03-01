@@ -28,6 +28,8 @@ public class EnemyState extends BaseAppState {
     private Node rootNode = new Node("EnemyState");  //主节点
     private List<Role> enemies;
     private RawInputListener myRawInputListener;
+    private Geometry choosen;
+
     @Override
     protected void initialize(Application application) {
         this.app = (SimpleApplication) getApplication();
@@ -131,7 +133,18 @@ public class EnemyState extends BaseAppState {
                     // 获得离射线原点最近的交点所在的图片
                     Geometry res = guiResults.getClosestCollision().getGeometry();
                     System.out.println(res.getName());
+                } else {
+                    choosen = null;
+                }
 
+            } else if (evt.isReleased()) {
+                CollisionResults guiResults = getRootCollision(evt);
+                if (guiResults.size() > 0) {
+                    // 获得离射线原点最近的交点所在的图片
+                    Geometry res = guiResults.getClosestCollision().getGeometry();
+                    choosen = res;
+                } else {
+                    choosen = null;
                 }
             }
         }
@@ -153,6 +166,10 @@ public class EnemyState extends BaseAppState {
 
         public void onTouchEvent(TouchEvent evt) {
         }
+    }
+
+    public Geometry getChoosen() {
+        return choosen;
     }
 
     @Override
