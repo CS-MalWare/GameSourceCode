@@ -1,5 +1,6 @@
 package battle;
 
+import appState.EnemyState;
 import com.jme3.app.DebugKeysAppState;
 import com.jme3.app.FlyCamAppState;
 import com.jme3.app.SimpleApplication;
@@ -17,6 +18,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.system.AppSettings;
 import com.jme3.ui.Picture;
 import appState.HandCards;
+import appState.EnemyState;
 
 public class Test extends SimpleApplication {
 
@@ -25,7 +27,7 @@ public class Test extends SimpleApplication {
 
     public Test() {
         super(new StatsAppState(), new AudioListenerState(), new DebugKeysAppState(),
-               new HandCards());
+               new EnemyState(),new HandCards() );
     }
 
     @Override
