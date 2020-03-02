@@ -4,7 +4,6 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.collision.CollisionResults;
-import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.*;
@@ -12,7 +11,6 @@ import com.jme3.math.*;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.ui.Picture;
 
 import java.util.ArrayList;
@@ -49,7 +47,7 @@ public class HandCards extends BaseAppState {
 
     private MyRawInputListener cardListener;
 
-    private Picture choosen;
+    private Picture chosen;
 
 
     // 事先计算每张牌的位置
@@ -83,7 +81,7 @@ public class HandCards extends BaseAppState {
     }
 
     // 初始化卡片
-    protected Picture newCard(@org.jetbrains.annotations.NotNull String path) {
+    protected Picture newCard(String path) {
         String[] paths = path.split("/");//将卡牌路径拆开
         String name = paths[paths.length - 1];//获取卡牌名称
         Picture card = new Picture(path);//创建卡牌
@@ -100,19 +98,19 @@ public class HandCards extends BaseAppState {
         for (int i = 0; i < 20; i++) this.positions[i] = this.computePosition(i);
 
         cards = new ArrayList<Picture>();
-//        cards.add(newCard("Cards/caster/attack/星陨.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-
-        cards.add(newCard("Cards/caster/attack/双龙炼狱(+).png"));
-        cards.add(newCard("Cards/caster/attack/奥数冲击.png"));
-        cards.add(newCard("Cards/caster/attack/流星雨(+).png"));
-        cards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
-        cards.add(newCard("Cards/caster/attack/爆破(+).png"));
-        cards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
+        cards.add(newCard("Cards/caster/attack/星陨.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//
+//        cards.add(newCard("Cards/caster/attack/双龙炼狱(+).png"));
+//        cards.add(newCard("Cards/caster/attack/奥数冲击.png"));
+//        cards.add(newCard("Cards/caster/attack/流星雨(+).png"));
+//        cards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
+//        cards.add(newCard("Cards/caster/attack/爆破(+).png"));
+//        cards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
         int i = 0;
         int length = cards.size();
         for (Picture card : cards) {
@@ -154,8 +152,8 @@ public class HandCards extends BaseAppState {
 
     private void drawCards(int num) {
         int size0 = cards.size();//获取当前还没有抽卡的手牌数量
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-        cards.add(newCard("Cards/caster/power/时空裂隙(+).png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//        cards.add(newCard("Cards/caster/power/时空裂隙(+).png"));
 
         int size = cards.size();//获得新手牌数量
         //放置新卡牌
@@ -249,6 +247,35 @@ public class HandCards extends BaseAppState {
         return results;
     }
 
+    private void enlargeCard(Picture img,Picture closest){
+        closest.setWidth((float) (cardWidth * 1.25));
+        closest.setHeight((float) (cardHeight * 1.25));
+        Vector3f location = closest.getLocalTranslation();
+        closest.setLocalTranslation(location.x, location.y, 1);//通过竖坐标增加来使得图片在前显示
+
+        img.setWidth((float) cardWidth);
+        img.setHeight((float) cardHeight);
+        location = img.getLocalTranslation();
+        img.setLocalTranslation(location.x, location.y, 0);//图片还原
+    }
+
+    private void recoverCard(Picture img){
+        img.setWidth((float) cardWidth);
+        img.setHeight((float) cardHeight);
+        Vector3f location = img.getLocalTranslation();
+        img.setLocalTranslation(location.x, location.y, 0);
+    }
+
+    private Picture putCardCenter(Picture center,Picture closest){
+        center.removeFromParent();
+        center = newCard(closest.getName());
+        center.setPosition((float) ((width - cardWidth * 1.5) / 2.0), (float) ((height - cardHeight) / 2.0));
+        center.setWidth((float) (cardWidth * 1.5));
+        center.setHeight((float) (cardHeight * 1.5));
+        center.
+        return center;
+    }
+
 
     class MyRawInputListener implements RawInputListener {
         Picture last = new Picture("null");//上次划过的图片
@@ -290,33 +317,17 @@ public class HandCards extends BaseAppState {
 
                 // 使鼠标放上去的卡牌放大,并且放置在屏幕中央
                 if (last != closest) {
-                    closest.setWidth((float) (cardWidth * 1.25));
-                    closest.setHeight((float) (cardHeight * 1.25));
-                    Vector3f location = closest.getLocalTranslation();
-                    closest.setLocalTranslation(location.x, location.y, 1);//通过竖坐标增加来使得图片在前显示
-
-                    last.setWidth((float) cardWidth);
-                    last.setHeight((float) cardHeight);
-                    location = last.getLocalTranslation();
-                    last.setLocalTranslation(location.x, location.y, 0);//图片还原
+                    enlargeCard(last,closest);//放大选中图片
                     last = closest;
-                    center.removeFromParent();
-                    center = newCard(closest.getName());
-                    center.setPosition((float) ((width - cardWidth * 1.5) / 2.0), (float) ((height - cardHeight) / 2.0));
-                    center.setWidth((float) (cardWidth * 1.5));
-                    center.setHeight((float) (cardHeight * 1.5));
-
-                    Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
-                    guiNode.attachChild(center);
+//                    center = putCardCenter(center,closest);//将图片放置在中央
+//                    Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
+//                    guiNode.attachChild(center);
                 }
             } else {
                 // 使卡牌恢复原状
-                last.setWidth((float) cardWidth);
-                last.setHeight((float) cardHeight);
-                Vector3f location = last.getLocalTranslation();
-                last.setLocalTranslation(location.x, location.y, 0);
+                recoverCard(last);
                 last = new Picture("null");
-                center.removeFromParent();
+//                center.removeFromParent();
 
             }
 
@@ -335,18 +346,26 @@ public class HandCards extends BaseAppState {
                     // 获得离射线原点最近的交点所在的图片
                     Geometry res = guiResults.getClosestCollision().getGeometry();
                     Picture closest;
-                    //如果选中的是卡牌
+                    //如果选中的是卡牌，就获得它
                     if (res instanceof Picture) {
                         closest = (Picture) res;
-                        choosen = closest;
-//                        useCards(closest);
-                        // 如果选中的是某个角色
+                        chosen = closest;
+                        center = putCardCenter(center,closest);//将图片放置在中央
+                        Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
+                        guiNode.attachChild(center);
                     }
                 }
+                else{
+                    center.removeFromParent();
+                    chosen = null;//点击其他区域（不是敌人或者卡牌的时候，取消所有选择）
+                }
             } else if (evt.isReleased()) {
-                Geometry enemyChoosen = app.getStateManager().getState(EnemyState.class).getChoosen();
-                if (choosen != null && enemyChoosen != null) {
-                    useCards(choosen);
+                //这里处理的是拖动导致的使用卡牌
+                Geometry enemyChosen = app.getStateManager().getState(EnemyState.class).getChosen();
+                if (chosen != null && enemyChosen != null) {
+                    useCards(chosen);
+                    center.removeFromParent();
+                    chosen = null;//点击其他区域（不是敌人或者卡牌的时候，取消所有选择）
                 }
             }
         }

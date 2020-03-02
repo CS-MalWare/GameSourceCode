@@ -6,7 +6,6 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
-import com.jme3.input.KeyInput;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.*;
 import com.jme3.light.AmbientLight;
@@ -19,7 +18,6 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.ui.Picture;
 
 import java.util.List;
 
@@ -28,13 +26,13 @@ public class EnemyState extends BaseAppState {
     private Node rootNode = new Node("EnemyState");  //主节点
     private List<Role> enemies;
     private RawInputListener myRawInputListener;
-    private Geometry choosen;
+    private Geometry chosen;
 
     @Override
     protected void initialize(Application application) {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
-        Spatial model = application.getAssetManager().loadModel("Dragon/dragon.obj");
+        Spatial model = application.getAssetManager().loadModel("dragon2/dragon.obj");
         model.setName("dragon");
         model.scale(0.03f);// 按比例缩小
         model.center();// 将模型的中心移到原点
@@ -56,28 +54,6 @@ public class EnemyState extends BaseAppState {
         rootNode.addLight(ambient);
         rootNode.attachChild(model);
 
-    }
-
-
-    private CollisionResults getRootCollision(MouseMotionEvent evt) {
-        int x = evt.getX();//得到鼠标的横坐标
-        int y = evt.getY();//得到鼠标的纵坐标
-
-        InputManager inputManager = app.getInputManager();
-        Camera cam = app.getCamera();
-        Vector2f screenCoord = inputManager.getCursorPosition();
-        Vector3f worldCoord = cam.getWorldCoordinates(screenCoord, 1f);
-
-        // 计算方向
-        Vector3f dir = worldCoord.subtract(cam.getLocation());
-        dir.normalizeLocal();
-        Ray ray = new Ray();
-        ray.setOrigin(cam.getLocation());
-        ray.setDirection(dir);
-        CollisionResults results = new CollisionResults();
-        rootNode.collideWith(ray, results);//rootNode 中所有图形对象 和 ray 的碰撞
-
-        return results;
     }
 
     private CollisionResults getRootCollision(MouseButtonEvent evt) {
@@ -134,7 +110,7 @@ public class EnemyState extends BaseAppState {
                     Geometry res = guiResults.getClosestCollision().getGeometry();
                     System.out.println(res.getName());
                 } else {
-                    choosen = null;
+                    chosen = null;
                 }
 
             } else if (evt.isReleased()) {
@@ -142,9 +118,9 @@ public class EnemyState extends BaseAppState {
                 if (guiResults.size() > 0) {
                     // 获得离射线原点最近的交点所在的图片
                     Geometry res = guiResults.getClosestCollision().getGeometry();
-                    choosen = res;
+                    chosen = res;
                 } else {
-                    choosen = null;
+                    chosen = null;
                 }
             }
         }
@@ -168,8 +144,8 @@ public class EnemyState extends BaseAppState {
         }
     }
 
-    public Geometry getChoosen() {
-        return choosen;
+    public Geometry getChosen() {
+        return chosen;
     }
 
     @Override
