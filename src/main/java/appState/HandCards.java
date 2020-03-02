@@ -272,7 +272,6 @@ public class HandCards extends BaseAppState {
         center.setPosition((float) ((width - cardWidth * 1.5) / 2.0), (float) ((height - cardHeight) / 2.0));
         center.setWidth((float) (cardWidth * 1.5));
         center.setHeight((float) (cardHeight * 1.5));
-        center.
         return center;
     }
 
@@ -315,8 +314,8 @@ public class HandCards extends BaseAppState {
                     return;
                 }
 
-                // 使鼠标放上去的卡牌放大,并且放置在屏幕中央
-                if (last != closest) {
+                // 使鼠标放上去的卡牌放大(除了正中间那一张),并且放置在屏幕中央
+                if (last != closest&&closest!=center) {
                     enlargeCard(last,closest);//放大选中图片
                     last = closest;
 //                    center = putCardCenter(center,closest);//将图片放置在中央
