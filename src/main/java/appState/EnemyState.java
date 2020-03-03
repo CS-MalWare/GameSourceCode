@@ -32,7 +32,7 @@ public class EnemyState extends BaseAppState {
     protected void initialize(Application application) {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
-        Spatial model = application.getAssetManager().loadModel("dragon2/dragon.obj");
+        Spatial model = application.getAssetManager().loadModel("Dragon/dragon.obj");
         model.setName("dragon");
         model.scale(0.03f);// 按比例缩小
         model.center();// 将模型的中心移到原点

@@ -14,8 +14,10 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.*;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Curve;
 import com.jme3.system.AppSettings;
 import com.jme3.ui.Picture;
 import appState.HandCards;
@@ -33,7 +35,18 @@ public class Test extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", new ColorRGBA(255, 0, 0, 0.8f));
+        mat.getAdditionalRenderState().setLineWidth(40f);
+        mat.getAdditionalRenderState().setWireframe(true);
 
+        // 创建几何物体，应用箭头网格。
+        Vector3f[] points = new Vector3f[]{new Vector3f(100, 500, 20), new Vector3f(600, 800, 20), new Vector3f(1100, 500, 20)};
+        Spline spline = new Spline(Spline.SplineType.CatmullRom, points, 0.6f, true);
+        Geometry arrow = new Geometry("arrow", new Curve(spline, 50));
+        arrow.setMaterial(mat);
+        arrow.setShadowMode(RenderQueue.ShadowMode.Off);
+        guiNode.attachChild(arrow);
     }
 
     public void addLight() {
