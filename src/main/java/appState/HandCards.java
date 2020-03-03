@@ -103,19 +103,19 @@ public class HandCards extends BaseAppState {
         for (int i = 0; i < 20; i++) this.positions[i] = this.computePosition(i);
 
         cards = new ArrayList<Picture>();
-//        cards.add(newCard("Cards/caster/attack/星陨.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//
-        cards.add(newCard("Cards/caster/attack/双龙炼狱(+).png"));
-        cards.add(newCard("Cards/caster/attack/奥数冲击.png"));
-        cards.add(newCard("Cards/caster/attack/流星雨(+).png"));
-        cards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
-        cards.add(newCard("Cards/caster/attack/爆破(+).png"));
-        cards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
+        cards.add(newCard("Cards/caster/attack/星陨.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+
+//        cards.add(newCard("Cards/caster/attack/双龙炼狱(+).png"));
+//        cards.add(newCard("Cards/caster/attack/奥数冲击.png"));
+//        cards.add(newCard("Cards/caster/attack/流星雨(+).png"));
+//        cards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
+//        cards.add(newCard("Cards/caster/attack/爆破(+).png"));
+//        cards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
         int i = 0;
         int length = cards.size();
         for (Picture card : cards) {
@@ -157,8 +157,8 @@ public class HandCards extends BaseAppState {
 
     private void drawCards(int num) {
         int size0 = cards.size();//获取当前还没有抽卡的手牌数量
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-        cards.add(newCard("Cards/caster/power/时空裂隙(+).png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//        cards.add(newCard("Cards/caster/power/时空裂隙(+).png"));
 
         int size = cards.size();//获得新手牌数量
         //放置新卡牌
@@ -384,8 +384,8 @@ public class HandCards extends BaseAppState {
                 } else {
                     center.removeFromParent();
                     chosen = null;//点击其他区域（不是敌人或者卡牌的时候，取消所有选择）
-                    arrow.removeFromParent();
-                    arrow = null;
+//                    arrow.removeFromParent();
+//                    arrow = null;
                 }
 
 
