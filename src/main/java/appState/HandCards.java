@@ -113,7 +113,7 @@ public class HandCards extends BaseAppState {
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//
+
         cards.add(newCard("Cards/caster/attack/双龙炼狱(+).png"));
         cards.add(newCard("Cards/caster/attack/奥数冲击.png"));
         cards.add(newCard("Cards/caster/attack/流星雨(+).png"));
