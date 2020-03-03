@@ -35,18 +35,7 @@ public class Test extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", new ColorRGBA(255, 0, 0, 0.8f));
-        mat.getAdditionalRenderState().setLineWidth(40f);
-        mat.getAdditionalRenderState().setWireframe(true);
 
-        // 创建几何物体，应用箭头网格。
-        Vector3f[] points = new Vector3f[]{new Vector3f(100, 500, 20), new Vector3f(600, 800, 20), new Vector3f(1100, 500, 20)};
-        Spline spline = new Spline(Spline.SplineType.CatmullRom, points, 0.6f, true);
-        Geometry arrow = new Geometry("arrow", new Curve(spline, 50));
-        arrow.setMaterial(mat);
-        arrow.setShadowMode(RenderQueue.ShadowMode.Off);
-        guiNode.attachChild(arrow);
     }
 
     public void addLight() {

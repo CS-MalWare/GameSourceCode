@@ -55,6 +55,10 @@ public class HandCards extends BaseAppState {
 
     private Geometry arrow;
 
+    private Vector3f startPoint;
+
+    private Spline spline;
+
     // 事先计算每张牌的位置
     protected double[][] computePosition(int num) {
         if (num == 0) return null;
@@ -135,7 +139,6 @@ public class HandCards extends BaseAppState {
 
 
     }
-
 
     @Override
     protected void cleanup(Application app) {
@@ -252,7 +255,7 @@ public class HandCards extends BaseAppState {
         return results;
     }
 
-    private void enlargeCard(Picture img,Picture closest){
+    private void enlargeCard(Picture img, Picture closest) {
         closest.setWidth((float) (cardWidth * 1.25));
         closest.setHeight((float) (cardHeight * 1.25));
         Vector3f location = closest.getLocalTranslation();
@@ -264,7 +267,7 @@ public class HandCards extends BaseAppState {
         img.setLocalTranslation(location.x, location.y, 0);//图片还原
     }
 
-    private void recoverCard(Picture img){
+    private void recoverCard(Picture img) {
         img.setWidth((float) cardWidth);
         img.setHeight((float) cardHeight);
         Vector3f location = img.getLocalTranslation();
@@ -280,20 +283,64 @@ public class HandCards extends BaseAppState {
         return center;
     }
 
-
-    private void createCurve(MouseButtonEvent evt) {
+    // 创建曲线
+    protected void createArrow(MouseButtonEvent evt) {
         Material mat = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", new ColorRGBA(255, 0, 0, 0.8f));
+        mat.setColor("Color", new ColorRGBA(255, 0, 0, 0.6f));
         mat.getAdditionalRenderState().setLineWidth(40f);
         mat.getAdditionalRenderState().setWireframe(true);
 
         // 创建几何物体，应用箭头网格。
-        Vector3f[] points = new Vector3f[]{chosen.getLocalTranslation(), new Vector3f(evt.getX(), evt.getY(), 0)};
-        arrow = new Geometry("arrow", new Curve(points, 2));
+        float startX = (float) (chosen.getLocalTranslation().getX() + cardWidth / 2);
+        float startY = (float) (chosen.getLocalTranslation().getY() + cardHeight / 2);
+        float endX = evt.getX();
+        float endY = evt.getY();
+        this.startPoint = new Vector3f(startX, startY, -1);
+        Vector3f endPoint = new Vector3f(endX, endY, -1);
+        float distance = startPoint.distance(endPoint);
+        Vector3f k1 = new Vector3f(endPoint.subtract(startPoint).getX(), endPoint.subtract(startPoint).getY(), 0).normalize();
+        Vector3f k2 = new Vector3f(-k1.getY(), k1.getX(), 0);
+        Vector3f centerPoint = new Vector3f((startX + endX) / 2, (startY + endY) / 2, -1).add(k2.mult(distance / 8));
+
+        Vector3f[] points = new Vector3f[]{startPoint, centerPoint, endPoint};
+
+        Spline spline = new Spline(Spline.SplineType.CatmullRom, points, 0.7f, false);
+        this.arrow = new Geometry("arrow", new Curve(spline, 100));
         arrow.setMaterial(mat);
         arrow.setShadowMode(RenderQueue.ShadowMode.Off);
         rootNode.attachChild(arrow);
 
+    }
+
+    // 鼠标移动的时候改动曲线
+    protected void moveArrow(MouseMotionEvent evt) {
+        Material mat = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", new ColorRGBA(255, 0, 0, 0.6f));
+        mat.getAdditionalRenderState().setLineWidth(40f);
+        mat.getAdditionalRenderState().setWireframe(true);
+
+        // 创建几何物体，应用箭头网格。
+        float startX = startPoint.getX();
+        float startY = startPoint.getY();
+        float endX = evt.getX();
+        float endY = evt.getY();
+        this.startPoint = new Vector3f(startX, startY, -1);
+        Vector3f endPoint = new Vector3f(endX, endY, -1);
+        float distance = startPoint.distance(endPoint);
+        Vector3f k1 = new Vector3f(endPoint.subtract(startPoint).getX(), endPoint.subtract(startPoint).getY(), 0).normalize();
+        Vector3f k2 = new Vector3f(-k1.getY(), k1.getX(), 0);
+        Vector3f centerPoint = new Vector3f((startX + endX) / 2, (startY + endY) / 2, -1).add(k2.mult(distance / 8));
+
+        Vector3f[] points = new Vector3f[]{startPoint, centerPoint, endPoint};
+
+        Spline spline = new Spline(Spline.SplineType.CatmullRom, points, 0.7f, false);
+        if (this.arrow != null) {
+            this.arrow.removeFromParent();
+        }
+        this.arrow = new Geometry("arrow", new Curve(spline, 100));
+        arrow.setMaterial(mat);
+        arrow.setShadowMode(RenderQueue.ShadowMode.Off);
+        rootNode.attachChild(arrow);
     }
 
 
@@ -336,8 +383,8 @@ public class HandCards extends BaseAppState {
                 }
 
                 // 使鼠标放上去的卡牌放大(除了正中间那一张),并且放置在屏幕中央
-                if (last != closest&&closest!=center) {
-                    enlargeCard(last,closest);//放大选中图片
+                if (last != closest && closest != center) {
+                    enlargeCard(last, closest);//放大选中图片
                     last = closest;
 //                    center = putCardCenter(center,closest);//将图片放置在中央
 //                    Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
@@ -352,10 +399,7 @@ public class HandCards extends BaseAppState {
             }
 
             if (chosen != null) {
-                int evtX = evt.getX();
-                int evtY = evt.getY();
-                double x = chosen.getLocalTranslation().getX() + cardWidth;
-                double y = chosen.getLocalTranslation().getY() + cardHeight;
+                moveArrow(evt);
 
             }
         }
@@ -379,13 +423,16 @@ public class HandCards extends BaseAppState {
                         center = putCardCenter(center, closest);//将图片放置在中央
 //                        Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
                         rootNode.attachChild(center);
-
+                        if (arrow != null) {
+                            arrow.removeFromParent();
+                        }
+                        createArrow(evt);
                     }
                 } else {
                     center.removeFromParent();
                     chosen = null;//点击其他区域（不是敌人或者卡牌的时候，取消所有选择）
                     arrow.removeFromParent();
-                    arrow = null;
+
                 }
 
 
@@ -396,7 +443,12 @@ public class HandCards extends BaseAppState {
                     useCards(chosen);
                     center.removeFromParent();
                     chosen = null;//点击其他区域（不是敌人或者卡牌的时候，取消所有选择）
+                } else {
+                    center.removeFromParent();
+                    chosen = null;
                 }
+                arrow.removeFromParent();
+
             }
         }
 
