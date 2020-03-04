@@ -53,7 +53,12 @@ public class MagicImpulse extends Card {
         this.times = times;
     }
 
-    public void Upgrade(){
+    @Override
+    public void func() {
+
+    }
+
+    public void upgrade() {
         this.setName("Magic impulse(+)");
         this.setDamage(11);
         this.setUpgraded(true);

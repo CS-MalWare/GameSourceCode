@@ -1,6 +1,6 @@
 package card;
 
-public class SkillCard extends Card {
+public abstract class SkillCard extends Card {
     private int block;
 
     public SkillCard(OCCUPATION occupation, String name, int cost, RARITY rarity, String description) {

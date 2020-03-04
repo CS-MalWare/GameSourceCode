@@ -2,7 +2,7 @@ package card;
 import  card.Card;
 
 
-public class AttackCard extends Card {
+public abstract class AttackCard extends Card {
     private int damage;
     private int times;
 
