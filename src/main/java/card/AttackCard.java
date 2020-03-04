@@ -6,10 +6,10 @@ public class AttackCard extends Card {
     private int damage;
     private int times;
 
-    public AttackCard(String path, String name, int cost, TYPE type, RARITY rarity,  String description, int damage,int times) {
-        super(path,name, cost, type, rarity, description);
-        this.damage =damage;
-        this.times= times;
+    public AttackCard(OCCUPATION occupation, String name, int cost, RARITY rarity, String description, int damage, int times) {
+        super(occupation, name, cost, TYPE.ATTACK, rarity, description);
+        this.damage = damage;
+        this.times = times;
 
     }
 
