@@ -3,14 +3,14 @@ package card.caster.attack;
 import card.Card;
 
 public class MagicImpulse extends Card {
-    private boolean upgraded = false;
-    private int damage;
-    private int times;
-    private String src;
+    private boolean upgraded = false; //卡牌是否升级
+    private int damage; //卡牌的伤害
+    private int times; //卡牌的？
+    private String src; //卡牌的路径
 
 
     public MagicImpulse(boolean upgraded) {
-        super("Magic impulse(+)", 1, TYPE.ATTACK, RARITY.RARE, "deal 11 damage and keep one turn of cards");
+        super("Cards/caster/attack/充钱.png","Magic impulse(+)", 1, TYPE.ATTACK, RARITY.RARE, "deal 11 damage and keep one turn of cards");
         this.upgraded = true;
         this.damage = 8;
         this.times = 1;
@@ -18,7 +18,7 @@ public class MagicImpulse extends Card {
     }
 
     public MagicImpulse() {
-        super("Magic impulse", 1, TYPE.ATTACK, RARITY.RARE, "deal 8 damage and keep one turn of cards");
+        super("Cards/caster/attack/充钱.png","Magic impulse", 1, TYPE.ATTACK, RARITY.RARE, "deal 8 damage and keep one turn of cards");
         this.upgraded=false;
         this.damage = 8;
         this.times = 1;

@@ -6,8 +6,8 @@ public class AttackCard extends Card {
     private int damage;
     private int times;
 
-    public AttackCard(String name, int cost, TYPE type, RARITY rarity,  String description, int damage,int times) {
-        super(name, cost, type, rarity, description);
+    public AttackCard(String path, String name, int cost, TYPE type, RARITY rarity,  String description, int damage,int times) {
+        super(path,name, cost, type, rarity, description);
         this.damage =damage;
         this.times= times;
 

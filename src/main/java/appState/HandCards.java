@@ -1,5 +1,7 @@
 package appState;
 
+import card.Card;
+import card.CreateCard;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
@@ -13,7 +15,6 @@ import com.jme3.renderer.Camera;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.debug.Arrow;
 import com.jme3.scene.shape.Curve;
 import com.jme3.ui.Picture;
 
@@ -90,10 +91,12 @@ public class HandCards extends BaseAppState {
     }
 
     // 初始化卡片
-    protected Picture newCard(String path) {
+    protected Card newCard(String path) {
         String[] paths = path.split("/");//将卡牌路径拆开
         String name = paths[paths.length - 1];//获取卡牌名称
-        Picture card = new Picture(path);//创建卡牌
+        System.out.println(path);
+        System.out.println(name);
+        Card card = CreateCard.createCard(name, Card.TYPE.ATTACK);//创建卡牌
         card.setHeight((float) cardHeight);//设置宽高
         card.setWidth((float) cardWidth);//设置宽高
         card.setImage(app.getAssetManager(), path, true);//将卡牌添加进Assetmanager
@@ -108,18 +111,18 @@ public class HandCards extends BaseAppState {
 
         cards = new ArrayList<Picture>();
 //        cards.add(newCard("Cards/caster/attack/星陨.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-
-        cards.add(newCard("Cards/caster/attack/双龙炼狱(+).png"));
-        cards.add(newCard("Cards/caster/attack/奥数冲击.png"));
-        cards.add(newCard("Cards/caster/attack/流星雨(+).png"));
-        cards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
-        cards.add(newCard("Cards/caster/attack/爆破(+).png"));
-        cards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//
+//        cards.add(newCard("Cards/caster/attack/双龙炼狱(+).png"));
+//        cards.add(newCard("Cards/caster/attack/奥数冲击.png"));
+//        cards.add(newCard("Cards/caster/attack/流星雨(+).png"));
+//        cards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
+//        cards.add(newCard("Cards/caster/attack/爆破(+).png"));
+//        cards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
         int i = 0;
         int length = cards.size();
         for (Picture card : cards) {
@@ -160,8 +163,8 @@ public class HandCards extends BaseAppState {
 
     private void drawCards(int num) {
         int size0 = cards.size();//获取当前还没有抽卡的手牌数量
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-        cards.add(newCard("Cards/caster/power/时空裂隙(+).png"));
+        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//        cards.add(newCard("Cards/caster/power/时空裂隙(+).png"));
 
         int size = cards.size();//获得新手牌数量
         //放置新卡牌
@@ -255,28 +258,30 @@ public class HandCards extends BaseAppState {
         return results;
     }
 
-    private void enlargeCard(Picture img, Picture closest) {
+    private void enlargeCard(Card img, Card closest) {
         closest.setWidth((float) (cardWidth * 1.25));
         closest.setHeight((float) (cardHeight * 1.25));
         Vector3f location = closest.getLocalTranslation();
         closest.setLocalTranslation(location.x, location.y, 1);//通过竖坐标增加来使得图片在前显示
+        //放大这个离鼠标最近的图片
 
-        img.setWidth((float) cardWidth);
-        img.setHeight((float) cardHeight);
-        location = img.getLocalTranslation();
-        img.setLocalTranslation(location.x, location.y, 0);//图片还原
+        if(img!=null) {
+            img.setWidth((float) cardWidth);
+            img.setHeight((float) cardHeight);
+            location = img.getLocalTranslation();
+            img.setLocalTranslation(location.x, location.y, 0);//图片还原
+        }
     }
 
-    private void recoverCard(Picture img) {
+    private void recoverCard(Card img) {
         img.setWidth((float) cardWidth);
         img.setHeight((float) cardHeight);
         Vector3f location = img.getLocalTranslation();
         img.setLocalTranslation(location.x, location.y, 0);
     }
 
-    private Picture putCardCenter(Picture center, Picture closest) {
-        center.removeFromParent();
-        center = newCard(closest.getName());
+    private Card putCardCenter(Card closest) {
+        Card center = newCard(closest.getName());
         center.setPosition((float) ((width - cardWidth * 1.5) / 2.0), (float) ((height - cardHeight) / 2.0));
         center.setWidth((float) (cardWidth * 1.5));
         center.setHeight((float) (cardHeight * 1.5));
@@ -287,7 +292,7 @@ public class HandCards extends BaseAppState {
     protected void createArrow(MouseButtonEvent evt) {
         Material mat = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", new ColorRGBA(255, 0, 0, 0.6f));
-        mat.getAdditionalRenderState().setLineWidth(40f);
+        mat.getAdditionalRenderState().setLineWidth(20f);
         mat.getAdditionalRenderState().setWireframe(true);
 
         // 创建几何物体，应用箭头网格。
@@ -297,9 +302,17 @@ public class HandCards extends BaseAppState {
         float endY = evt.getY();
         this.startPoint = new Vector3f(startX, startY, -1);
         Vector3f endPoint = new Vector3f(endX, endY, -1);
+        //创建两个向量,一个指向卡牌中心,一个指向当前鼠标位置
+
         float distance = startPoint.distance(endPoint);
+        //计算起点到中点的距离
+
         Vector3f k1 = new Vector3f(endPoint.subtract(startPoint).getX(), endPoint.subtract(startPoint).getY(), 0).normalize();
+        //计算这个方向的单位向量
+
         Vector3f k2 = new Vector3f(-k1.getY(), k1.getX(), 0);
+        //计算上面那个向量的正交向量
+
         Vector3f centerPoint = new Vector3f((startX + endX) / 2, (startY + endY) / 2, -1).add(k2.mult(distance / 8));
 
         Vector3f[] points = new Vector3f[]{startPoint, centerPoint, endPoint};
@@ -316,7 +329,7 @@ public class HandCards extends BaseAppState {
     protected void moveArrow(MouseMotionEvent evt) {
         Material mat = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", new ColorRGBA(255, 0, 0, 0.6f));
-        mat.getAdditionalRenderState().setLineWidth(40f);
+        mat.getAdditionalRenderState().setLineWidth(20f);
         mat.getAdditionalRenderState().setWireframe(true);
 
         // 创建几何物体，应用箭头网格。
@@ -329,7 +342,7 @@ public class HandCards extends BaseAppState {
         float distance = startPoint.distance(endPoint);
         Vector3f k1 = new Vector3f(endPoint.subtract(startPoint).getX(), endPoint.subtract(startPoint).getY(), 0).normalize();
         Vector3f k2 = new Vector3f(-k1.getY(), k1.getX(), 0);
-        Vector3f centerPoint = new Vector3f((startX + endX) / 2, (startY + endY) / 2, -1).add(k2.mult(distance / 8));
+        Vector3f centerPoint = new Vector3f((startX + endX) / 2, (startY + endY) / 2, 0).add(k2.mult(distance / 9));
 
         Vector3f[] points = new Vector3f[]{startPoint, centerPoint, endPoint};
 
@@ -337,7 +350,7 @@ public class HandCards extends BaseAppState {
         if (this.arrow != null) {
             this.arrow.removeFromParent();
         }
-        this.arrow = new Geometry("arrow", new Curve(spline, 100));
+        this.arrow = new Geometry("arrow", new Curve(spline, 1000));
         arrow.setMaterial(mat);
         arrow.setShadowMode(RenderQueue.ShadowMode.Off);
         rootNode.attachChild(arrow);
@@ -345,8 +358,8 @@ public class HandCards extends BaseAppState {
 
 
     class MyRawInputListener implements RawInputListener {
-        Picture last = new Picture("null");//上次划过的图片
-        Picture center = new Picture("null");//屏幕中心的图片
+        Card last = CreateCard.createCard("null", Card.TYPE.ATTACK);//上次划过的图片
+        Card center = CreateCard.createCard("null", Card.TYPE.ATTACK);//屏幕中心的图片
 
         /**
          * 键盘输入事件
@@ -370,10 +383,10 @@ public class HandCards extends BaseAppState {
             if (results.size() > 0) {
                 // 获得离射线原点最近的交点所在的图片
                 Geometry res = results.getClosestCollision().getGeometry();
-                Picture closest;
+                Card closest;
 
-                if (res instanceof Picture) {
-                    closest = (Picture) res;
+                if (res instanceof Card) {
+                    closest = (Card) res;
                 } else {
 //                    for (int i = 0; i < results.size();i++){
 //                        res =results.getCollision(i).getGeometry();
@@ -382,7 +395,7 @@ public class HandCards extends BaseAppState {
                     return;
                 }
 
-                // 使鼠标放上去的卡牌放大(除了正中间那一张),并且放置在屏幕中央
+                // 使鼠标放上去的卡牌放大(除了正中间那一张)
                 if (last != closest && closest != center) {
                     enlargeCard(last, closest);//放大选中图片
                     last = closest;
@@ -392,8 +405,10 @@ public class HandCards extends BaseAppState {
                 }
             } else {
                 // 使卡牌恢复原状
-                recoverCard(last);
-                last = new Picture("null");
+                if (last != null) {
+                    recoverCard(last);
+                    last = CreateCard.createCard("null", Card.TYPE.ATTACK);
+                }
 //                center.removeFromParent();
 
             }
@@ -415,39 +430,47 @@ public class HandCards extends BaseAppState {
                 if (guiResults.size() > 0) {
                     // 获得离射线原点最近的交点所在的图片
                     Geometry res = guiResults.getClosestCollision().getGeometry();
-                    Picture closest;
-                    //如果选中的是卡牌，就获得它
-                    if (res instanceof Picture) {
-                        closest = (Picture) res;
+                    Card closest;
+
+                    //如果选中的是卡牌,并且不是能力卡牌（因为power卡不需要指定目标），就获得它
+                    if (res instanceof Card && ((Card)res).getType() != Card.TYPE.POWER) {
+                        closest = (Card) res;
                         chosen = closest;
-                        center = putCardCenter(center, closest);//将图片放置在中央
+                        center = putCardCenter(closest);//将图片放置在中央
 //                        Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
                         rootNode.attachChild(center);
+                        
                         if (arrow != null) {
                             arrow.removeFromParent();
                         }
                         createArrow(evt);
                     }
                 } else {
-                    center.removeFromParent();
+                    if(center!=null)
+                        center.removeFromParent();
+
                     chosen = null;//点击其他区域（不是敌人或者卡牌的时候，取消所有选择）
-                    arrow.removeFromParent();
+
+                    if(arrow!=null)
+                        arrow.removeFromParent();//鼠标释放的时候移除箭头（不论是否选中敌人）
 
                 }
 
 
             } else if (evt.isReleased()) {
-                //这里处理的是拖动导致的使用卡牌
+                //这里处理的是拖动导致的释放卡牌
                 Geometry enemyChosen = app.getStateManager().getState(EnemyState.class).getChosen();
                 if (chosen != null && enemyChosen != null) {
                     useCards(chosen);
-                    center.removeFromParent();
-                    chosen = null;//点击其他区域（不是敌人或者卡牌的时候，取消所有选择）
-                } else {
-                    center.removeFromParent();
-                    chosen = null;
                 }
-                arrow.removeFromParent();
+
+                if(center!=null)
+                    center.removeFromParent();
+
+                chosen = null;//点击其他区域（不是敌人或者卡牌的时候，取消所有选择）
+
+                if(arrow!=null)
+                    arrow.removeFromParent();//鼠标释放的时候移除箭头（不论是否选中敌人）
 
             }
         }

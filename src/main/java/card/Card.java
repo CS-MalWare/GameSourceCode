@@ -1,15 +1,18 @@
 package card;
 
-public class Card {
-    public enum RARITY {COMMON,RARE,EPIC,LEGENDARY}
-    public enum TYPE {ATTACK,SKILL,POWER,CURSE}
-    private String name;
-    private int cost;
-    private TYPE type;
-    private RARITY rarity;
-    private String description;
+import com.jme3.ui.Picture;
 
-    public Card(String name, int cost, TYPE type, RARITY rarity, String description) {
+public class Card extends Picture {
+    public enum RARITY {COMMON,RARE,EPIC,LEGENDARY} //公有：卡牌的稀有度
+    public enum TYPE {ATTACK,SKILL,POWER,CURSE}  //公有：卡牌的类型
+    private String name; //卡牌的名称
+    private int cost;  //卡牌的费用
+    private TYPE type; //卡牌的类型
+    private RARITY rarity; //卡牌的稀有度
+    private String description; //卡牌的效果描述
+
+    public Card(String path ,String name, int cost, TYPE type, RARITY rarity, String description) {
+        super(path);
         this.name = name;
         this.cost = cost;
         this.type = type;
@@ -17,7 +20,7 @@ public class Card {
         this.description = description;
     }
 
-    public String getName() {
+    public String getCardName() {
         return name;
     }
 
@@ -37,7 +40,7 @@ public class Card {
         return description;
     }
 
-    public void setName(String name) {
+    public void setCardName(String name) {
         this.name = name;
     }
 
