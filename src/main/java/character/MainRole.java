@@ -10,12 +10,12 @@ import java.util.Collections;
 
 public class MainRole extends Role {
     //  原本固有的属性
-    private int strength_;
-    private int dexterity_;
-    private int dodge_;
-    private int artifact_;
-    private int draw_;
-    private int shield_;
+    private int strength_;//力量，提升基础伤害
+    private int dexterity_;//灵巧，提升基础获得护甲值
+    private int dodge_;//闪避，将x次伤害变成1
+    private int artifact_;//人工制品，抵挡下x次debuff
+    private int draw_;//抽牌数量
+    private int shield_;//回合末获得x层护甲
 
     //玩家的独特属性
     private int attack;
@@ -23,15 +23,15 @@ public class MainRole extends Role {
     private int potionBag;
     private int gold;
 
-    public List<Card> deck;
+    public List<Card> deck;//卡组（有序排列）
 
-    public List<Card> handCards;
+    public List<Card> handCards;//手牌
 
-    public List<Card> drawPile;
+    public List<Card> drawPile;//抽牌堆（随机顺序）
 
-    public List<Card> dropPile;
+    public List<Card> dropPile;//弃牌堆
 
-    public List<Card> exhaustPile;
+    public List<Card> exhaustPile;//消耗掉的卡牌堆
 
 
     public MainRole(int HP, String src) {

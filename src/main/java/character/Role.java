@@ -11,12 +11,10 @@ public class Role {
 
     //战斗中的实际属性
     protected int block;
-
     protected int strength;
     protected int dexterity;
     protected int dodge;
     protected int artifact;
-
     protected int shield;
 
 
