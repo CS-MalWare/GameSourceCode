@@ -92,11 +92,6 @@ public class Card extends Picture {
         this.description = description;
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
     public String getPath() {
         return path;
     }
