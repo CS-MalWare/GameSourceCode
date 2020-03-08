@@ -11,7 +11,7 @@ public class CreateCard {
             case ATTACK://
                 switch (cardName) {
                     case "充钱.png":
-                        return new Card(Card.OCCUPATION.SABER, cardName, 1, type, Card.RARITY.COMMON, "deal 8 damage and keep one turn of cards");
+//                        return new Card(Card.OCCUPATION.SABER, cardName, 1, type, Card.RARITY.COMMON, "deal 8 damage and keep one turn of cards");
                     case "奥数冲击.png":
                         return new MagicImpulse();
                     default:
@@ -20,21 +20,21 @@ public class CreateCard {
             case SKILL:
                 switch (cardName) {
                     case "星陨.png":
-                        return new Card(Card.OCCUPATION.SABER, cardName, 1, type, Card.RARITY.RARE, "deal 8 damage and keep one turn of cards");
+//                        return new Card(Card.OCCUPATION.SABER, cardName, 1, type, Card.RARITY.RARE, "deal 8 damage and keep one turn of cards");
                     default:
                         return null;
                 }
             case POWER:
                 switch (cardName) {
                     case "奥数冲击.png":
-                        return new Card(Card.OCCUPATION.SABER, cardName, 1, type, Card.RARITY.RARE, "deal 8 damage and keep one turn of cards");
+//                        return new Card(Card.OCCUPATION.SABER, cardName, 1, type, Card.RARITY.RARE, "deal 8 damage and keep one turn of cards");
                     default:
                         return null;
                 }
             case CURSE:
                 switch (cardName) {
                     case "蛇皮操作.png":
-                        return new Card(Card.OCCUPATION.SABER, cardName, 1, type, Card.RARITY.RARE, "deal 8 damage and keep one turn of cards");
+//                        return new Card(Card.OCCUPATION.SABER, cardName, 1, type, Card.RARITY.RARE, "deal 8 damage and keep one turn of cards");
                     default:
                         return null;
                 }

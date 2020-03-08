@@ -1,5 +1,6 @@
 package battle;
 
+import appState.DecksState;
 import appState.EnemyState;
 import com.jme3.app.DebugKeysAppState;
 import com.jme3.app.FlyCamAppState;
@@ -30,7 +31,7 @@ public class Test extends SimpleApplication {
 
     public Test() {
         super(new StatsAppState(), new AudioListenerState(), new DebugKeysAppState(),
-                new EnemyState(), new HandCards());
+                new EnemyState(), new HandCards(), new DecksState());
     }
 
     @Override

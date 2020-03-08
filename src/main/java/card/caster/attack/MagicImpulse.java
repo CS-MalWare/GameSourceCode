@@ -10,7 +10,7 @@ public class MagicImpulse extends Card {
 
 
     public MagicImpulse(boolean upgraded) {
-        super("Cards/caster/attack/充钱.png","Magic impulse(+)", 1, TYPE.ATTACK, RARITY.RARE, "deal 11 damage and keep one turn of cards");
+        super(OCCUPATION.CASTER, "Magic impulse(+)", 1, TYPE.ATTACK, RARITY.RARE, "deal 11 damage and keep one turn of cards");
         this.upgraded = true;
         this.damage = 8;
         this.times = 1;
@@ -18,8 +18,8 @@ public class MagicImpulse extends Card {
     }
 
     public MagicImpulse() {
-        super("Cards/caster/attack/充钱.png","Magic impulse", 1, TYPE.ATTACK, RARITY.RARE, "deal 8 damage and keep one turn of cards");
-        this.upgraded=false;
+        super(OCCUPATION.CASTER, "Magic impulse", 1, TYPE.ATTACK, RARITY.RARE, "deal 8 damage and keep one turn of cards");
+        this.upgraded = false;
         this.damage = 8;
         this.times = 1;
         this.src = "Cards/caster/attack/奥数冲击.png";

@@ -3,7 +3,7 @@ package card;
 import com.jme3.ui.Picture;
 
 
-public abstract class Card extends Picture {
+public class Card extends Picture {
     public enum RARITY {COMMON, RARE, EPIC, LEGENDARY} //公有：卡牌的稀有度
 
     public enum TYPE {ATTACK, SKILL, POWER, CURSE}  //公有：卡牌的类型
@@ -54,7 +54,10 @@ public abstract class Card extends Picture {
         this.type = type;
         this.rarity = rarity;
         this.description = description;
+    }
 
+    public Card(String name) {
+        super(name);
     }
 
     public String getCardName() {
@@ -89,7 +92,25 @@ public abstract class Card extends Picture {
         this.description = description;
     }
 
-    abstract public void upgrade();
+    @Override
+    public String getName() {
+        return name;
+    }
 
-    abstract public void func();
+    public String getPath() {
+        return path;
+    }
+
+    public OCCUPATION getOccupation() {
+        return occupation;
+    }
+
+    public void upgrade() {
+
+    }
+
+
+    public void func() {
+
+    }
 }

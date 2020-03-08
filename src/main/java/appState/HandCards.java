@@ -96,8 +96,11 @@ public class HandCards extends BaseAppState {
         String name = paths[paths.length - 1];//获取卡牌名称
         System.out.println(path);
         System.out.println(name);
-        Card card = CreateCard.createCard(name, Card.TYPE.ATTACK);//创建卡牌
+//        Card card = CreateCard.createCard(name, Card.TYPE.ATTACK);//创建卡牌
+        Card card = new Card(path);
+        card.setImage(app.getAssetManager(), path, true);
         card.setHeight((float) cardHeight);//设置宽高
+
         card.setWidth((float) cardWidth);//设置宽高
         card.setImage(app.getAssetManager(), path, true);//将卡牌添加进Assetmanager
         return card;
