@@ -340,9 +340,10 @@ public class DecksState extends BaseAppState {
                             showCards(exhaustDeck);
                             break;
                         default:
+                            hideCards();
                     }
                 } else {
-                    System.out.println("nothing");
+//                    System.out.println("nothing");
                     hideCards();
                 }
             }
