@@ -92,10 +92,10 @@ public class HandCards extends BaseAppState {
 
     // 初始化卡片
     protected Card newCard(String path) {
-        System.out.println(path);
+//        System.out.println(path);
         String[] paths = path.split("/");//将卡牌路径拆开
         String name = paths[paths.length - 1];//获取卡牌名称
-        System.out.println(name);
+//        System.out.println(name);
 //        Card card = CreateCard.createCard(name, Card.TYPE.ATTACK);//创建卡牌
         Card card = new Card(path);
         card.setImage(app.getAssetManager(), path, true);
@@ -113,19 +113,19 @@ public class HandCards extends BaseAppState {
         for (int i = 0; i < 20; i++) this.positions[i] = this.computePosition(i);
 
         cards = new ArrayList<Picture>();
-        cards.add(newCard("Cards/caster/attack/星陨.png"));
-        cards.add(newCard("Cards/caster/attack/充钱.png"));
-        cards.add(newCard("Cards/caster/attack/充钱.png"));
-        cards.add(newCard("Cards/caster/attack/充钱.png"));
-        cards.add(newCard("Cards/caster/attack/充钱.png"));
-        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//        cards.add(newCard("Cards/caster/attack/星陨.png"));
+//        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//        cards.add(newCard("Cards/caster/attack/充钱.png"));
+//        cards.add(newCard("Cards/caster/attack/充钱.png"));
 
-//        cards.add(newCard("Cards/caster/attack/双龙炼狱(+).png"));
-//        cards.add(newCard("Cards/caster/attack/奥数冲击.png"));
-//        cards.add(newCard("Cards/caster/attack/流星雨(+).png"));
-//        cards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
-//        cards.add(newCard("Cards/caster/attack/爆破(+).png"));
-//        cards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
+        cards.add(newCard("Cards/caster/attack/双龙炼狱(+).png"));
+        cards.add(newCard("Cards/caster/attack/奥数冲击.png"));
+        cards.add(newCard("Cards/caster/attack/流星雨(+).png"));
+        cards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
+        cards.add(newCard("Cards/caster/attack/爆破(+).png"));
+        cards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
         int i = 0;
         int length = cards.size();
         for (Picture card : cards) {
@@ -166,8 +166,8 @@ public class HandCards extends BaseAppState {
 
     private void drawCards(int num) {
         int size0 = cards.size();//获取当前还没有抽卡的手牌数量
-        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/power/时空裂隙(+).png"));
+//        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        cards.add(newCard("Cards/caster/power/时空裂隙(+).png"));
 
         int size = cards.size();//获得新手牌数量
         //放置新卡牌
@@ -231,7 +231,7 @@ public class HandCards extends BaseAppState {
 // 生成射线
 //        Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
 
-        Ray ray = new Ray(new Vector3f(x, y, 100), dir);
+        Ray ray = new Ray(new Vector3f(x, y, 10), dir);
         CollisionResults results = new CollisionResults();
         rootNode.collideWith(ray, results);//检测guinode 中所有图形对象 和 ray 的碰撞
 
@@ -254,7 +254,7 @@ public class HandCards extends BaseAppState {
 // 生成射线
 //        Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
 
-        Ray ray = new Ray(new Vector3f(x, y, 100), dir);
+        Ray ray = new Ray(new Vector3f(x, y, 10), dir);
         CollisionResults results = new CollisionResults();
         rootNode.collideWith(ray, results);//检测guinode 中所有图形对象 和 ray 的碰撞
 
@@ -383,6 +383,7 @@ public class HandCards extends BaseAppState {
         @Override
         public void onMouseMotionEvent(MouseMotionEvent evt) {
             CollisionResults results = getGuiCollision(evt);
+
             if (results.size() > 0) {
                 // 获得离射线原点最近的交点所在的图片
                 Geometry res = results.getClosestCollision().getGeometry();
@@ -476,6 +477,7 @@ public class HandCards extends BaseAppState {
                     arrow.removeFromParent();//鼠标释放的时候移除箭头（不论是否选中敌人）
 
             }
+
         }
 
         @Override

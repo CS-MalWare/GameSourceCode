@@ -1,5 +1,6 @@
 package card;
 
+import com.jme3.scene.Geometry;
 import com.jme3.ui.Picture;
 
 
@@ -54,10 +55,15 @@ public class Card extends Picture {
         this.type = type;
         this.rarity = rarity;
         this.description = description;
+        this.setHeight(260);
+        this.setWidth(200);
     }
 
     public Card(String name) {
         super(name);
+        this.path = name;
+        this.setHeight(260);
+        this.setWidth(200);
     }
 
     public String getCardName() {
@@ -107,5 +113,15 @@ public class Card extends Picture {
 
     public void func() {
 
+    }
+
+    @Override
+    public Card clone(boolean cloneMaterial) {
+        return (Card) super.clone(cloneMaterial);
+    }
+
+    @Override
+    public Card clone() {
+        return (Card) super.clone();
     }
 }

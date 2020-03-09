@@ -32,7 +32,7 @@ public class EnemyState extends BaseAppState {
     protected void initialize(Application application) {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
-        Spatial model1 = application.getAssetManager().loadModel("dragon2/dragon.obj");
+        Spatial model1 = application.getAssetManager().loadModel("Dragon/dragon.obj");
         model1.setName("dragon");
         model1.scale(0.03f);// 按比例缩小
         model1.center();// 将模型的中心移到原点
@@ -40,13 +40,12 @@ public class EnemyState extends BaseAppState {
         model1.rotate(0, -1f, 0);
 
 
-
-        Spatial model2 = application.getAssetManager().loadModel("dragon2/dragon.obj");
-        model2.setName("dragon2");
-        model2.scale(0.04f);// 按比例缩小
-        model2.center();// 将模型的中心移到原点
-        model2.move(5, 0, -3);
-        model2.rotate(0, -1f, 0);
+//        Spatial model2 = application.getAssetManager().loadModel("Dragon/dragon.obj");
+//        model2.setName("dragon2");
+//        model2.scale(0.04f);// 按比例缩小
+//        model2.center();// 将模型的中心移到原点
+//        model2.move(5, 0, -3);
+//        model2.rotate(0, -1f, 0);
 
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(2, 1, -3));
@@ -63,7 +62,7 @@ public class EnemyState extends BaseAppState {
         rootNode.addLight(sun);
         rootNode.addLight(ambient);
         rootNode.attachChild(model1);
-        rootNode.attachChild(model2);
+//        rootNode.attachChild(model2);
 
     }
 
