@@ -249,6 +249,7 @@ public class DecksState extends BaseAppState {
 
 
     public void showCards(ArrayList<Card> cards) {
+        this.hideCards();
         for (int index = 0; index < cards.size(); index++) {
             int i = index / 8 + 1; // 1-行号
             int j = index % 8 + 1; // 1-6

@@ -33,6 +33,7 @@ public class EnemyState extends BaseAppState {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
         Spatial model1 = application.getAssetManager().loadModel("Dragon/dragon.obj");
+
         model1.setName("dragon");
         model1.scale(0.03f);// 按比例缩小
         model1.center();// 将模型的中心移到原点
@@ -46,6 +47,7 @@ public class EnemyState extends BaseAppState {
 //        model2.center();// 将模型的中心移到原点
 //        model2.move(5, 0, -3);
 //        model2.rotate(0, -1f, 0);
+
 
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(2, 1, -3));
