@@ -76,7 +76,7 @@ public class Role {
         this.HP += heal;
     }
 
-    public void Attack(Role role, int damage) {
+    public void attack(Role role, int damage) {
         damage = (int) (damage * this.multiplyingDealDamage);
         role.getDamage(damage);
     }
