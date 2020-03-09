@@ -63,6 +63,7 @@ public class Test extends SimpleApplication {
         AppSettings settings = new AppSettings(true);
         settings.setTitle("守护陈岳涛殿下");// 标题
         settings.setResolution(1600, 900);// 分辨率
+        settings.setFrameRate(100);//限制fps
         Test app = new Test();
         app.setSettings(settings);
         app.setShowSettings(false);
