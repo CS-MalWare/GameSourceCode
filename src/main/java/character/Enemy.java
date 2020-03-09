@@ -20,15 +20,16 @@ public abstract class Enemy extends Role{
     public Enemy(int HP, String src,MainRole target,int block,int strength,int dexterity, int dodge,int artifact, int shield,boolean unableAttack,boolean unableSkill) {
         super(HP, src, ROLE.ENEMY);
         this.target = target;
-        this.block = block;
-        this.strength = strength;
-        this.dexterity = dexterity;
-        this.dodge = dodge;
-        this.artifact = artifact;
-        this.shield = shield;
-        this.unableAttack = unableAttack;//有些敌人一开始处于无法攻击的状态
-        this.unableSkill = unableSkill;
+        this.setBlock(block);
+        this.setStrength(strength);
+        this.setDexterity(dexterity);
+        this.setDodge(dodge);
+        this.setArtifact(artifact);
+        this.setShield(shield);
+        this.setUnableAttack(unableAttack);//有些敌人一开始处于无法攻击的状态
+        this.setUnableSkill(unableSkill);
     }
+
     public String getNextActionDescription(){
         return this.nextActionSet[this.nextActionIndex];
     }
@@ -51,7 +52,8 @@ public abstract class Enemy extends Role{
     protected abstract void releaseCurses();
 
     //敌人获得护甲
-    protected abstract void getBlock();
+    //注意，这里是getblocks，因为getblock已经在基类Role中用于访问block属性了
+    protected abstract void getBlocks();
 
     //敌人造成伤害和获得护甲
     protected abstract void getBlockAndAttack();

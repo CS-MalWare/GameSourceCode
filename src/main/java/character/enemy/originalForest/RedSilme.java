@@ -19,7 +19,7 @@ public class RedSilme extends Enemy {
 
     @Override
     protected void attack() {
-        this.target.getDamage((int) (9 * this.multiplyingDealDamage));
+        this.target.getDamage((int) (9 * this.getMultiplyingDealDamage()));
         //TODO 2层流血
     }
 
@@ -34,14 +34,14 @@ public class RedSilme extends Enemy {
     }
 
     @Override
-    protected void getBlock() {
+    protected void getBlocks() {
 
     }
 
     @Override
     protected void getBlockAndAttack(){
-        this.block+=7;
-        this.target.getDamage((int) (5 * this.multiplyingDealDamage));
+        this.setBlock(this.getBlock()+7);
+        this.target.getDamage((int) (5 * this.getMultiplyingDealDamage()));
 
     }
 

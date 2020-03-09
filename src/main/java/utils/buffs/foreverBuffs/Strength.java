@@ -17,6 +17,6 @@ public class Strength extends ForeverBuff implements BuffFunction {
     }
     @Override
     public void fun() {
-        this.getRole().incStrength(this.getTimes());
+        this.getRole().setStrength(this.getRole().getStrength()+this.getTimes());
     }
 }

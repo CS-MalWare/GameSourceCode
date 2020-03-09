@@ -17,6 +17,6 @@ public class Dodge extends ForeverBuff implements BuffFunction {
 
     @Override
     public void fun() {
-        this.getRole().incDodge(this.getTimes());
+        this.getRole().setDodge(this.getRole().getDodge()+this.getTimes());
     }
 }

@@ -19,6 +19,7 @@ public class KingSlime extends Enemy {
     //分裂
     private void split(){
         //TODO 暂时写成void返回值类型，后面可能直接返回两个 Spatial 或者两个其他类型的史莱姆数组
+        //TODO 调用的方式为重写 newTurn 方法或者在 enemyAction 中 检测当前血量再触发，这里等待王逸润巨佬意见
         //return new RedSilme[]();
     }
 
@@ -41,7 +42,7 @@ public class KingSlime extends Enemy {
 
     @Override
     protected void attack() {
-        this.target.getDamage((int) (35 * this.multiplyingDealDamage));
+        this.target.getDamage((int) (35 * this.getMultiplyingDealDamage()));
         //TODO 眩晕自己
     }
 
@@ -51,10 +52,10 @@ public class KingSlime extends Enemy {
 
         //回血效果
         if(this.getHP()<this.getTotalHP()-10){
-            this.HP += 10;
+            this.setHP(this.getHP() + 10);
         }
         else{
-            this.HP = this.totalHP;
+            this.setHP(this.getTotalHP());
         }
 
 
@@ -66,7 +67,7 @@ public class KingSlime extends Enemy {
     }
 
     @Override
-    protected void getBlock() {
+    protected void getBlocks() {
 
     }
 

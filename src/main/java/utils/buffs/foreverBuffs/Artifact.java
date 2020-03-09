@@ -17,6 +17,6 @@ public class Artifact extends ForeverBuff implements BuffFunction {
     }
     @Override
     public void fun() {
-        this.getRole().incArtifact(this.getTimes());
+        this.getRole().setArtifact(this.getRole().getArtifact()+this.getTimes());
     }
 }

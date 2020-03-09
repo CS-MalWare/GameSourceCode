@@ -54,12 +54,12 @@ public class MainRole extends Role {
 
     public void startBattle() {
         this.draw = this.draw_;
-        this.strength = this.strength_;
-        this.dodge = this.dodge_;
-        this.artifact = this.artifact_;
+        this.setStrength(this.strength_);
+        this.setDodge(this.dodge_);
+        this.setArtifact(this.artifact_);
         this.attack = 0;
-        this.dexterity = this.dexterity_;
-        this.shield = this.shield_;
+        this.setDexterity(this.dexterity_);
+        this.setShield(this.shield_);
 
         Collections.copy(drawPile, deck);
         Collections.shuffle(drawPile);
@@ -67,11 +67,6 @@ public class MainRole extends Role {
 
     public void getCard(Card... cards) {
         deck.addAll(Arrays.asList(cards));
-    }
-
-
-    public void incHP(int num) {
-        this.totalHP += num;
     }
 
 

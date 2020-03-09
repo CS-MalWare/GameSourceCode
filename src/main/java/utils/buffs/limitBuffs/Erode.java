@@ -13,10 +13,10 @@ public class Erode extends LimitBuff implements BuffFunction {
     @Override
     public void fun() {
         if(this.getDuration()>0) {
-            this.getRole().multiplyingGetBlock = 0.66;
+            this.getRole().setMultiplyingGetBlock(0.66);
             this.decDuration();
         }
         else
-            this.getRole().multiplyingGetBlock = 1;
+            this.getRole().setMultiplyingGetBlock(1);
     }
 }

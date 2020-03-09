@@ -17,6 +17,6 @@ public class Dexterity extends ForeverBuff implements BuffFunction {
     }
     @Override
     public void fun() {
-        this.getRole().incDexterity(this.getTimes());
+        this.getRole().setDexterity(this.getRole().getDexterity()+this.getTimes());
     }
 }
