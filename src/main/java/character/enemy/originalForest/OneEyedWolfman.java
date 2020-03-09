@@ -18,13 +18,10 @@ public class OneEyedWolfman extends Enemy {
     protected void attack() {
         int damage = (int)(7 * this.getMultiplyingDealDamage());
         this.target.getDamage(damage);
-        int treat = damage/2;
-        if(this.getHP()<this.getTotalHP()-treat){
-            this.setHP(this.getHP() + treat);
-        }
-        else{
-            this.setHP(this.getTotalHP());
-        }
+
+        //回复50%伤害值的血量，需要修改，因为伤害值计算还没有准确
+        int treatValue = damage/2;
+        this.treat(treatValue);
         //TODO 3层流血
     }
 

@@ -51,12 +51,7 @@ public class KingSlime extends Enemy {
         //TODO 3层虚弱
 
         //回血效果
-        if(this.getHP()<this.getTotalHP()-10){
-            this.setHP(this.getHP() + 10);
-        }
-        else{
-            this.setHP(this.getTotalHP());
-        }
+        this.treat(10);
 
 
     }

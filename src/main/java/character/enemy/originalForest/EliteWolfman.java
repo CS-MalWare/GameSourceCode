@@ -12,7 +12,7 @@ public class EliteWolfman extends Enemy {
         this.nextActionSet = new String[]
                 {
                         "this enemy will deal 3*2 damages to you",
-                        "this enemy will deal x damages to you and gain some block",
+                        "this enemy will deal 15 damages to you and gain some block",
                         "this enemy will gain some block",
                         "this enemy will inflict debuffs on you",
                         "this enemy will inflict strong curses on you",
@@ -25,6 +25,8 @@ public class EliteWolfman extends Enemy {
     @Override
     public void newTurn() {
         super.newTurn();
+
+        //是否能够触发吸血效果
         if(this.getHP()<0.3*this.getTotalHP()){
             this.setStrength(this.getStrength() + 2);
             this.isWeak = true;
@@ -48,6 +50,7 @@ public class EliteWolfman extends Enemy {
         else{
             for (int i = 0; i < 2; i++) {
                 this.target.getDamage((int) (3 * this.getMultiplyingDealDamage()));
+                //TODO 吸血效果处理
             }
         }
         //TODO 3层流血
@@ -75,7 +78,7 @@ public class EliteWolfman extends Enemy {
         }
         else{
             this.target.getDamage((int) (15 * this.getMultiplyingDealDamage()));
-
+            //TODO 吸血效果处理
         }
         this.setBlock(this.getBlock() + 8);
     }

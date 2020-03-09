@@ -18,15 +18,10 @@ public class EliteSlime extends Enemy {
     }
 
 
-    //每回合回血效果
-    //TODO 放在哪个时间点
-    private void incHP(){
-        if(this.getHP()<this.getTotalHP()-5){
-            this.setHP(this.getHP() + 5);
-        }
-        else{
-            this.setHP(this.getTotalHP());
-        }
+    @Override
+    public void newTurn() {
+        super.newTurn();
+        this.treat(5);//每回合开始回复5点血量
     }
 
     @Override
