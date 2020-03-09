@@ -17,7 +17,7 @@ public class BlackSlime extends Enemy {
     }
     @Override
     protected void attack() {
-        this.target.getDamage((int) (7 * this.multiplyingDealDamage));
+        this.target.getDamage((int) (7 * this.getMultiplyingDealDamage()));
     }
 
     @Override
@@ -31,7 +31,7 @@ public class BlackSlime extends Enemy {
     }
 
     @Override
-    protected void getBlock() {
+    protected void getBlocks() {
 
     }
 
@@ -42,8 +42,8 @@ public class BlackSlime extends Enemy {
 
     @Override
     protected void releaseBuff() {
-        this.block+=5;
-        this.strength+=1;
+        this.setMultiplyingGetBlock(this.getBlock()+5);
+        this.setStrength(this.getStrength()+1);
     }
     @Override
     protected void getBlessing(){

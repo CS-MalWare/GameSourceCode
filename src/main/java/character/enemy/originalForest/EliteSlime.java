@@ -18,15 +18,10 @@ public class EliteSlime extends Enemy {
     }
 
 
-    //每回合回血效果
-    //TODO 放在哪个时间点
-    private void incHP(){
-        if(this.getHP()<this.getTotalHP()-5){
-            this.HP += 5;
-        }
-        else{
-            this.HP = this.totalHP;
-        }
+    @Override
+    public void newTurn() {
+        super.newTurn();
+        this.treat(5);//每回合开始回复5点血量
     }
 
     @Override
@@ -51,7 +46,7 @@ public class EliteSlime extends Enemy {
 
     @Override
     protected void attack() {
-        this.target.getDamage((int) (20 * this.multiplyingDealDamage));
+        this.target.getDamage((int) (20 * this.getMultiplyingDealDamage()));
         //TODO 眩晕自己
     }
 
@@ -66,14 +61,14 @@ public class EliteSlime extends Enemy {
     }
 
     @Override
-    protected void getBlock() {
+    protected void getBlocks() {
 
     }
 
     @Override
     protected void getBlockAndAttack() {
-        this.block+=10;
-        this.target.getDamage((int) (5 * this.multiplyingDealDamage));
+        this.setBlock(this.getBlock()+10);
+        this.target.getDamage((int) (5 * this.getMultiplyingDealDamage()));
     }
 
     @Override

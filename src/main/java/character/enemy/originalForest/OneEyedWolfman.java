@@ -3,26 +3,30 @@ package character.enemy.originalForest;
 import character.Enemy;
 import character.MainRole;
 
-class Slime extends Enemy {
+public class OneEyedWolfman extends Enemy {
     //TODO 固化HP和src等属性
-    public Slime(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, boolean unableAttack, boolean unableSkill) {
+    public OneEyedWolfman(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, boolean unableAttack, boolean unableSkill) {
         super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, unableAttack, unableSkill);
         this.nextActionSet = new String[]
                 {
                         "this enemy will deal 5 damages to you",
-                        "this enemy will inflict debuffs on you",
-                        "this enemy will gain some block",
+                        "this enemy will gain some buff",
                 };
         this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length+0.5);
     }
     @Override
     protected void attack() {
-        this.target.getDamage((int) (5 * this.getMultiplyingDealDamage()));
+        int damage = (int)(7 * this.getMultiplyingDealDamage());
+        this.target.getDamage(damage);
+
+        //回复50%伤害值的血量，需要修改，因为伤害值计算还没有准确
+        int treatValue = damage/2;
+        this.treat(treatValue);
+        //TODO 3层流血
     }
 
     @Override
     protected void releaseDebuff(){
-        //TODO 等待buff类做完 1层虚弱
     }
 
     @Override
@@ -31,7 +35,7 @@ class Slime extends Enemy {
     }
     @Override
     protected void getBlocks(){
-        this.setBlock(this.getBlock()+5);
+
     }
 
     @Override
@@ -41,7 +45,7 @@ class Slime extends Enemy {
 
     @Override
     protected void releaseBuff() {
-
+        this.setStrength(this.getStrength()+3);
     }
 
     @Override
@@ -57,15 +61,11 @@ class Slime extends Enemy {
                 attack();
                 break;
             case 1:
-                releaseDebuff();
-                break;
-            case 2:
-                getBlocks();
+                releaseBuff();
                 break;
             default:
                 return;
         }
     }
-
 
 }
