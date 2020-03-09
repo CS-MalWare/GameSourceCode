@@ -1,5 +1,7 @@
 package card;
 
+import com.jme3.asset.AssetManager;
+import com.jme3.math.Quaternion;
 import com.jme3.scene.Geometry;
 import com.jme3.ui.Picture;
 
@@ -105,6 +107,19 @@ public class Card extends Picture {
     public OCCUPATION getOccupation() {
         return occupation;
     }
+
+
+    public void setImage(AssetManager assetManager) {
+        super.setImage(assetManager, this.path, true);
+        this.setHeight(260);
+        this.setWidth(200);
+    }
+
+
+    public void reset() {
+        this.setLocalRotation(new Quaternion());
+    }
+
 
     public void upgrade() {
 

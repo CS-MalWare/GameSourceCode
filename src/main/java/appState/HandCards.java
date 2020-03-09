@@ -48,11 +48,11 @@ public class HandCards extends BaseAppState {
 
     private double[][][] positions = new double[20][20][3]; //存放每张牌的位置
 
-    private List<Picture> cards;
+    private List<Card> handCards;
 
     private MyRawInputListener cardListener;
 
-    private Picture chosen;
+    private Card chosen;
 
     private Geometry arrow;
 
@@ -112,7 +112,7 @@ public class HandCards extends BaseAppState {
         this.cardListener = new MyRawInputListener();
         for (int i = 0; i < 20; i++) this.positions[i] = this.computePosition(i);
 
-        cards = new ArrayList<Picture>();
+        handCards = new ArrayList<Card>();
 //        cards.add(newCard("Cards/caster/attack/星陨.png"));
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
@@ -120,15 +120,15 @@ public class HandCards extends BaseAppState {
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
 
-        cards.add(newCard("Cards/caster/attack/双龙炼狱(+).png"));
-        cards.add(newCard("Cards/caster/attack/奥数冲击.png"));
-        cards.add(newCard("Cards/caster/attack/流星雨(+).png"));
-        cards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
-        cards.add(newCard("Cards/caster/attack/爆破(+).png"));
-        cards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
+        handCards.add(newCard("Cards/caster/attack/双龙炼狱(+).png"));
+        handCards.add(newCard("Cards/caster/attack/奥数冲击.png"));
+        handCards.add(newCard("Cards/caster/attack/流星雨(+).png"));
+//        handCards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
+//        handCards.add(newCard("Cards/caster/attack/爆破(+).png"));
+//        handCards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
         int i = 0;
-        int length = cards.size();
-        for (Picture card : cards) {
+        int length = handCards.size();
+        for (Picture card : handCards) {
             double x = this.positions[length][i][0];
             double y = this.positions[length][i][1];
             double angle = this.positions[length][i][2];
@@ -148,7 +148,7 @@ public class HandCards extends BaseAppState {
 
     @Override
     protected void cleanup(Application app) {
-        cards.clear();
+        handCards.clear();
     }
 
     @Override
@@ -164,20 +164,35 @@ public class HandCards extends BaseAppState {
     }
 
 
-    private void drawCards(int num) {
-        int size0 = cards.size();//获取当前还没有抽卡的手牌数量
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-        cards.add(newCard("Cards/caster/power/时空裂隙(+).png"));
-
-        int size = cards.size();//获得新手牌数量
-        //放置新卡牌
+    public void addToHand(ArrayList<Card> cards) {
+        int size0 = handCards.size();//获取当前还没有抽卡的手牌数量
+        this.handCards.addAll(cards);
+        int size = handCards.size();//获得新手牌数量
         for (int i = size0; i < size; i++) {
-            Picture card = cards.get(i);
+            Picture card = handCards.get(i);
             card.setPosition(1400, -25);
             rootNode.attachChild(card);
         }
 
         adjustAllCardsPosition(size, size0);
+    }
+
+    private void drawCards(int num) {
+//        int size0 = handCards.size();//获取当前还没有抽卡的手牌数量
+//        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        ArrayList<Card> cards = app.getStateManager().getState(DecksState.class).drawCard(num);
+
+
+        this.addToHand(cards);
+//        int size = handCards.size();//获得新手牌数量
+//        //放置新卡牌
+//        for (int i = size0; i < size; i++) {
+//            Picture card = handCards.get(i);
+//            card.setPosition(1400, -25);
+//            rootNode.attachChild(card);
+//        }
+//
+//        adjustAllCardsPosition(size, size0);
 
 
     }
@@ -185,7 +200,7 @@ public class HandCards extends BaseAppState {
     //多张卡变动时调整卡牌位置，如果传入的size0是-1，那么就是一张卡牌的调节
     private void adjustAllCardsPosition(int size, int size0) {
         for (int i = 0; i < size; i++) {
-            Picture card = cards.get(i);
+            Picture card = handCards.get(i);
 //            System.out.printf("原来 x: %f, y: %f, angle: %f\n",card.getLocalTranslation().x,card.getLocalTranslation().y,card.getLocalRotation().getZ()*2);
             CardMotionControl control = new CardMotionControl();
             control.setSpatial(card);
@@ -207,10 +222,13 @@ public class HandCards extends BaseAppState {
     }
 
     //卡牌打出时候的操作
-    private void useCards(Picture picture) {
-        cards.remove(picture);
-        rootNode.detachChild(picture);
-        int size = cards.size();
+    private void useCard(Card card) {
+        handCards.remove(card);
+//        rootNode.detachChild(card);
+
+        app.getStateManager().getState(DecksState.class).addToDrop(card);
+
+        int size = handCards.size();
         adjustAllCardsPosition(size, -1);
 
     }
@@ -465,7 +483,7 @@ public class HandCards extends BaseAppState {
                 //这里处理的是拖动导致的释放卡牌
                 Geometry enemyChosen = app.getStateManager().getState(EnemyState.class).getChosen();
                 if (chosen != null && enemyChosen != null) {
-                    useCards(chosen);
+                    useCard(chosen);
                 }
 
                 if(center!=null)

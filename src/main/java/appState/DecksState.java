@@ -4,13 +4,8 @@ import card.Card;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
-import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
-import com.jme3.input.MouseInput;
 import com.jme3.input.RawInputListener;
-import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.InputListener;
-import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.input.event.*;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
@@ -20,12 +15,12 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.ui.Picture;
-import org.lwjgl.Sys;
 import truetypefont.TrueTypeFont;
 import truetypefont.TrueTypeKey;
 import truetypefont.TrueTypeLoader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -126,6 +121,17 @@ public class DecksState extends BaseAppState {
 
         exhaustDeck.add(new Card("Cards/caster/skill/寒冰护甲(+).png"));
 
+        for (Card card : drawDeck) {
+            card.setImage(app.getAssetManager(), card.getPath(), true);
+        }
+
+        for (Card card : dropDeck) {
+            card.setImage(app.getAssetManager(), card.getPath(), true);
+        }
+        for (Card card : exhaustDeck) {
+            card.setImage(app.getAssetManager(), card.getPath(), true);
+        }
+
         this.updateNum();
         myActionListener = new MyInputListener();
 
@@ -156,7 +162,7 @@ public class DecksState extends BaseAppState {
         return drawNum;
     }
 
-    public void setDrawNum() {
+    private void updateDrawNum() {
         this.drawNum = drawDeck.size();
         this.drawText.removeFromParent();
         this.drawText = font.getBitmapGeom(drawNum + "", 0, ColorRGBA.White);
@@ -173,7 +179,7 @@ public class DecksState extends BaseAppState {
 
     }
 
-    public void setDropNum() {
+    private void updateDropNum() {
         this.dropNum = dropDeck.size();
         this.dropText.removeFromParent();
         this.dropText = font.getBitmapGeom(dropNum + "", 0, ColorRGBA.White);
@@ -189,7 +195,7 @@ public class DecksState extends BaseAppState {
         return exhaustNum;
     }
 
-    public void setExhaustNum() {
+    private void updateExhaustNum() {
         this.exhaustNum = exhaustDeck.size();
         this.exhaustText.removeFromParent();
         this.exhaustText = font.getBitmapGeom(exhaustNum + "", 0, ColorRGBA.White);
@@ -203,29 +209,38 @@ public class DecksState extends BaseAppState {
 
 
     public void updateNum() {
-        this.setDrawNum();
-        this.setDropNum();
-        this.setExhaustNum();
+        this.updateDrawNum();
+        this.updateDropNum();
+        this.updateExhaustNum();
     }
 
     // 抽卡
     public ArrayList<Card> drawCard(int num) {
         int drawNum = drawDeck.size();
         ArrayList<Card> draws = new ArrayList<Card>();
+        // 抽牌堆中的牌还没抽光的时候
         if (drawNum >= num) {
             for (int i = 0; i < num; i++) {
                 draws.add(drawDeck.remove(0));
             }
         } else { //先洗牌再抽
+            // 先抽光手牌堆中的牌
             for (int i = 0; i < drawNum; i++) {
                 draws.add(drawDeck.remove(0));
             }
-            for (int i = 0; i < dropDeck.size(); i++) {
-                drawDeck.add(dropDeck.remove(0));
-            }
+            // 将弃牌堆中的牌加入抽牌堆
+
+            drawDeck.addAll(dropDeck);
+            dropDeck.clear();
+
+//            for(int i=0;i<dropDeck.size();i++){
+//                drawDeck.add(dropDeck.remove(0));
+//            }
+//            System.out.println(i);
             Collections.shuffle(drawDeck);
             for (int i = 0; i < num - drawNum; i++) {
-                draws.add(drawDeck.remove(0));
+                if (drawDeck.size() > 0)
+                    draws.add(drawDeck.remove(0));
             }
         }
         this.updateNum();
@@ -233,18 +248,39 @@ public class DecksState extends BaseAppState {
     }
 
     // 随机加入抽牌堆
-    public void addToDraw(Card card) {
-        Random random = new Random();
-        int pos = random.nextInt(drawDeck.size());
-        this.drawDeck.add(pos, card);
+    public void addToDraw(Card... cards) {
+        if (cards.length == 1) {
+            Random random = new Random();
+            int pos = random.nextInt(drawDeck.size());
+            cards[0].reset();
+            this.drawDeck.add(pos, cards[0]);
+        } else {
+            for (Card card : cards) {
+                card.reset();
+                drawDeck.add(card);
+                card.removeFromParent();
+            }
+        }
+        this.updateDrawNum();
     }
 
-    public void addToExhaust(Card card) {
-        this.exhaustDeck.add(card);
+
+    public void addToExhaust(Card... cards) {
+        for (Card card : cards) {
+            card.reset();
+            exhaustDeck.add(card);
+            card.removeFromParent();
+        }
+        this.updateExhaustNum();
     }
 
-    public void addToDrop(Card card) {
-        this.dropDeck.add(card);
+    public void addToDrop(Card... cards) {
+        for (Card card : cards) {
+            card.reset();
+            dropDeck.add(card);
+            card.removeFromParent();
+        }
+        this.updateDropNum();
     }
 
 
