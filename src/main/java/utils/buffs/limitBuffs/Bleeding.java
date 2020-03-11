@@ -11,8 +11,13 @@ public class Bleeding extends LimitBuff implements BuffFunction {
     }
 
     @Override
-    public void fun() {
-        if(this.getDuration()>0) {//层数大于0就触发
+    public void getFunc() {
+
+    }
+
+    @Override
+    public void triggerFunc() {
+        if (this.getDuration() > 0) {//层数大于0就触发
             this.getRole().getTrueDamage(this.getDuration());
             this.decDuration();
         }

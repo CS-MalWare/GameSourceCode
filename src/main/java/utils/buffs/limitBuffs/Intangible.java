@@ -11,13 +11,18 @@ public class Intangible extends LimitBuff implements BuffFunction {
     }
 
     @Override
-    public void fun() {
-        if(this.getDuration()>0){
-            this.getRole().setMultiplyingGetDamage(0.5);
+    public void getFunc() {
+
+    }
+
+    @Override
+    public void triggerFunc() {
+        if (this.getDuration() > 1) {
+//            this.getRole().setMultiplyingGetDamage(0.5);
             this.decDuration();
-        }
-        else{
-            this.getRole().setMultiplyingGetDamage(1);
+        } else if (this.getDuration() == 1) {
+//            this.getRole().setMultiplyingGetDamage(1);
+            this.decDuration();
         }
     }
 }

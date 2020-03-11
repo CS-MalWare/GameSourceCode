@@ -17,8 +17,14 @@ public class LimitBuff extends Buff {
     }
 
     //每次调用Buff后持续回合应该减一
-    public void decDuration(){
-        this.duration--;
+    public void decDuration() {
+        if (this.duration > 0)
+            this.duration--;
+    }
+
+
+    public void incDuration(int layer) {
+        this.duration += layer;
     }
 
     //不知道王一润巨佬的实现思路，暂时注释掉

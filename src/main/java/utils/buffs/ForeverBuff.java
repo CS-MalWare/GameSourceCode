@@ -22,6 +22,14 @@ public class ForeverBuff extends Buff {
         return times;
     }
 
+    public void incTimes(int times) {
+        this.times += times;
+    }
+
+    public void decTimes() {
+        this.times -= 1;
+    }
+
     //不知道王一润巨佬的实现思路，暂时注释掉
 //    //用于多次重复使用同一buff叠加或者增加数值（类似增加力量）
 //    public void addTimes(int times) {

@@ -8,15 +8,21 @@ import utils.buffs.ForeverBuff;
 public class Dodge extends ForeverBuff implements BuffFunction {
     public Dodge(String name, String description, Picture buffPicture, Role role, int times) {
         super(name, description, buffPicture, role, times);
-        this.fun();
+        this.getFunc();
     }
+
     @Override
-    public String getDescription(){
+    public String getDescription() {
         return "description拼接";
     }
 
     @Override
-    public void fun() {
-        this.getRole().setDodge(this.getRole().getDodge()+this.getTimes());
+    public void getFunc() {
+//        this.getRole().setDodge(this.getRole().getDodge() + this.getTimes());
+    }
+
+    @Override
+    public void triggerFunc() {
+
     }
 }

@@ -11,12 +11,17 @@ public class Disarm extends LimitBuff implements BuffFunction {
     }
 
     @Override
-    public void fun() {
-        if(this.getDuration()>0) {//如果层数大于0就继续缴械
-            this.getRole().setUnableAttack(true);
+    public void getFunc() {
+//        this.getRole().setUnableAttack(true);
+    }
+
+    @Override
+    public void triggerFunc() {
+        if (this.getDuration() > 1) {//如果层数大于0就继续缴械
+            this.decDuration();
+        } else if (this.getDuration() == 1) {
+//            this.getRole().setUnableAttack(false);
             this.decDuration();
         }
-        else
-            this.getRole().setUnableAttack(false);
     }
 }

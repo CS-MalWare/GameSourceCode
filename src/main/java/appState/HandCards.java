@@ -177,7 +177,7 @@ public class HandCards extends BaseAppState {
         adjustAllCardsPosition(size, size0);
     }
 
-    private void drawCards(int num) {
+    public void drawCards(int num) {
 //        int size0 = handCards.size();//获取当前还没有抽卡的手牌数量
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
         ArrayList<Card> cards = app.getStateManager().getState(DecksState.class).drawCard(num);

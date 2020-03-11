@@ -12,13 +12,18 @@ public class Weak extends LimitBuff implements BuffFunction {
     }
 
     @Override
-    public void fun() {
-        if (this.getDuration() > 0) {
-            this.getRole().setMultiplyingDealDamage(0.75);
+    public void getFunc() {
+//        this.getRole().setMultiplyingDealDamage(0.75);
+
+    }
+
+    @Override
+    public void triggerFunc() {
+        if (this.getDuration() > 1) {
             this.decDuration();
-        }
-        else{
-            this.getRole().setMultiplyingDealDamage(1);
+        } else if (this.getDuration() == 1) {
+//            this.getRole().setMultiplyingDealDamage(1);
+            this.decDuration();
         }
     }
 }

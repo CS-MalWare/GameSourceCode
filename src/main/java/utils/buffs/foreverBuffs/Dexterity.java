@@ -8,15 +8,21 @@ import utils.buffs.ForeverBuff;
 public class Dexterity extends ForeverBuff implements BuffFunction {
     public Dexterity(String name, String description, Picture buffPicture, Role role, int times) {
         super(name, description, buffPicture, role, times);
-        this.fun();
+        this.getFunc();
     }
 
     @Override
-    public String getDescription(){
+    public String getDescription() {
         return "description拼接";
     }
+
     @Override
-    public void fun() {
-        this.getRole().setDexterity(this.getRole().getDexterity()+this.getTimes());
+    public void getFunc() {
+        this.getRole().setDexterity(this.getRole().getDexterity() + this.getTimes());
+    }
+
+    @Override
+    public void triggerFunc() {
+
     }
 }

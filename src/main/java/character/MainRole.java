@@ -1,5 +1,7 @@
 package character;
 
+import appState.DecksState;
+import appState.HandCards;
 import card.Card;
 
 import java.util.ArrayList;
@@ -12,88 +14,69 @@ public class MainRole extends Role {
     //  原本固有的属性
     private int strength_;//力量，提升基础伤害
     private int dexterity_;//灵巧，提升基础获得护甲值
-    private int dodge_;//闪避，将x次伤害变成1
-    private int artifact_;//人工制品，抵挡下x次debuff
+
     private int draw_;//抽牌数量
-    private int shield_;//回合末获得x层护甲
+
 
     //玩家的独特属性
+    private int MP;
     private int attack;
     private int draw;
     private int potionBag;
     private int gold;
 
-    public List<Card> deck;//卡组（有序排列）
-
-    public List<Card> handCards;//手牌
-
-    public List<Card> drawPile;//抽牌堆（随机顺序）
-
-    public List<Card> dropPile;//弃牌堆
-
-    public List<Card> exhaustPile;//消耗掉的卡牌堆
+    public ArrayList<Card> deck_;// 原卡组（有序排列）
+    public ArrayList<Card> deck;// 战斗中卡组（有序排列）
 
 
     public MainRole(int HP, String src) {
         super(HP, src, ROLE.MAINROLE);
         this.strength_ = 0;
         this.dexterity_ = 0;
-        this.dodge_ = 0;
-        this.artifact_ = 0;
         this.draw_ = 6;
-        this.shield_ = 0;
+
         this.potionBag = 3;
         this.gold = 0;
         this.deck = new ArrayList<Card>();
-        this.handCards = new ArrayList<Card>();
-        this.drawPile = new ArrayList<Card>();
-        this.dropPile = new ArrayList<Card>();
-        this.exhaustPile = new ArrayList<Card>();
+
     }
 
 
     public void startBattle() {
         this.draw = this.draw_;
         this.setStrength(this.strength_);
-        this.setDodge(this.dodge_);
-        this.setArtifact(this.artifact_);
+
         this.attack = 0;
         this.setDexterity(this.dexterity_);
-        this.setShield(this.shield_);
 
-        Collections.copy(drawPile, deck);
-        Collections.shuffle(drawPile);
+        Collections.copy(deck, deck_);
+        Collections.shuffle(deck);
+        app.getStateManager().getState(DecksState.class).addToDraw(this.deck);
+
+
     }
 
     public void getCard(Card... cards) {
-        deck.addAll(Arrays.asList(cards));
+        deck_.addAll(Arrays.asList(cards));
+    }
+
+    //每回合开始时候的抽牌
+    public void startTurn() {
+        app.getStateManager().getState(HandCards.class).drawCards(this.draw);
+        if (this.excite.getDuration() > 0) {
+            app.getStateManager().getState(HandCards.class).drawCards(1);
+        }
     }
 
 
-    public void drawCards() {
-
+    @Override
+    public void endTurn() {
+        super.endTurn();
     }
 
     public void drawCards(int num) {
-
+        app.getStateManager().getState(HandCards.class).drawCards(num);
     }
-
-    public int getDraw() {
-        return draw;
-    }
-
-
-    public void setDraw(int num){
-        this.draw = num;
-    }
-    public void incDraw(int num) {
-        this.draw += num;
-    }
-
-    public void decDraw(int num) {
-        this.draw -= num;
-    }
-
 
 
 }

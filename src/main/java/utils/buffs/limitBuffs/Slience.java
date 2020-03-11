@@ -12,13 +12,17 @@ public class Slience extends LimitBuff implements BuffFunction {
     }
 
     @Override
-    public void fun() {
-        if(this.getDuration()>0){
-            this.getRole().setUnableSkill(true);
+    public void getFunc() {
+//        this.getRole().setUnableSkill(true);
+    }
+
+    @Override
+    public void triggerFunc() {
+        if (this.getDuration() > 1) {
             this.decDuration();
-        }
-        else{
-            this.getRole().setUnableSkill(false);
+        } else if (this.getDuration() == 1) {
+//            this.getRole().setUnableSkill(true);
+            this.decDuration();
         }
     }
 }

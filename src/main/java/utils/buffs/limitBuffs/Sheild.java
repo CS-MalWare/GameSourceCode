@@ -12,7 +12,15 @@ public class Sheild extends LimitBuff implements BuffFunction {
     }
 
     @Override
-    public void fun() {
-        //TODO
+    public void getFunc() {
+
+    }
+
+    @Override
+    public void triggerFunc() {
+        if (this.getDuration() > 0) {
+            this.getRole().gainBlock(this.getDuration());
+            this.decDuration();
+        }
     }
 }

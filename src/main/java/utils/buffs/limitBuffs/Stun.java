@@ -12,7 +12,12 @@ public class Stun extends LimitBuff implements BuffFunction {
     }
 
     @Override
-    public void fun() {
+    public void getFunc() {
+        //TODO
+    }
+
+    @Override
+    public void triggerFunc() {
         //TODO
     }
 }

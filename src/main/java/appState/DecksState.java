@@ -122,14 +122,14 @@ public class DecksState extends BaseAppState {
         exhaustDeck.add(new Card("Cards/caster/skill/寒冰护甲(+).png"));
 
         for (Card card : drawDeck) {
-            card.setImage(app.getAssetManager(), card.getPath(), true);
+            card.setImage(app.getAssetManager());
         }
 
         for (Card card : dropDeck) {
-            card.setImage(app.getAssetManager(), card.getPath(), true);
+            card.setImage(app.getAssetManager());
         }
         for (Card card : exhaustDeck) {
-            card.setImage(app.getAssetManager(), card.getPath(), true);
+            card.setImage(app.getAssetManager());
         }
 
         this.updateNum();
@@ -261,6 +261,18 @@ public class DecksState extends BaseAppState {
                 card.removeFromParent();
             }
         }
+        this.updateDrawNum();
+    }
+
+
+    public void addToDraw(ArrayList<Card> cards) {
+
+        for (Card card : cards) {
+            card.reset();
+            drawDeck.add(card);
+            card.removeFromParent();
+        }
+
         this.updateDrawNum();
     }
 
