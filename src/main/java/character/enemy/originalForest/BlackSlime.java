@@ -14,18 +14,22 @@ public class BlackSlime extends Enemy {
                         "this enemy will inflict debuffs on you",
                         "this enemy will exert strong blessing on itself",
                 };
-        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
 
     @Override
     public void startTurn() {
         super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
         this.nextActionSet = new String[]{
                 String.format(hints[0], computeDamage(7)),
                 hints[1],
                 hints[6]
         };
+        newTurn();
     }
 
     @Override

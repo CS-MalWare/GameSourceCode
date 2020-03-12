@@ -16,9 +16,22 @@ public class RedSilme extends Enemy {
                         "this enemy will inflict debuffs on you",
                         "this enemy will deal 5 damages to you and gain 7 block",
                 };
-        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
+    @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(9)),
+                hints[1],
+                String.format(hints[4], computeDamage(5), computeBlock(7)),
+        };
+        newTurn();
+    }
 
     @Override
     protected void attack() {
@@ -28,7 +41,7 @@ public class RedSilme extends Enemy {
     }
 
     @Override
-    protected void releaseDebuff(){
+    protected void releaseDebuff() {
         this.target.getBuff(new Weak(target, 2));
     }
 

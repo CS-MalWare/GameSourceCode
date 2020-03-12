@@ -2,25 +2,45 @@ package character.enemy.originalForest;
 
 import character.Enemy;
 import character.MainRole;
+import utils.buffs.limitBuffs.Bleeding;
+import utils.buffs.limitBuffs.Vulnerable;
+import utils.buffs.limitBuffs.Weak;
 
 public class EliteWolfman extends Enemy {
     //TODO 固化HP和src等属性
     private boolean canSummon = true;//是否能召唤狼人
-    private boolean isWeak = false;//用于判断是否能够攻击吸血
+    private boolean isWake = false;//用于判断是否能够攻击吸血
 
     public EliteWolfman(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]
                 {
                         "this enemy will deal 3*2 damages to you",
-                        "this enemy will deal 15 damages to you and gain some block",
-                        "this enemy will gain some block",
+                        "this enemy will deal 15 damages to you and gain 8 blocks",
+                        "this enemy will gain 20 blocks",
                         "this enemy will inflict debuffs on you",
                         "this enemy will inflict strong curses on you",
                         "???",//这个是召唤狼人
                 };
 
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length+0.5);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
+    }
+
+    @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                String.format(hints[7], computeDamage(3), 2),
+                String.format(hints[4], computeDamage(15), computeBlock(8)),
+                String.format(hints[3], computeBlock(20)),
+                hints[1],
+                hints[2],
+                "???",
+        };
+        newTurn();
     }
 
     @Override
@@ -28,12 +48,12 @@ public class EliteWolfman extends Enemy {
         super.newTurn();
 
         //是否能够触发吸血效果
-        if(this.getHP()<0.3*this.getTotalHP()){
-            this.setStrength(this.getStrength() + 2);
-            this.isWeak = true;
+        if (this.getHP() < 0.3 * this.getTotalHP()) {
+            this.strength += 2;
+            this.isWake = true;
         }
         else{
-            this.isWeak = false;
+            this.isWake = false;
         }
         //TODO 判断能不能刷新出召唤狼人的事件
     }
@@ -43,45 +63,45 @@ public class EliteWolfman extends Enemy {
     }
     @Override
     protected void attack() {
-        if(!this.isWeak) {
+        if (!this.isWake) {
             for (int i = 0; i < 2; i++) {
-                this.target.getDamage((int) (3 * this.getMultiplyingDealDamage()));
+                this.target.getDamage(computeDamage(3));
             }
-        }
-        else{
+        } else {
             for (int i = 0; i < 2; i++) {
-                this.target.getDamage((int) (3 * this.getMultiplyingDealDamage()));
+                int damage = this.target.getDamage(computeDamage(3));
                 //TODO 吸血效果处理
+                this.treat((int) (damage * 0.25));
             }
         }
-        //TODO 3层流血
+        this.target.getBuff(new Bleeding(target, 2));
     }
 
     @Override
     protected void releaseDebuff(){
-//        this.target.setShield(this.target.getShield()-2);
+        this.target.setStrength(target.getStrength() - 2);
     }
 
     @Override
     protected void releaseCurses() {
-        //TODO 3层 脆弱 与 2层 虚弱
+        //3层 脆弱 与 2层 虚弱
+        target.getBuff(new Vulnerable(target, 3), new Weak(target, 2));
     }
     @Override
-    protected void getBlocks(){
-        this.setBlock(this.getBlock() + 20);
-        this.setStrength(this.getStrength() + 1);
+    protected void getBlocks() {
+        this.gainBlock(computeBlock(20));
+        this.strength += 1;
     }
 
     @Override
     protected void getBlockAndAttack() {
-        if(!this.isWeak) {
-            this.target.getDamage((int) (15 * this.getMultiplyingDealDamage()));
+        if (!this.isWake) {
+            this.target.getDamage(computeDamage(15));
+        } else {
+            int damage = this.target.getDamage(computeDamage(15));
+            this.treat((int) (damage * 0.25));
         }
-        else{
-            this.target.getDamage((int) (15 * this.getMultiplyingDealDamage()));
-            //TODO 吸血效果处理
-        }
-        this.setBlock(this.getBlock() + 8);
+        this.gainBlock(computeBlock(8));
     }
 
     @Override

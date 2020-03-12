@@ -15,18 +15,22 @@ public class EliteSlime extends Enemy {
                         "this enemy will inflict debuffs on you",
                         "this enemy will deal 5 damages to you and 10  block",
                 };
-        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
     @Override
     public void startTurn() {
         newTurn();
         super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
         this.nextActionSet = new String[]{
                 String.format(hints[0], computeDamage(20)),
                 hints[1],
                 String.format(hints[4], computeDamage(5), computeBlock(10)),
         };
+        newTurn();
     }
 
 
@@ -77,7 +81,7 @@ public class EliteSlime extends Enemy {
 
     @Override
     protected void getBlockAndAttack() {
-        this.gainBlock(10);
+        this.gainBlock(computeBlock(10));
         this.target.getDamage(computeDamage(5));
     }
 

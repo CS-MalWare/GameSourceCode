@@ -11,14 +11,14 @@ public abstract class Enemy extends Role {
     protected String[] nextActionSet;
     protected String[] hints = new String[]
             {
-                    "this enemy will deal %d damages to you",
-                    "this enemy will inflict debuffs on you",
-                    "this enemy will inflict strong curses on you",
-                    "this enemy will gain %d blocks",
-                    "this enemy will deal %d damages to you and gain %d blocks",
-                    "this enemy will gain some buff",
-                    "this enemy will exert strong blessing on itself",
-                    "this enemy will deal %d * %d damages to you",
+                    "this enemy will deal %d damages to you", //0
+                    "this enemy will inflict debuffs on you", //1
+                    "this enemy will inflict strong curses on you", //2
+                    "this enemy will gain %d blocks", //3
+                    "this enemy will deal %d damages to you and gain %d blocks", //4
+                    "this enemy will gain some buff",//5
+                    "this enemy will exert strong blessing on itself", //6
+                    "this enemy will deal %d * %d damages to you",//7
             };
 
     /*
@@ -62,7 +62,7 @@ public abstract class Enemy extends Role {
 
     //新回合，重随下回合随机事件
     public void newTurn() {
-        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
     //敌人行动

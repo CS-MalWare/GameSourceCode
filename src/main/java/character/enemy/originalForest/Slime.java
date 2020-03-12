@@ -29,7 +29,8 @@ class Slime extends Enemy {
                 hints[1],
                 String.format(hints[3], computeBlock(5)),
         };
-        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
+
+        newTurn();
     }
 
     @Override

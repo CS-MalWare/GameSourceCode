@@ -2,6 +2,10 @@ package character.enemy.originalForest;
 
 import character.Enemy;
 import character.MainRole;
+import utils.buffs.limitBuffs.Stun;
+import utils.buffs.limitBuffs.Weak;
+
+import java.time.temporal.WeekFields;
 
 public class KingSlime extends Enemy {
     //TODO 固化HP和src等属性
@@ -13,13 +17,29 @@ public class KingSlime extends Enemy {
                         "this enemy will inflict debuffs on you",
                         "this enemy will inflict strong curses on you",
                 };
-        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
+    }
+
+
+    @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(35)),
+                hints[1],
+                hints[2]
+        };
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
     //分裂
-    private void split(){
+    private void split() {
         //TODO 暂时写成void返回值类型，后面可能直接返回两个 Spatial 或者两个其他类型的史莱姆数组
         //TODO 调用的方式为重写 newTurn 方法或者在 enemyAction 中 检测当前血量再触发，这里等待王逸润巨佬意见
+        //TODO 王逸润菜鸡:我不会写这个QAQ
         //return new RedSilme[]();
     }
 
@@ -42,13 +62,13 @@ public class KingSlime extends Enemy {
 
     @Override
     protected void attack() {
-        this.target.getDamage((int) (35 * this.getMultiplyingDealDamage()));
-        //TODO 眩晕自己
+        this.target.getDamage(computeDamage(35));
+        this.getBuff(new Stun(this, 1));
     }
 
     @Override
     protected void releaseDebuff() {
-        //TODO 3层虚弱
+        this.target.getBuff(new Weak(target, 3));
 
         //回血效果
         this.treat(10);

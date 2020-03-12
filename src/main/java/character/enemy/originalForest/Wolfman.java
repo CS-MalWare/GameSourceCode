@@ -19,11 +19,14 @@ public class Wolfman extends Enemy {
     @Override
     public void startTurn() {
         super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
         this.nextActionSet = new String[]{
                 String.format(hints[0], computeDamage(5)),
                 hints[5],
         };
-        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
+        newTurn();
     }
 
     @Override
