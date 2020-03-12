@@ -9,6 +9,18 @@ import utils.buffs.limitBuffs.Silence;
 public abstract class Enemy extends Role {
     protected MainRole target;//攻击目标
     protected String[] nextActionSet;
+    protected String[] hints = new String[]
+            {
+                    "this enemy will deal %d damages to you",
+                    "this enemy will inflict debuffs on you",
+                    "this enemy will inflict strong curses on you",
+                    "this enemy will gain %d blocks",
+                    "this enemy will deal %d damages to you and gain %d blocks",
+                    "this enemy will gain some buff",
+                    "this enemy will exert strong blessing on itself",
+                    "this enemy will deal %d * %d damages to you",
+            };
+
     /*
     *
             {
@@ -79,12 +91,11 @@ public abstract class Enemy extends Role {
     protected abstract void getBlessing();
 
     //适用于吸血效果或者治疗效果
-    protected void treat(int number){
-        if(this.getHP()+number>=this.getTotalHP()){
+    protected void treat(int number) {
+        if (this.getHP() + number >= this.getTotalHP()) {
             this.setHP(this.getTotalHP());
-        }
-        else{
-            this.setHP(this.getHP()+number);
+        } else {
+            this.setHP(this.getHP() + number);
         }
     }
 }

@@ -2,6 +2,9 @@ package character.enemy.originalForest;
 
 import character.Enemy;
 import character.MainRole;
+import utils.buffs.Buff;
+import utils.buffs.limitBuffs.Bleeding;
+import utils.buffs.limitBuffs.Weak;
 
 public class RedSilme extends Enemy {
     //TODO 固化HP和src等属性
@@ -11,7 +14,7 @@ public class RedSilme extends Enemy {
                 {
                         "this enemy will deal 9 damages to you",
                         "this enemy will inflict debuffs on you",
-                        "this enemy will deal x damages to you and gain some block",
+                        "this enemy will deal 5 damages to you and gain 7 block",
                 };
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
     }
@@ -20,12 +23,13 @@ public class RedSilme extends Enemy {
     @Override
     protected void attack() {
         this.target.getDamage((int) (9 * this.getMultiplyingDealDamage()));
-        //TODO 2层流血
+
+        this.target.getBuff(new Bleeding(target, 2));
     }
 
     @Override
     protected void releaseDebuff(){
-        //TODO 等待buff类做完,3层虚弱
+        this.target.getBuff(new Weak(target, 2));
     }
 
     @Override
@@ -39,9 +43,9 @@ public class RedSilme extends Enemy {
     }
 
     @Override
-    protected void getBlockAndAttack(){
-        this.setBlock(this.getBlock()+7);
-        this.target.getDamage((int) (5 * this.getMultiplyingDealDamage()));
+    protected void getBlockAndAttack() {
+        this.gainBlock(computeBlock(7));
+        this.target.getDamage(computeDamage(5));
 
     }
 

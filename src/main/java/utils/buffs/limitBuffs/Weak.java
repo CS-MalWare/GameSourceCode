@@ -8,7 +8,7 @@ import utils.buffs.LimitBuff;
 public class Weak extends LimitBuff implements BuffFunction {
 
     public Weak(Role role, int duration) {
-        super("weak", "decrease the damage dealt by 50%", new Picture(), role, duration);
+        super("weak", "decrease the damage dealt by 25%", new Picture(), role, duration);
     }
 
     @Override

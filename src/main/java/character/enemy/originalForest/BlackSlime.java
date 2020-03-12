@@ -2,6 +2,7 @@ package character.enemy.originalForest;
 
 import character.Enemy;
 import character.MainRole;
+import utils.buffs.limitBuffs.Weak;
 
 public class BlackSlime extends Enemy {
     //TODO 固化HP和src等属性
@@ -16,14 +17,25 @@ public class BlackSlime extends Enemy {
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
     }
 
+
     @Override
-    protected void attack() {
-        this.target.getDamage((int) (7 * this.getMultiplyingDealDamage()));
+    public void startTurn() {
+        super.startTurn();
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(7)),
+                hints[1],
+                hints[6]
+        };
     }
 
     @Override
-    protected void releaseDebuff(){
-        //TODO 等待buff类做完 3层虚弱
+    protected void attack() {
+        this.target.getDamage((int) (computeDamage(7)));
+    }
+
+    @Override
+    protected void releaseDebuff() {
+        this.target.getBuff(new Weak(target, 3));
     }
 
     @Override
@@ -43,8 +55,8 @@ public class BlackSlime extends Enemy {
 
     @Override
     protected void releaseBuff() {
-        this.setMultiplyingGetBlock(this.getBlock()+5);
-        this.setStrength(this.getStrength()+1);
+        this.gainBlock(computeBlock(5));
+        this.strength += 1;
     }
     @Override
     protected void getBlessing(){

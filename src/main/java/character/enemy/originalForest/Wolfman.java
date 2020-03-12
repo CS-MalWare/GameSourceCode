@@ -2,6 +2,7 @@ package character.enemy.originalForest;
 
 import character.Enemy;
 import character.MainRole;
+import utils.buffs.limitBuffs.Bleeding;
 
 public class Wolfman extends Enemy {
     //TODO 固化HP和src等属性
@@ -9,20 +10,30 @@ public class Wolfman extends Enemy {
         super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]
                 {
-                        "this enemy will deal 5 damages to you",
+                        "this enemy will deal %d damages to you",
                         "this enemy will gain some buff",
                 };
-        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
+    }
+
+    @Override
+    public void startTurn() {
+        super.startTurn();
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(5)),
+                hints[5],
+        };
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
     @Override
     protected void attack() {
-        this.target.getDamage((int) (5 * this.getMultiplyingDealDamage()));
-        //TODO 两层流血
+        this.target.getDamage(computeDamage(5));
+        this.target.getBuff(new Bleeding(target, 2));
     }
 
     @Override
-    protected void releaseDebuff(){
+    protected void releaseDebuff() {
     }
 
     @Override
@@ -41,7 +52,7 @@ public class Wolfman extends Enemy {
 
     @Override
     protected void releaseBuff() {
-        this.setStrength(this.getStrength()+2);
+        this.strength += 2;
     }
 
     @Override

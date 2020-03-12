@@ -2,6 +2,8 @@ package character.enemy.originalForest;
 
 import character.Enemy;
 import character.MainRole;
+import utils.buffs.limitBuffs.Stun;
+import utils.buffs.limitBuffs.Weak;
 
 public class EliteSlime extends Enemy {
     //TODO 固化HP和src等属性
@@ -11,10 +13,20 @@ public class EliteSlime extends Enemy {
                 {
                         "this enemy will deal 20 damages to you",
                         "this enemy will inflict debuffs on you",
-                        "this enemy will inflict strong curses on you",
-                        "this enemy will deal x damages to you and gain some block",
+                        "this enemy will deal 5 damages to you and 10  block",
                 };
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
+    }
+
+    @Override
+    public void startTurn() {
+        newTurn();
+        super.startTurn();
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(20)),
+                hints[1],
+                String.format(hints[4], computeDamage(5), computeBlock(10)),
+        };
     }
 
 
@@ -34,9 +46,6 @@ public class EliteSlime extends Enemy {
                 releaseDebuff();
                 break;
             case 2:
-                releaseCurses();
-                break;
-            case 3:
                 getBlockAndAttack();
                 break;
             default:
@@ -46,18 +55,19 @@ public class EliteSlime extends Enemy {
 
     @Override
     protected void attack() {
-        this.target.getDamage((int) (20 * this.getMultiplyingDealDamage()));
-        //TODO 眩晕自己
+        this.target.getDamage(computeDamage(20));
+        this.getBuff(new Stun(this, 1));
     }
 
     @Override
     protected void releaseDebuff() {
-        //TODO 3层虚弱
+        this.target.getBuff(new Weak(this, 3));
     }
 
     @Override
     protected void releaseCurses() {
         //TODO 将1张玩家卡组品质最高的卡 消耗
+        // 无视设计时候改卡组的行为..实现有点麻烦,或者最后有时间可以做做
     }
 
     @Override
@@ -67,8 +77,8 @@ public class EliteSlime extends Enemy {
 
     @Override
     protected void getBlockAndAttack() {
-        this.setBlock(this.getBlock()+10);
-        this.target.getDamage((int) (5 * this.getMultiplyingDealDamage()));
+        this.gainBlock(10);
+        this.target.getDamage(computeDamage(5));
     }
 
     @Override

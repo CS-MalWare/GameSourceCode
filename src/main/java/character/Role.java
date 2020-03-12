@@ -26,8 +26,7 @@ public class Role {
 //    private boolean unableSkill;
 
 
-    // 以下三条可以用于逐渐增加难度使用
-
+    // 以下三条可以用于逐渐增加难度使用, 比如随着时间,敌人1,3增加,2减少
     private double multiplyingDealDamage; //造成伤害的倍率
     private double multiplyingGetDamage; //受到伤害的倍率
     private double multiplyingGetBlock; //从卡牌中获取格挡值的倍率
@@ -76,7 +75,16 @@ public class Role {
         return src;
     }
 
-    public void getDamage(int damage) {
+    public void startTurn() {
+        if (this.stun.getDuration() > 0) {
+            this.endTurn();
+        }
+    }
+
+    ;
+
+    // 表示收到伤害,并且将扣除hp返回,用于计算吸血
+    public int getDamage(int damage) {
         if (this.dodge.getTimes() > 0) {
             this.dodge.decTimes();
             if (this.block >= 1) {
@@ -86,7 +94,7 @@ public class Role {
                 if (this.bleeding.getDuration() > 0)
                     this.bleeding.triggerFunc();
             }
-            return;
+            return 1;
         }
 
         if (this.vulnerable.getDuration() > 0) {
@@ -99,15 +107,18 @@ public class Role {
         damage = (int) (damage * multiplyingDealDamage);
         if (this.block >= damage) {
             this.block -= damage;
+            return 0;
         } else {
             this.HP -= damage - block;
             if (this.bleeding.getDuration() > 0) {
                 this.bleeding.triggerFunc();
             }
+            return damage - block;
         }
     }
 
 
+    // 回合结束,计算各个buff效果,以及清空护甲
     public void endTurn() {
         this.sheild.triggerFunc();
         this.posion.triggerFunc();
@@ -119,13 +130,16 @@ public class Role {
         this.stun.triggerFunc();
         this.excite.triggerFunc();
         this.erode.triggerFunc();
+        this.block = 0;
 
     }
+
 
     public void bindApp(SimpleApplication app) {
         this.app = app;
     }
 
+    // 施加buff的接口
     public void getBuff(Buff... buffs) {
         for (Buff buff : buffs) {
 
@@ -169,9 +183,29 @@ public class Role {
 
             }
         }
-
-
     }
+
+    // 获取护甲, 记得与 computeBlock 一起搭配
+    public void gainBlock(int num) {
+        this.block += num;
+    }
+
+    // 计算经过buff后的,应该造成的伤害值
+    public int computeDamage(int num) {
+        num = num + strength;
+        if (this.weak.getDuration() > 0)
+            num = (int) (num * 0.75);
+        return (int) (num * this.multiplyingDealDamage);
+    }
+
+    // 计算经过buff后,应该获得护甲值
+    public int computeBlock(int num) {
+        num = num + dexterity;
+        if (this.erode.getDuration() > 0)
+            num = (int) (num * 0.66);
+        return (int) (num * this.multiplyingGetBlock);
+    }
+
 
     public int getTotalHP() {
         return totalHP;
@@ -201,9 +235,6 @@ public class Role {
         return block;
     }
 
-    public void gainBlock(int num) {
-        this.block += num;
-    }
 
     public void setBlock(int block) {
         this.block = block;

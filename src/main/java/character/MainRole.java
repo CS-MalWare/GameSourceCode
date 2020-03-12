@@ -43,14 +43,16 @@ public class MainRole extends Role {
 
 
     public void startBattle() {
-        this.draw = this.draw_;
+
         this.setStrength(this.strength_);
 
         this.attack = 0;
         this.setDexterity(this.dexterity_);
 
+        // 将卡组复制一份,因为战斗中可能会修改卡组
         Collections.copy(deck, deck_);
         Collections.shuffle(deck);
+        //将卡组加入抽牌堆
         app.getStateManager().getState(DecksState.class).addToDraw(this.deck);
 
 
@@ -62,6 +64,10 @@ public class MainRole extends Role {
 
     //每回合开始时候的抽牌
     public void startTurn() {
+        if (this.stun.getDuration() > 0) {
+            this.endTurn();
+            return;
+        }
         app.getStateManager().getState(HandCards.class).drawCards(this.draw);
         if (this.excite.getDuration() > 0) {
             app.getStateManager().getState(HandCards.class).drawCards(1);

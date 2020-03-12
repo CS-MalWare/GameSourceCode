@@ -2,6 +2,7 @@ package character.enemy.originalForest;
 
 import character.Enemy;
 import character.MainRole;
+import utils.buffs.limitBuffs.Weak;
 
 class Slime extends Enemy {
     //TODO 固化HP和src等属性
@@ -9,30 +10,46 @@ class Slime extends Enemy {
         super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]
                 {
-                        "this enemy will deal 5 damages to you",
+                        "this enemy will deal 5 damages to you", //5
                         "this enemy will inflict debuffs on you",
-                        "this enemy will gain some block",
+                        "this enemy will gain 5 block", //5
                 };
-        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
+    }
+
+
+    @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(5)),
+                hints[1],
+                String.format(hints[3], computeBlock(5)),
+        };
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
     @Override
     protected void attack() {
-        this.target.getDamage((int) (5 * this.getMultiplyingDealDamage()));
+        this.target.getDamage(computeDamage(5));
     }
 
     @Override
-    protected void releaseDebuff(){
-        //TODO 等待buff类做完 1层虚弱
+    protected void releaseDebuff() {
+        this.target.getBuff(new Weak(target, 1));
     }
 
     @Override
     protected void releaseCurses() {
 
     }
+
     @Override
-    protected void getBlocks(){
-        this.setBlock(this.getBlock()+5);
+    protected void getBlocks() {
+        this.gainBlock(computeBlock(5));
     }
 
     @Override
@@ -52,8 +69,8 @@ class Slime extends Enemy {
 
     //敌人行动
     @Override
-    public void enemyAction(){
-        switch (this.nextActionIndex){
+    public void enemyAction() {
+        switch (this.nextActionIndex) {
             case 0:
                 attack();
                 break;
