@@ -6,8 +6,8 @@ import utils.buffs.BuffFunction;
 import utils.buffs.LimitBuff;
 
 public class Bleeding extends LimitBuff implements BuffFunction {
-    public Bleeding(String name, String description, Picture buffPicture, Role role, int duration) {
-        super(name, description, buffPicture, role, duration);
+    public Bleeding(Role role, int duration) {
+        super("bleeding", "get x damage when attacked", new Picture(), role, duration);
     }
 
     @Override

@@ -6,8 +6,8 @@ import utils.buffs.BuffFunction;
 import utils.buffs.ForeverBuff;
 
 public class Dodge extends ForeverBuff implements BuffFunction {
-    public Dodge(String name, String description, Picture buffPicture, Role role, int times) {
-        super(name, description, buffPicture, role, times);
+    public Dodge(Role role, int times) {
+        super("dodge", "avoid one attack from enemy", new Picture(), role, times);
         this.getFunc();
     }
 

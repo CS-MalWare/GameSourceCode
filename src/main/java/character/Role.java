@@ -1,7 +1,6 @@
 package character;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.ui.Picture;
 import utils.buffs.Buff;
 import utils.buffs.foreverBuffs.Artifact;
 import utils.buffs.foreverBuffs.Dodge;
@@ -25,23 +24,28 @@ public class Role {
 
 //    private boolean unableAttack;
 //    private boolean unableSkill;
-//    private double multiplyingDealDamage; //造成伤害的倍率
-//    private double multiplyingGetDamage; //受到伤害的倍率
-//    private double multiplyingGetBlock; //从卡牌中获取格挡值的倍率
 
-    protected Vulnerable vulnerable = new Vulnerable("vulnerable", "increase the damage recieved by 50%", new Picture(), this, 0);
-    protected Weak weak = new Weak("weak", "decrease the damage dealt by 50%", new Picture(), this, 0);
-    protected Stun stun = new Stun("stun", "skip this turn", new Picture(), this, 0);
-    protected Slience slience = new Slience("slience", "unable to use skill card", new Picture(), this, 0);
-    protected Sheild sheild = new Sheild("sheild", "get x blocks at the end of turn", new Picture(), this, 0);
-    protected Posion posion = new Posion("posion", "get x damage at the end of turn", new Picture(), this, 0);
-    protected Intangible intangible = new Intangible("intangible", "reduce the damage received by 50%", new Picture(), this, 0);
-    protected Excite excite = new Excite("excite", "draw 1 card at the start of turn", new Picture(), this, 0);
-    protected Erode erode = new Erode("erode", "reduce the block get from cards by 1/3", new Picture(), this, 0);
-    protected Disarm disarm = new Disarm("disarm", "unable to use attack card", new Picture(), this, 0);
-    protected Bleeding bleeding = new Bleeding("bleeding", "get x damage when attacked", new Picture(), this, 0);
-    protected Artifact artifact = new Artifact("artifact", "become immune to debuffs", new Picture(), this, 0);
-    protected Dodge dodge = new Dodge("dodge", "avoid one attack from enemy", new Picture(), this, 0);
+
+    // 以下三条可以用于逐渐增加难度使用
+
+    private double multiplyingDealDamage; //造成伤害的倍率
+    private double multiplyingGetDamage; //受到伤害的倍率
+    private double multiplyingGetBlock; //从卡牌中获取格挡值的倍率
+
+
+    protected Vulnerable vulnerable;
+    protected Weak weak;
+    protected Stun stun;
+    protected Silence silence;
+    protected Sheild sheild;
+    protected Posion posion;
+    protected Intangible intangible;
+    protected Excite excite;
+    protected Erode erode;
+    protected Disarm disarm;
+    protected Bleeding bleeding;
+    protected Artifact artifact;
+    protected Dodge dodge;
 
 
     public Role(int HP, String src, ROLE role) {
@@ -49,6 +53,20 @@ public class Role {
         this.HP = HP;
         this.src = src;
         this.role = role;
+
+        Vulnerable vulnerable = new Vulnerable(this, 0);
+        Weak weak = new Weak(this, 0);
+        Stun stun = new Stun(this, 0);
+        Silence silence = new Silence(this, 0);
+        Sheild sheild = new Sheild(this, 0);
+        Posion posion = new Posion(this, 0);
+        Intangible intangible = new Intangible(this, 0);
+        Excite excite = new Excite(this, 0);
+        Erode erode = new Erode(this, 0);
+        Disarm disarm = new Disarm(this, 0);
+        Bleeding bleeding = new Bleeding(this, 0);
+        Artifact artifact = new Artifact(this, 0);
+        Dodge dodge = new Dodge(this, 0);
 //        this.multiplyingDealDamage = 1;
 //        this.multiplyingGetDamage = 1;
 //        this.multiplyingGetBlock = 1;
@@ -78,6 +96,7 @@ public class Role {
         if (this.intangible.getDuration() > 0) {
             damage = (int) (damage * 0.5);
         }
+        damage = (int) (damage * multiplyingDealDamage);
         if (this.block >= damage) {
             this.block -= damage;
         } else {
@@ -96,7 +115,7 @@ public class Role {
         this.vulnerable.triggerFunc();
         this.intangible.triggerFunc();
         this.disarm.triggerFunc();
-        this.slience.triggerFunc();
+        this.silence.triggerFunc();
         this.stun.triggerFunc();
         this.excite.triggerFunc();
         this.erode.triggerFunc();
@@ -107,46 +126,50 @@ public class Role {
         this.app = app;
     }
 
-    public void getBuff(Buff buff) {
-        if (buff instanceof Sheild) {
-            this.sheild.incDuration(((Sheild) buff).getDuration());
-            return;
-        } else if (buff instanceof Excite) {
-            this.excite.incDuration(((Excite) buff).getDuration());
-            return;
-        } else if (buff instanceof Artifact) {
-            this.artifact.incTimes(((Artifact) buff).getTimes());
-            return;
-        } else if (buff instanceof Dodge) {
-            this.dodge.incTimes(((Dodge) buff).getTimes());
-            return;
-        }
+    public void getBuff(Buff... buffs) {
+        for (Buff buff : buffs) {
 
-
-        if (this.artifact.getTimes() > 0) {
-            this.artifact.triggerFunc();
-        } else {
-            if (buff instanceof Vulnerable) {
-                this.vulnerable.incDuration(((Vulnerable) buff).getDuration());
-            } else if (buff instanceof Weak) {
-                this.weak.incDuration(((Weak) buff).getDuration());
-            } else if (buff instanceof Stun) {
-                this.stun.incDuration(((Stun) buff).getDuration());
-            } else if (buff instanceof Slience) {
-                this.slience.incDuration(((Slience) buff).getDuration());
-            } else if (buff instanceof Posion) {
-                this.posion.incDuration(((Posion) buff).getDuration());
-            } else if (buff instanceof Intangible) {
-                this.intangible.incDuration(((Intangible) buff).getDuration());
-            } else if (buff instanceof Erode) {
-                this.erode.incDuration(((Erode) buff).getDuration());
-            } else if (buff instanceof Disarm) {
-                this.disarm.incDuration(((Disarm) buff).getDuration());
-            } else if (buff instanceof Bleeding) {
-                this.bleeding.incDuration(((Bleeding) buff).getDuration());
+            if (buff instanceof Sheild) {
+                this.sheild.incDuration(((Sheild) buff).getDuration());
+                return;
+            } else if (buff instanceof Excite) {
+                this.excite.incDuration(((Excite) buff).getDuration());
+                return;
+            } else if (buff instanceof Artifact) {
+                this.artifact.incTimes(((Artifact) buff).getTimes());
+                return;
+            } else if (buff instanceof Dodge) {
+                this.dodge.incTimes(((Dodge) buff).getTimes());
+                return;
             }
 
+
+            if (this.artifact.getTimes() > 0) {
+                this.artifact.triggerFunc();
+            } else {
+                if (buff instanceof Vulnerable) {
+                    this.vulnerable.incDuration(((Vulnerable) buff).getDuration());
+                } else if (buff instanceof Weak) {
+                    this.weak.incDuration(((Weak) buff).getDuration());
+                } else if (buff instanceof Stun) {
+                    this.stun.incDuration(((Stun) buff).getDuration());
+                } else if (buff instanceof Silence) {
+                    this.silence.incDuration(((Silence) buff).getDuration());
+                } else if (buff instanceof Posion) {
+                    this.posion.incDuration(((Posion) buff).getDuration());
+                } else if (buff instanceof Intangible) {
+                    this.intangible.incDuration(((Intangible) buff).getDuration());
+                } else if (buff instanceof Erode) {
+                    this.erode.incDuration(((Erode) buff).getDuration());
+                } else if (buff instanceof Disarm) {
+                    this.disarm.incDuration(((Disarm) buff).getDuration());
+                } else if (buff instanceof Bleeding) {
+                    this.bleeding.incDuration(((Bleeding) buff).getDuration());
+                }
+
+            }
         }
+
 
     }
 
@@ -203,29 +226,29 @@ public class Role {
     }
 
 
-//    public double getMultiplyingDealDamage() {
-//        return multiplyingDealDamage;
-//    }
-//
-//    public void setMultiplyingDealDamage(double multiplyingDealDamage) {
-//        this.multiplyingDealDamage = multiplyingDealDamage;
-//    }
-//
-//    public double getMultiplyingGetDamage() {
-//        return multiplyingGetDamage;
-//    }
-//
-//    public void setMultiplyingGetDamage(double multiplyingGetDamage) {
-//        this.multiplyingGetDamage = multiplyingGetDamage;
-//    }
-//
-//    public double getMultiplyingGetBlock() {
-//        return multiplyingGetBlock;
-//    }
-//
-//    public void setMultiplyingGetBlock(double multiplyingGetBlock) {
-//        this.multiplyingGetBlock = multiplyingGetBlock;
-//    }
+    public double getMultiplyingDealDamage() {
+        return multiplyingDealDamage;
+    }
+
+    public void setMultiplyingDealDamage(double multiplyingDealDamage) {
+        this.multiplyingDealDamage = multiplyingDealDamage;
+    }
+
+    public double getMultiplyingGetDamage() {
+        return multiplyingGetDamage;
+    }
+
+    public void setMultiplyingGetDamage(double multiplyingGetDamage) {
+        this.multiplyingGetDamage = multiplyingGetDamage;
+    }
+
+    public double getMultiplyingGetBlock() {
+        return multiplyingGetBlock;
+    }
+
+    public void setMultiplyingGetBlock(double multiplyingGetBlock) {
+        this.multiplyingGetBlock = multiplyingGetBlock;
+    }
 
     public void getTrueDamage(int damage) {
         this.HP -= damage;

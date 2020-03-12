@@ -9,8 +9,8 @@ import utils.buffs.LimitBuff;
 public class Excite extends LimitBuff implements BuffFunction {
     private int currentDraw;
 
-    public Excite(String name, String description, Picture buffPicture, Role role, int duration) {
-        super(name, description, buffPicture, role, duration);
+    public Excite(Role role, int duration) {
+        super("excite", "draw 1 card at the start of turn", new Picture(), role, duration);
 //        this.currentDraw = ((MainRole) role).getDraw();
     }
 

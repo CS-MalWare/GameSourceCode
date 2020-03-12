@@ -7,8 +7,9 @@ public class EliteWolfman extends Enemy {
     //TODO 固化HP和src等属性
     private boolean canSummon = true;//是否能召唤狼人
     private boolean isWeak = false;//用于判断是否能够攻击吸血
-    public EliteWolfman(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, boolean unableAttack, boolean unableSkill) {
-        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, unableAttack, unableSkill);
+
+    public EliteWolfman(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
+        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]
                 {
                         "this enemy will deal 3*2 damages to you",
@@ -58,7 +59,7 @@ public class EliteWolfman extends Enemy {
 
     @Override
     protected void releaseDebuff(){
-        this.target.setShield(this.target.getShield()-2);
+//        this.target.setShield(this.target.getShield()-2);
     }
 
     @Override

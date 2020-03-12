@@ -6,8 +6,8 @@ import utils.buffs.BuffFunction;
 import utils.buffs.LimitBuff;
 
 public class Intangible extends LimitBuff implements BuffFunction {
-    public Intangible(String name, String description, Picture buffPicture, Role role, int duration) {
-        super(name, description, buffPicture, role, duration);
+    public Intangible(Role role, int duration) {
+        super("intangible", "reduce the damage received by 50%", new Picture(), role, duration);
     }
 
     @Override

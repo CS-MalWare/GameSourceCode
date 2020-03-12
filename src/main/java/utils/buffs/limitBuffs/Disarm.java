@@ -6,8 +6,8 @@ import utils.buffs.BuffFunction;
 import utils.buffs.LimitBuff;
 
 public class Disarm extends LimitBuff implements BuffFunction {
-    public Disarm(String name, String description, Picture buffPicture, Role role, int duration) {
-        super(name, description, buffPicture, role, duration);
+    public Disarm(Role role, int duration) {
+        super("disarm", "unable to use attack card", new Picture(), role, duration);
     }
 
     @Override

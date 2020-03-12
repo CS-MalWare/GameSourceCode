@@ -5,10 +5,10 @@ import com.jme3.ui.Picture;
 import utils.buffs.BuffFunction;
 import utils.buffs.LimitBuff;
 
-public class Slience extends LimitBuff implements BuffFunction {
+public class Silence extends LimitBuff implements BuffFunction {
 
-    public Slience(String name, String description, Picture buffPicture, Role role, int duration) {
-        super(name, description, buffPicture, role, duration);
+    public Silence(Role role, int duration) {
+        super("slience", "unable to use skill card", new Picture(), role, duration);
     }
 
     @Override

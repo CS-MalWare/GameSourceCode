@@ -7,8 +7,8 @@ import utils.buffs.LimitBuff;
 
 public class Stun extends LimitBuff implements BuffFunction {
 
-    public Stun(String name, String description, Picture buffPicture, Role role, int duration) {
-        super(name, description, buffPicture, role, duration);
+    public Stun(Role role, int duration) {
+        super("stun", "skip this turn", new Picture(), role, duration);
     }
 
     @Override

@@ -5,18 +5,19 @@ import character.MainRole;
 
 public class OneEyedWolfman extends Enemy {
     //TODO 固化HP和src等属性
-    public OneEyedWolfman(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, boolean unableAttack, boolean unableSkill) {
-        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, unableAttack, unableSkill);
+    public OneEyedWolfman(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
+        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]
                 {
                         "this enemy will deal 5 damages to you",
                         "this enemy will gain some buff",
                 };
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length+0.5);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
     }
+
     @Override
     protected void attack() {
-        int damage = (int)(7 * this.getMultiplyingDealDamage());
+        int damage = (int) (7 * this.getMultiplyingDealDamage());
         this.target.getDamage(damage);
 
         //回复50%伤害值的血量，需要修改，因为伤害值计算还没有准确

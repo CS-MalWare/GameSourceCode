@@ -6,8 +6,8 @@ import utils.buffs.BuffFunction;
 import utils.buffs.LimitBuff;
 
 public class Erode extends LimitBuff implements BuffFunction {
-    public Erode(String name, String description, Picture buffPicture, Role role, int duration) {
-        super(name, description, buffPicture, role, duration);
+    public Erode(Role role, int duration) {
+        super("erode", "reduce the block get from cards by 1/3", new Picture(), role, duration);
     }
 
     @Override

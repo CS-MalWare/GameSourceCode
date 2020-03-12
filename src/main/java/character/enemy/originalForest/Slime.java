@@ -5,16 +5,17 @@ import character.MainRole;
 
 class Slime extends Enemy {
     //TODO 固化HP和src等属性
-    public Slime(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, boolean unableAttack, boolean unableSkill) {
-        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, unableAttack, unableSkill);
+    public Slime(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
+        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]
                 {
                         "this enemy will deal 5 damages to you",
                         "this enemy will inflict debuffs on you",
                         "this enemy will gain some block",
                 };
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length+0.5);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
     }
+
     @Override
     protected void attack() {
         this.target.getDamage((int) (5 * this.getMultiplyingDealDamage()));

@@ -2,6 +2,7 @@ package utils.buffs;
 
 import character.Role;
 import com.jme3.ui.Picture;
+import utils.buffs.foreverBuffs.Artifact;
 
 public class Buff {
     private String name;//buff的名称
@@ -9,7 +10,17 @@ public class Buff {
     private Picture buffPicture;//buff的图片
     private Role role;//buff绑定的人
 
-    public Buff(String name, String description,Picture buffPicture, Role role) {
+    public static Buff createBuff(String name, int layer, Role role) {
+        switch (name) {
+            case "artifact":
+                return new Artifact(role, layer);
+            default:
+                return null;
+        }
+    }
+
+
+    public Buff(String name, String description, Picture buffPicture, Role role) {
         this.name = name;
         this.description = description;
         this.buffPicture = buffPicture;

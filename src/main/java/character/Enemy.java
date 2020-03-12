@@ -1,6 +1,12 @@
 package character;
 
-public abstract class Enemy extends Role{
+import utils.buffs.foreverBuffs.Artifact;
+import utils.buffs.foreverBuffs.Dodge;
+import utils.buffs.limitBuffs.Disarm;
+import utils.buffs.limitBuffs.Sheild;
+import utils.buffs.limitBuffs.Silence;
+
+public abstract class Enemy extends Role {
     protected MainRole target;//攻击目标
     protected String[] nextActionSet;
     /*
@@ -17,26 +23,34 @@ public abstract class Enemy extends Role{
     * */
     protected int nextActionIndex;//下回合行动在行动集合🀄️的索引
     protected String specialStatus;//一些特殊状态
-    public Enemy(int HP, String src,MainRole target,int block,int strength,int dexterity, int dodge,int artifact, int shield,boolean unableAttack,boolean unableSkill) {
+
+    public Enemy(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, ROLE.ENEMY);
         this.target = target;
         this.setBlock(block);
         this.setStrength(strength);
         this.setDexterity(dexterity);
-        this.setDodge(dodge);
-        this.setArtifact(artifact);
-        this.setShield(shield);
-        this.setUnableAttack(unableAttack);//有些敌人一开始处于无法攻击的状态
-        this.setUnableSkill(unableSkill);
+
+        // 更新buff状态
+        this.getBuff(new Dodge(this, dodge), new Artifact(this, artifact),
+                new Sheild(this, shield), new Disarm(this, disarm), new Silence(this, silence));
+
+
     }
 
-    public String getNextActionDescription(){
+
+    public Enemy(int HP, String src, MainRole target) {
+        super(HP, src, ROLE.ENEMY);
+        this.target = target;
+    }
+
+    public String getNextActionDescription() {
         return this.nextActionSet[this.nextActionIndex];
     }
 
     //新回合，重随下回合随机事件
-    public void newTurn(){
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length+0.5);
+    public void newTurn() {
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
     }
 
     //敌人行动

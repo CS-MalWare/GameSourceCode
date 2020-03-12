@@ -8,8 +8,8 @@ import utils.buffs.LimitBuff;
 public class Posion extends LimitBuff implements BuffFunction {
 
 
-    public Posion(String name, String description, Picture buffPicture, Role role, int duration) {
-        super(name, description, buffPicture, role, duration);
+    public Posion(Role role, int duration) {
+        super("posion", "get x damage at the end of turn", new Picture(), role, duration);
     }
 
     @Override

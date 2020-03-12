@@ -6,10 +6,11 @@ import utils.buffs.BuffFunction;
 import utils.buffs.ForeverBuff;
 
 public class Artifact extends ForeverBuff implements BuffFunction {
-    public Artifact(String name, String description, Picture buffPicture, Role role, int times) {
-        super(name, description, buffPicture, role, times);
+    public Artifact(Role role, int times) {
+        super("artifact", "become immune to debuffs", new Picture(), role, times);
         this.getFunc();
     }
+
 
     @Override
     public String getDescription() {

@@ -7,8 +7,9 @@ public class KingWolfman extends Enemy {
     //TODO 固化HP和src等属性
     private boolean canSummon = true;//是否能召唤狼人
     private boolean canIncreaseStrength = true;//增加力量，全局只能使用一次，因此这里写一个布尔值限制只能用一次
-    public KingWolfman(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, boolean unableAttack, boolean unableSkill) {
-        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, unableAttack, unableSkill);
+
+    public KingWolfman(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
+        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]
                 {
                         "this enemy will deal 20 damages to you and gain some block",

@@ -5,15 +5,15 @@ import character.MainRole;
 
 public class RedSilme extends Enemy {
     //TODO 固化HP和src等属性
-    public RedSilme(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, boolean unableAttack, boolean unableSkill) {
-        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, unableAttack, unableSkill);
+    public RedSilme(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
+        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]
                 {
                         "this enemy will deal 9 damages to you",
                         "this enemy will inflict debuffs on you",
                         "this enemy will deal x damages to you and gain some block",
                 };
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length+0.5);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
     }
 
 

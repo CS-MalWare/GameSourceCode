@@ -5,8 +5,8 @@ import character.MainRole;
 
 public class EliteSlime extends Enemy {
     //TODO 固化HP和src等属性
-    public EliteSlime(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, boolean unableAttack, boolean unableSkill) {
-        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, unableAttack, unableSkill);
+    public EliteSlime(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
+        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]
                 {
                         "this enemy will deal 20 damages to you",
@@ -14,7 +14,7 @@ public class EliteSlime extends Enemy {
                         "this enemy will inflict strong curses on you",
                         "this enemy will deal x damages to you and gain some block",
                 };
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length+0.5);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
     }
 
 

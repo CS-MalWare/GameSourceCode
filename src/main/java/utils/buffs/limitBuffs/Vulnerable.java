@@ -6,8 +6,8 @@ import utils.buffs.BuffFunction;
 import utils.buffs.LimitBuff;
 
 public class Vulnerable extends LimitBuff implements BuffFunction {
-    public Vulnerable(String name, String description, Picture buffPicture, Role role, int duration) {
-        super(name, description, buffPicture, role, duration);
+    public Vulnerable(Role role, int duration) {
+        super("vulnerable", "increase the damage recieved by 50%", new Picture(), role, duration);
     }
 
     @Override
