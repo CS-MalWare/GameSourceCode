@@ -21,7 +21,7 @@ public class KingWolfman extends Enemy {
                         "???",//这个是召唤狼人
                 };
 
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length+0.5);
+        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
     }
 
 
