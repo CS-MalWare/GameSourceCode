@@ -343,7 +343,9 @@ public class DecksState extends BaseAppState {
     }
 
     class MyInputListener implements RawInputListener {
-
+        private Boolean isDrawDeckShow = false;
+        private Boolean isDropDeckShow = false;
+        private Boolean isExhuastDeckShow = false;
 
         @Override
         public void beginInput() {
@@ -379,19 +381,37 @@ public class DecksState extends BaseAppState {
                     System.out.println(res.getName());
                     switch (res.getName()) {
                         case "抽牌堆":
-                            showCards(drawDeck);
+                            if(!isDrawDeckShow)showCards(drawDeck);
+                            else hideCards();
+                            isDrawDeckShow = !isDrawDeckShow;
+                            isDropDeckShow = false;
+                            isExhuastDeckShow = false;
                             break;
                         case "弃牌堆":
-                            showCards(dropDeck);
+                            if(!isDropDeckShow)showCards(dropDeck);
+                            else hideCards();
+                            isDropDeckShow = !isDropDeckShow;
+                            isDrawDeckShow = false;
+                            isExhuastDeckShow = false;
                             break;
                         case "消耗堆":
-                            showCards(exhaustDeck);
+                            if(!isExhuastDeckShow)showCards(exhaustDeck);
+                            else hideCards();
+                            isExhuastDeckShow = !isExhuastDeckShow;
+                            isDrawDeckShow = false;
+                            isDropDeckShow = false;
                             break;
                         default:
+                            isExhuastDeckShow = false;
+                            isDrawDeckShow = false;
+                            isDropDeckShow = false;
                             hideCards();
                     }
                 } else {
 //                    System.out.println("nothing");
+                    isExhuastDeckShow = false;
+                    isDrawDeckShow = false;
+                    isDropDeckShow = false;
                     hideCards();
                 }
             }
