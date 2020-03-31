@@ -5,8 +5,8 @@ import character.MainRole;
 
 public class StrongRobot extends Enemy {
     //TODO 固化HP和SRC等属性
-    public StrongRobot(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
-        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
+    public StrongRobot(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
+        super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]
                 {
                         "this enemy will deal 20 damages to you",
@@ -14,7 +14,7 @@ public class StrongRobot extends Enemy {
                         "this enemy will gain some block",
                         "this enemy will inflict strong curses on you"
                 };
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
     @Override

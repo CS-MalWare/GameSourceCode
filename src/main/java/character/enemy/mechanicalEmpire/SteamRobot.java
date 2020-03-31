@@ -5,8 +5,8 @@ import character.MainRole;
 
 public class SteamRobot extends Enemy {
     //TODO 固化HP和SRC等属性
-    public SteamRobot(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
-        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
+    public SteamRobot(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
+        super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         //TODO 永久 10层 护盾 玩家每打出一张能力牌，自己获得一层 荆棘 一点 灵巧 每四个回合，随机使玩家一件装备在本场战斗中无效
         this.nextActionSet = new String[]
                 {

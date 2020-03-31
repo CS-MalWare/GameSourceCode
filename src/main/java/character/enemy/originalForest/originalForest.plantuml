@@ -1,0 +1,170 @@
+@startuml
+
+title __ORIGINALFOREST's Class Diagram__\n
+
+
+        class character.enemy.originalForest.BlackSlime {
+            + BlackSlime()
+            + enemyAction()
+            + startTurn()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+  
+  }
+  
+
+
+        class character.enemy.originalForest.EliteSlime {
+            + EliteSlime()
+            + enemyAction()
+            + newTurn()
+            + startTurn()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+  
+  }
+  
+
+
+        class character.enemy.originalForest.EliteWolfman {
+            - canSummon : boolean
+            - isWake : boolean
+            + EliteWolfman()
+            + enemyAction()
+            + newTurn()
+            + startTurn()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+            - $()
+  
+  }
+  
+
+
+        class character.enemy.originalForest.KingSlime {
+            + KingSlime()
+            + enemyAction()
+            + startTurn()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+            - split()
+  
+  }
+  
+
+
+        class character.enemy.originalForest.KingWolfman {
+            - canIncreaseStrength : boolean
+            - canSummon : boolean
+            + KingWolfman()
+            + enemyAction()
+            + newTurn()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+            - $()
+  
+  }
+  
+
+
+        class character.enemy.originalForest.OneEyedWolfman {
+            + OneEyedWolfman()
+            + enemyAction()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+  
+  }
+  
+
+
+        class character.enemy.originalForest.RedSilme {
+            + RedSilme()
+            + enemyAction()
+            + startTurn()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+  
+  }
+  
+
+
+        class character.enemy.originalForest.Slime {
+            + Slime()
+            + enemyAction()
+            + startTurn()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+  
+  }
+  
+
+
+        class character.enemy.originalForest.Wolfman {
+            + Wolfman()
+            + enemyAction()
+            + startTurn()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+  
+  }
+  
+
+  character.enemy.originalForest.BlackSlime -up-|> character.Enemy
+  character.enemy.originalForest.EliteSlime -up-|> character.Enemy
+  character.enemy.originalForest.EliteWolfman -up-|> character.Enemy
+  character.enemy.originalForest.KingSlime -up-|> character.Enemy
+  character.enemy.originalForest.KingWolfman -up-|> character.Enemy
+  character.enemy.originalForest.OneEyedWolfman -up-|> character.Enemy
+  character.enemy.originalForest.RedSilme -up-|> character.Enemy
+  character.enemy.originalForest.Slime -up-|> character.Enemy
+  character.enemy.originalForest.Wolfman -up-|> character.Enemy
+
+
+
+
+@enduml

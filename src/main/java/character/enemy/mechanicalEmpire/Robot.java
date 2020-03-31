@@ -5,15 +5,15 @@ import character.MainRole;
 
 public class Robot extends Enemy {
     //TODO 固化HP和SRC等属性
-    public Robot(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
-        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
+    public Robot(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
+        super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]
                 {
                         "this enemy will gain some buff",
                         "this enemy will deal 10 damages to you and gain 10 blocks",
                         "this enemy will inflict strong curses on you",
                 };
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
     @Override

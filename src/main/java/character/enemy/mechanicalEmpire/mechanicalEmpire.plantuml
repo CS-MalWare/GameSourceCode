@@ -1,0 +1,95 @@
+@startuml
+
+title __MECHANICALEMPIRE's Class Diagram__\n
+
+
+        class character.enemy.mechanicalEmpire.EliteRobot {
+            + EliteRobot()
+            + enemyAction()
+            + newTurn()
+            # $()
+            # attack()
+            # attack2()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+  
+  }
+  
+
+
+        class character.enemy.mechanicalEmpire.RampageRobot {
+            + RampageRobot()
+            + enemyAction()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+  
+  }
+  
+
+
+        class character.enemy.mechanicalEmpire.Robot {
+            + Robot()
+            + enemyAction()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+  
+  }
+  
+
+
+        class character.enemy.mechanicalEmpire.SteamRobot {
+            + SteamRobot()
+            + enemyAction()
+            # $()
+            # attack()
+            # attack2()
+            # attack3()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+  
+  }
+  
+
+
+        class character.enemy.mechanicalEmpire.StrongRobot {
+            + StrongRobot()
+            + enemyAction()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+  
+  }
+  
+
+  character.enemy.mechanicalEmpire.EliteRobot -up-|> character.Enemy
+  character.enemy.mechanicalEmpire.RampageRobot -up-|> character.Enemy
+  character.enemy.mechanicalEmpire.Robot -up-|> character.Enemy
+  character.enemy.mechanicalEmpire.SteamRobot -up-|> character.Enemy
+  character.enemy.mechanicalEmpire.StrongRobot -up-|> character.Enemy
+
+
+
+
+@enduml

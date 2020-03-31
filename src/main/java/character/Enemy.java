@@ -36,9 +36,9 @@ public abstract class Enemy extends Role {
     protected int nextActionIndex;//下回合行动在行动集合🀄️的索引
     protected String specialStatus;//一些特殊状态
 
-    public Enemy(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
+    public Enemy(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, ROLE.ENEMY);
-        this.target = target;
+        this.target = MainRole.getInstance();
         this.setBlock(block);
         this.setStrength(strength);
         this.setDexterity(dexterity);
@@ -53,7 +53,7 @@ public abstract class Enemy extends Role {
 
     public Enemy(int HP, String src, MainRole target) {
         super(HP, src, ROLE.ENEMY);
-        this.target = target;
+        this.target = MainRole.getInstance();
     }
 
     public String getNextActionDescription() {

@@ -1,0 +1,61 @@
+@startuml
+
+title __BUFFS's Class Diagram__\n
+
+
+        class utils.buffs.Buff {
+            - buffPicture : Picture
+            - description : String
+            - name : String
+            + Buff()
+            {static} + createBuff()
+            + getBuffPicture()
+            + getDescription()
+            + getFunc()
+            + getName()
+            + getRole()
+            + triggerFunc()
+  
+  }
+  
+
+
+        interface utils.buffs.BuffFunction {
+            {abstract} + getFunc()
+            {abstract} + triggerFunc()
+  
+  }
+  
+
+
+        class utils.buffs.ForeverBuff {
+            - times : int
+            + ForeverBuff()
+            + ForeverBuff()
+            + decTimes()
+            + getTimes()
+            + incTimes()
+  
+  }
+  
+
+
+        class utils.buffs.LimitBuff {
+            - duration : int
+            + LimitBuff()
+            + clearDuration()
+            + decDuration()
+            + getDuration()
+            + incDuration()
+  
+  }
+  
+
+  utils.buffs.Buff o-- character.Role : role
+  utils.buffs.ForeverBuff -up-|> utils.buffs.Buff
+  utils.buffs.LimitBuff -up-|> utils.buffs.Buff
+
+
+
+
+@enduml

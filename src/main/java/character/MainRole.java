@@ -1,22 +1,25 @@
 package character;
 
 import appState.DecksState;
-import appState.HandCards;
+import appState.HandCardsState;
 import card.Card;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Collections;
 
 
 public class MainRole extends Role {
+    private static MainRole instance = null;
+
+
     //  原本固有的属性
     private int strength_;//力量，提升基础伤害
     private int dexterity_;//灵巧，提升基础获得护甲值
 
     private int draw_;//抽牌数量
 
+    private boolean keepCard = false;
 
     //玩家的独特属性
     private int MP;
@@ -27,6 +30,14 @@ public class MainRole extends Role {
 
     public ArrayList<Card> deck_;// 原卡组（有序排列）
     public ArrayList<Card> deck;// 战斗中卡组（有序排列）
+
+
+    public static MainRole getInstance() {
+        if (instance == null) {
+            instance = new MainRole(80, "这里写模型路径");
+        }
+        return instance;
+    }
 
 
     public MainRole(int HP, String src) {
@@ -68,9 +79,10 @@ public class MainRole extends Role {
             this.endTurn();
             return;
         }
-        app.getStateManager().getState(HandCards.class).drawCards(this.draw);
+        this.keepCard = false;
+        app.getStateManager().getState(HandCardsState.class).drawCards(this.draw);
         if (this.excite.getDuration() > 0) {
-            app.getStateManager().getState(HandCards.class).drawCards(1);
+            app.getStateManager().getState(HandCardsState.class).drawCards(1);
         }
     }
 
@@ -78,11 +90,22 @@ public class MainRole extends Role {
     @Override
     public void endTurn() {
         super.endTurn();
+        if (this.keepCard) {
+            return;
+        } else {
+            DecksState deckState = app.getStateManager().getState(DecksState.class);
+            HandCardsState handCardsState = app.getStateManager().getState(HandCardsState.class);
+            deckState.addToDraw(handCardsState.getHandCards());
+        }
+
     }
 
     public void drawCards(int num) {
-        app.getStateManager().getState(HandCards.class).drawCards(num);
+        app.getStateManager().getState(HandCardsState.class).drawCards(num);
     }
 
 
+    public void setKeepCard(boolean keepCard) {
+        this.keepCard = keepCard;
+    }
 }

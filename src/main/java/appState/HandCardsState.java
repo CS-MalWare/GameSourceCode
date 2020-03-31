@@ -23,7 +23,7 @@ import java.util.List;
 
 import control.CardMotionControl;
 
-public class HandCards extends BaseAppState {
+public class HandCardsState extends BaseAppState {
     private SimpleApplication app;
     //    private double height = app.getCamera().getHeight();
 //    private double width = app.getCamera().getWidth();
@@ -48,7 +48,7 @@ public class HandCards extends BaseAppState {
 
     private double[][][] positions = new double[20][20][3]; //存放每张牌的位置
 
-    private List<Card> handCards;
+    private ArrayList<Card> handCards;
 
     private MyRawInputListener cardListener;
 
@@ -88,6 +88,10 @@ public class HandCards extends BaseAppState {
             }
         }
         return result;
+    }
+
+    public ArrayList<Card> getHandCards() {
+        return handCards;
     }
 
     // 初始化卡片

@@ -1,0 +1,32 @@
+@startuml
+
+title __CONTROL's Class Diagram__\n
+
+
+      class control.CardMotionControl {
+          - curAngle : float
+          - loc : Vector2f
+          - rotateDir : float
+          - rotateSpeed : float
+          - speedFactor : float
+          - step : Vector2f
+          - tarAngle : float
+          - target : Vector2f
+          - walkDir : Vector2f
+          - walkSpeed : float
+          - z : float
+          + CardMotionControl()
+          + CardMotionControl()
+          + setSpatial()
+          + setTarget()
+          + setWalkSpeed()
+          # controlRender()
+          # controlUpdate()
+      }
+
+  
+
+  control.CardMotionControl -up-|> com.jme3.scene.control.AbstractControl
+
+
+@enduml

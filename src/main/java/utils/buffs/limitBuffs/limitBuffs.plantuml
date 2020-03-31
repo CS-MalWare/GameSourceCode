@@ -1,0 +1,130 @@
+@startuml
+
+title __LIMITBUFFS's Class Diagram__\n
+
+
+          class utils.buffs.limitBuffs.Bleeding {
+              + Bleeding()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+
+          class utils.buffs.limitBuffs.Disarm {
+              + Disarm()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+
+          class utils.buffs.limitBuffs.Erode {
+              + Erode()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+
+          class utils.buffs.limitBuffs.Excite {
+              - currentDraw : int
+              + Excite()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+
+          class utils.buffs.limitBuffs.Intangible {
+              + Intangible()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+
+          class utils.buffs.limitBuffs.Posion {
+              + Posion()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+
+          class utils.buffs.limitBuffs.Sheild {
+              + Sheild()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+
+          class utils.buffs.limitBuffs.Silence {
+              + Silence()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+
+          class utils.buffs.limitBuffs.Stun {
+              + Stun()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+
+          class utils.buffs.limitBuffs.Vulnerable {
+              + Vulnerable()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+
+          class utils.buffs.limitBuffs.Weak {
+              + Weak()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+  utils.buffs.limitBuffs.Bleeding .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Bleeding -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Disarm .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Disarm -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Erode .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Erode -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Excite .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Excite -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Intangible .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Intangible -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Posion .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Posion -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Sheild .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Sheild -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Silence .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Silence -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Stun .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Stun -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Vulnerable .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Vulnerable -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Weak .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Weak -up-|> utils.buffs.LimitBuff
+
+
+
+@enduml

@@ -1,0 +1,896 @@
+@startuml
+
+title __APPSTATE's Class Diagram__\n
+
+
+      class appState.DecksState {
+          {static} + BOLD : int
+          {static} + CLICK : String
+          {static} + FONT_SIZE : int
+          {static} + ITALIC : int
+          {static} + PLAIN : int
+          ~ font : TrueTypeFont
+          - app : SimpleApplication
+          - drawDeck : ArrayList<Card>
+          - drawDeckPic : Picture
+          - drawNum : int
+          - drawText : Geometry
+          - dropDeck : ArrayList<Card>
+          - dropDeckPic : Picture
+          - dropNum : int
+          - dropText : Geometry
+          - exhaustDeck : ArrayList<Card>
+          - exhaustDeckPic : Picture
+          - exhaustNum : int
+          - exhaustText : Geometry
+          - positionX : int[]
+          - positionY : int[]
+          - rootNode : Node
+          - showDeck : ArrayList<Card>
+          + addToDraw()
+          + addToDraw()
+          + addToDrop()
+          + addToExhaust()
+          + drawCard()
+          + getDrawNum()
+          + getDropNum()
+          + getExhaustNum()
+          + hideCards()
+          + showCards()
+          + updateNum()
+          # cleanup()
+          # initialize()
+          # onDisable()
+          # onEnable()
+          - getGuiCollision()
+          - updateDrawNum()
+          - updateDropNum()
+          - updateExhaustNum()
+  
+  }
+  
+
+
+      class appState.DecksState.MyInputListener {
+          - isDrawDeckShow : Boolean
+          - isDropDeckShow : Boolean
+          - isExhuastDeckShow : Boolean
+          + beginInput()
+          + endInput()
+          + onJoyAxisEvent()
+          + onJoyButtonEvent()
+          + onKeyEvent()
+          + onMouseButtonEvent()
+          + onMouseMotionEvent()
+          + onTouchEvent()
+  
+  }
+  
+
+
+      class appState.EnemyState {
+          - app : SimpleApplication
+          - chosen : Geometry
+          - enemies : List<Role>
+          - myRawInputListener : RawInputListener
+          - rootNode : Node
+          + getChosen()
+          # cleanup()
+          # initialize()
+          # onDisable()
+          # onEnable()
+          - getRootCollision()
+  
+  }
+  
+
+
+      class appState.EnemyState.MyRawInputListener {
+          + beginInput()
+          + endInput()
+          + onJoyAxisEvent()
+          + onJoyButtonEvent()
+          + onKeyEvent()
+          + onMouseButtonEvent()
+          + onMouseMotionEvent()
+          + onTouchEvent()
+  
+  }
+  
+
+
+      class appState.HandCardsState {
+          + cardHeight : double
+          + cardWidth : double
+          - app : SimpleApplication
+          - arrow : Geometry
+          - handCards : List<Card>
+          - height : double
+          - horizontalDiff : double
+          - positions : double[][][]
+          - ratio : float
+          - rootNode : Node
+          - rotateRate_left : float
+          - rotateRate_right : float
+          - spline : Spline
+          - startPoint : Vector3f
+          - top : double
+          - verticalDiff_left : double
+          - verticalDiff_right : double
+          - width : double
+          + addToHand()
+          + drawCards()
+          {static} + main()
+          # cleanup()
+          # computePosition()
+          # createArrow()
+          # initialize()
+          # moveArrow()
+          # newCard()
+          # onDisable()
+          # onEnable()
+          - adjustAllCardsPosition()
+          - enlargeCard()
+          - getGuiCollision()
+          - getGuiCollision()
+          - putCardCenter()
+          - recoverCard()
+          - useCard()
+  
+  }
+  
+
+
+      class appState.HandCardsState.MyRawInputListener {
+          + beginInput()
+          + endInput()
+          + onJoyAxisEvent()
+          + onJoyButtonEvent()
+          + onKeyEvent()
+          + onMouseButtonEvent()
+          + onMouseMotionEvent()
+          + onTouchEvent()
+  
+  }
+
+
+
+        abstract class card.AttackCard {
+            - damage : int
+            - times : int
+            + AttackCard()
+            + getDamage()
+            + getTimes()
+            + setDamage()
+            + setTimes()
+        }
+
+
+
+
+        class card.Card {
+            - cost : int
+            - description : String
+            - name : String
+            - path : String
+            + Card()
+            + Card()
+            + clone()
+            + clone()
+            + func()
+            + getCardName()
+            + getCost()
+            + getDescription()
+            + getOccupation()
+            + getPath()
+            + getRarity()
+            + getType()
+            + reset()
+            + setCardName()
+            + setCost()
+            + setDescription()
+            + setImage()
+            + upgrade()
+        }
+
+
+
+        enum OCCUPATION {
+          CASTER
+          NEUTRAL
+          SABER
+        }
+
+
+
+
+        enum RARITY {
+          COMMON
+          EPIC
+          LEGENDARY
+          RARE
+        }
+
+
+
+
+        enum TYPE {
+          ATTACK
+          CURSE
+          POWER
+          SKILL
+        }
+
+
+
+
+        class card.CreateCard {
+            {static} - path : String
+            {static} + createCard()
+        }
+
+
+
+        abstract class card.PowerCard {
+            + PowerCard()
+        }
+
+
+
+
+        abstract class card.SkillCard {
+            - block : int
+            + SkillCard()
+        }
+
+
+
+    card.AttackCard -up-|> card.Card
+    card.Card -up-|> com.jme3.ui.Picture
+    card.Card o-- card.Card.OCCUPATION : occupation
+    card.Card o-- card.Card.RARITY : rarity
+    card.Card o-- card.Card.TYPE : type
+    card.Card +-down- card.Card.OCCUPATION
+    card.Card +-down- card.Card.RARITY
+    card.Card +-down- card.Card.TYPE
+    card.PowerCard -up-|> card.Card
+    card.SkillCard -up-|> card.Card
+
+
+        class control.CardMotionControl {
+            - curAngle : float
+            - loc : Vector2f
+            - rotateDir : float
+            - rotateSpeed : float
+            - speedFactor : float
+            - step : Vector2f
+            - tarAngle : float
+            - target : Vector2f
+            - walkDir : Vector2f
+            - walkSpeed : float
+            - z : float
+            + CardMotionControl()
+            + setSpatial()
+            + setTarget()
+            + setWalkSpeed()
+            # controlRender()
+            # controlUpdate()
+        }
+
+
+
+    control.CardMotionControl -up-|> com.jme3.scene.control.AbstractControl
+
+  appState.DecksState -up-|> com.jme3.app.state.BaseAppState
+  appState.DecksState o-- appState.DecksState.MyInputListener : myActionListener
+  appState.DecksState +-down- appState.DecksState.MyInputListener
+  appState.DecksState.MyInputListener .up.|> com.jme3.input.RawInputListener
+  appState.EnemyState -up-|> com.jme3.app.state.BaseAppState
+  appState.EnemyState +-down- appState.EnemyState.MyRawInputListener
+  appState.EnemyState.MyRawInputListener .up.|> com.jme3.input.RawInputListener
+  appState.HandCardsState -up-|> com.jme3.app.state.BaseAppState
+  appState.HandCardsState o-- appState.HandCardsState.MyRawInputListener : cardListener
+  appState.HandCardsState o-- card.Card : chosen
+  appState.HandCardsState +-down- appState.HandCardsState.MyRawInputListener
+  appState.HandCardsState.MyRawInputListener .up.|> com.jme3.input.RawInputListener
+  appState.HandCardsState.MyRawInputListener o-- card.Card : center
+  appState.HandCardsState.MyRawInputListener o-- card.Card : last
+  appState.HandCardsState o-- control.CardMotionControl : adjustAllCardsPosition
+
+control.CardMotionControl o-- card.Card: setSpatial
+
+
+      abstract class character.Enemy {
+          # hints : String[]
+          # nextActionIndex : int
+          # nextActionSet : String[]
+          # specialStatus : String
+          + Enemy()
+          + Enemy()
+          {abstract} + enemyAction()
+          + getNextActionDescription()
+          + newTurn()
+          {abstract} # attack()
+          {abstract} # getBlessing()
+          {abstract} # getBlockAndAttack()
+          {abstract} # getBlocks()
+          {abstract} # releaseBuff()
+          {abstract} # releaseCurses()
+          {abstract} # releaseDebuff()
+          # treat()
+      }
+
+
+
+
+      class character.MainRole {
+          + deck : ArrayList<Card>
+          + deck_ : ArrayList<Card>
+          - MP : int
+          - attack : int
+          - dexterity_ : int
+          - draw : int
+          - draw_ : int
+          - gold : int
+          - potionBag : int
+          - strength_ : int
+          + MainRole()
+          + drawCards()
+          + endTurn()
+          + getCard()
+          + startBattle()
+          + startTurn()
+      }
+
+
+
+
+      class character.Role {
+          # HP : int
+          # app : SimpleApplication
+          # block : int
+          # dexterity : int
+          # src : String
+          # strength : int
+          # totalHP : int
+          - multiplyingDealDamage : double
+          - multiplyingGetBlock : double
+          - multiplyingGetDamage : double
+          + Role()
+          + bindApp()
+          + computeBlock()
+          + computeDamage()
+          + endTurn()
+          + gainBlock()
+          + getBlock()
+          + getBuff()
+          + getDamage()
+          + getDexterity()
+          + getHP()
+          + getMultiplyingDealDamage()
+          + getMultiplyingGetBlock()
+          + getMultiplyingGetDamage()
+          + getRole()
+          + getSrc()
+          + getStrength()
+          + getTotalHP()
+          + getTrueDamage()
+          + setBlock()
+          + setDexterity()
+          + setHP()
+          + setMultiplyingDealDamage()
+          + setMultiplyingGetBlock()
+          + setMultiplyingGetDamage()
+          + setRole()
+          + setSrc()
+          + setStrength()
+          + setTotalHP()
+          + startTurn()
+      }
+
+
+
+
+      enum ROLE {
+        ENEMY
+        MAINROLE
+        NPC
+      }
+
+
+
+  character.Enemy -up-|> character.Role
+  character.Enemy o-- character.MainRole : target
+  character.MainRole -up-|> character.Role
+  character.Role o-- utils.buffs.foreverBuffs.Artifact : artifact
+  character.Role o-- utils.buffs.limitBuffs.Bleeding : bleeding
+  character.Role o-- utils.buffs.limitBuffs.Disarm : disarm
+  character.Role o-- utils.buffs.foreverBuffs.Dodge : dodge
+  character.Role o-- utils.buffs.limitBuffs.Erode : erode
+  character.Role o-- utils.buffs.limitBuffs.Excite : excite
+  character.Role o-- utils.buffs.limitBuffs.Intangible : intangible
+  character.Role o-- utils.buffs.limitBuffs.Posion : posion
+  character.Role o-- character.Role.ROLE : role
+  character.Role o-- utils.buffs.limitBuffs.Sheild : sheild
+  character.Role o-- utils.buffs.limitBuffs.Silence : silence
+  character.Role o-- utils.buffs.limitBuffs.Stun : stun
+  character.Role o-- utils.buffs.limitBuffs.Vulnerable : vulnerable
+  character.Role o-- utils.buffs.limitBuffs.Weak : weak
+  character.Role +-down- character.Role.ROLE
+
+
+        class utils.buffs.Buff {
+            - buffPicture : Picture
+            - description : String
+            - name : String
+            + Buff()
+            {static} + createBuff()
+            + getBuffPicture()
+            + getDescription()
+            + getFunc()
+            + getName()
+            + getRole()
+            + triggerFunc()
+
+  }
+
+
+
+        interface utils.buffs.BuffFunction {
+            {abstract} + getFunc()
+            {abstract} + triggerFunc()
+
+  }
+
+
+
+        class utils.buffs.ForeverBuff {
+            - times : int
+            + ForeverBuff()
+            + ForeverBuff()
+            + decTimes()
+            + getTimes()
+            + incTimes()
+
+  }
+
+
+
+        class utils.buffs.LimitBuff {
+            - duration : int
+            + LimitBuff()
+            + clearDuration()
+            + decDuration()
+            + getDuration()
+            + incDuration()
+
+  }
+
+
+  utils.buffs.Buff o-- character.Role : role
+  utils.buffs.ForeverBuff -up-|> utils.buffs.Buff
+  utils.buffs.LimitBuff -up-|> utils.buffs.Buff
+
+
+
+          class utils.buffs.limitBuffs.Bleeding {
+              + Bleeding()
+              + getFunc()
+              + triggerFunc()
+
+  }
+
+
+
+          class utils.buffs.limitBuffs.Disarm {
+              + Disarm()
+              + getFunc()
+              + triggerFunc()
+
+  }
+
+
+
+          class utils.buffs.limitBuffs.Erode {
+              + Erode()
+              + getFunc()
+              + triggerFunc()
+
+  }
+
+
+
+          class utils.buffs.limitBuffs.Excite {
+              - currentDraw : int
+              + Excite()
+              + getFunc()
+              + triggerFunc()
+
+  }
+
+
+
+          class utils.buffs.limitBuffs.Intangible {
+              + Intangible()
+              + getFunc()
+              + triggerFunc()
+
+  }
+
+
+
+          class utils.buffs.limitBuffs.Posion {
+              + Posion()
+              + getFunc()
+              + triggerFunc()
+
+  }
+
+
+
+          class utils.buffs.limitBuffs.Sheild {
+              + Sheild()
+              + getFunc()
+              + triggerFunc()
+
+  }
+
+
+
+          class utils.buffs.limitBuffs.Silence {
+              + Silence()
+              + getFunc()
+              + triggerFunc()
+
+  }
+
+
+
+          class utils.buffs.limitBuffs.Stun {
+              + Stun()
+              + getFunc()
+              + triggerFunc()
+
+  }
+
+
+
+          class utils.buffs.limitBuffs.Vulnerable {
+              + Vulnerable()
+              + getFunc()
+              + triggerFunc()
+
+  }
+
+
+
+          class utils.buffs.limitBuffs.Weak {
+              + Weak()
+              + getFunc()
+              + triggerFunc()
+
+  }
+
+
+  utils.buffs.limitBuffs.Bleeding .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Bleeding -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Disarm .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Disarm -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Erode .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Erode -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Excite .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Excite -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Intangible .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Intangible -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Posion .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Posion -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Sheild .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Sheild -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Silence .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Silence -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Stun .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Stun -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Vulnerable .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Vulnerable -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Weak .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Weak -up-|> utils.buffs.LimitBuff
+
+
+            class utils.buffs.foreverBuffs.Artifact {
+                + Artifact()
+                + getDescription()
+                + getFunc()
+                + triggerFunc()
+
+    }
+
+
+
+            class utils.buffs.foreverBuffs.Dexterity {
+                + Dexterity()
+                + getDescription()
+                + getFunc()
+                + triggerFunc()
+
+    }
+
+
+
+            class utils.buffs.foreverBuffs.Dodge {
+                + Dodge()
+                + getDescription()
+                + getFunc()
+                + triggerFunc()
+
+    }
+
+
+
+            class utils.buffs.foreverBuffs.Strength {
+                + Strength()
+                + getDescription()
+                + getFunc()
+                + triggerFunc()
+
+    }
+
+
+    utils.buffs.foreverBuffs.Artifact .up.|> utils.buffs.BuffFunction
+    utils.buffs.foreverBuffs.Artifact -up-|> utils.buffs.ForeverBuff
+    utils.buffs.foreverBuffs.Dexterity .up.|> utils.buffs.BuffFunction
+    utils.buffs.foreverBuffs.Dexterity -up-|> utils.buffs.ForeverBuff
+    utils.buffs.foreverBuffs.Dodge .up.|> utils.buffs.BuffFunction
+    utils.buffs.foreverBuffs.Dodge -up-|> utils.buffs.ForeverBuff
+    utils.buffs.foreverBuffs.Strength .up.|> utils.buffs.BuffFunction
+    utils.buffs.foreverBuffs.Strength -up-|> utils.buffs.ForeverBuff
+
+
+        class character.enemy.mechanicalEmpire.EliteRobot {
+            + EliteRobot()
+            + enemyAction()
+            + newTurn()
+            # $()
+            # attack()
+            # attack2()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+
+  }
+
+
+
+        class character.enemy.mechanicalEmpire.RampageRobot {
+            + RampageRobot()
+            + enemyAction()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+
+  }
+
+
+
+        class character.enemy.mechanicalEmpire.Robot {
+            + Robot()
+            + enemyAction()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+
+  }
+
+
+
+        class character.enemy.mechanicalEmpire.SteamRobot {
+            + SteamRobot()
+            + enemyAction()
+            # $()
+            # attack()
+            # attack2()
+            # attack3()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+
+  }
+
+
+
+        class character.enemy.mechanicalEmpire.StrongRobot {
+            + StrongRobot()
+            + enemyAction()
+            # attack()
+            # getBlessing()
+            # getBlockAndAttack()
+            # getBlocks()
+            # releaseBuff()
+            # releaseCurses()
+            # releaseDebuff()
+
+  }
+
+
+  character.enemy.mechanicalEmpire.EliteRobot -up-|> character.Enemy
+  character.enemy.mechanicalEmpire.RampageRobot -up-|> character.Enemy
+  character.enemy.mechanicalEmpire.Robot -up-|> character.Enemy
+  character.enemy.mechanicalEmpire.SteamRobot -up-|> character.Enemy
+  character.enemy.mechanicalEmpire.StrongRobot -up-|> character.Enemy
+
+
+          class character.enemy.originalForest.BlackSlime {
+              + BlackSlime()
+              + enemyAction()
+              + startTurn()
+              # attack()
+              # getBlessing()
+              # getBlockAndAttack()
+              # getBlocks()
+              # releaseBuff()
+              # releaseCurses()
+              # releaseDebuff()
+
+    }
+
+
+
+          class character.enemy.originalForest.EliteSlime {
+              + EliteSlime()
+              + enemyAction()
+              + newTurn()
+              + startTurn()
+              # attack()
+              # getBlessing()
+              # getBlockAndAttack()
+              # getBlocks()
+              # releaseBuff()
+              # releaseCurses()
+              # releaseDebuff()
+
+    }
+
+
+
+          class character.enemy.originalForest.EliteWolfman {
+              - canSummon : boolean
+              - isWake : boolean
+              + EliteWolfman()
+              + enemyAction()
+              + newTurn()
+              + startTurn()
+              # attack()
+              # getBlessing()
+              # getBlockAndAttack()
+              # getBlocks()
+              # releaseBuff()
+              # releaseCurses()
+              # releaseDebuff()
+              - $()
+
+    }
+
+
+
+          class character.enemy.originalForest.KingSlime {
+              + KingSlime()
+              + enemyAction()
+              + startTurn()
+              # attack()
+              # getBlessing()
+              # getBlockAndAttack()
+              # getBlocks()
+              # releaseBuff()
+              # releaseCurses()
+              # releaseDebuff()
+              - split()
+
+    }
+
+
+
+          class character.enemy.originalForest.KingWolfman {
+              - canIncreaseStrength : boolean
+              - canSummon : boolean
+              + KingWolfman()
+              + enemyAction()
+              + newTurn()
+              # attack()
+              # getBlessing()
+              # getBlockAndAttack()
+              # getBlocks()
+              # releaseBuff()
+              # releaseCurses()
+              # releaseDebuff()
+              - $()
+
+    }
+
+
+
+          class character.enemy.originalForest.OneEyedWolfman {
+              + OneEyedWolfman()
+              + enemyAction()
+              # attack()
+              # getBlessing()
+              # getBlockAndAttack()
+              # getBlocks()
+              # releaseBuff()
+              # releaseCurses()
+              # releaseDebuff()
+
+    }
+
+
+
+          class character.enemy.originalForest.RedSilme {
+              + RedSilme()
+              + enemyAction()
+              + startTurn()
+              # attack()
+              # getBlessing()
+              # getBlockAndAttack()
+              # getBlocks()
+              # releaseBuff()
+              # releaseCurses()
+              # releaseDebuff()
+
+    }
+
+
+
+          class character.enemy.originalForest.Slime {
+              + Slime()
+              + enemyAction()
+              + startTurn()
+              # attack()
+              # getBlessing()
+              # getBlockAndAttack()
+              # getBlocks()
+              # releaseBuff()
+              # releaseCurses()
+              # releaseDebuff()
+
+    }
+
+
+
+          class character.enemy.originalForest.Wolfman {
+              + Wolfman()
+              + enemyAction()
+              + startTurn()
+              # attack()
+              # getBlessing()
+              # getBlockAndAttack()
+              # getBlocks()
+              # releaseBuff()
+              # releaseCurses()
+              # releaseDebuff()
+
+    }
+
+
+    character.enemy.originalForest.BlackSlime -up-|> character.Enemy
+    character.enemy.originalForest.EliteSlime -up-|> character.Enemy
+    character.enemy.originalForest.EliteWolfman -up-|> character.Enemy
+    character.enemy.originalForest.KingSlime -up-|> character.Enemy
+    character.enemy.originalForest.KingWolfman -up-|> character.Enemy
+    character.enemy.originalForest.OneEyedWolfman -up-|> character.Enemy
+    character.enemy.originalForest.RedSilme -up-|> character.Enemy
+    character.enemy.originalForest.Slime -up-|> character.Enemy
+    character.enemy.originalForest.Wolfman -up-|> character.Enemy
+
+@enduml

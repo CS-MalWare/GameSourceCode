@@ -1,0 +1,57 @@
+@startuml
+
+title __FOREVERBUFFS's Class Diagram__\n
+
+
+          class utils.buffs.foreverBuffs.Artifact {
+              + Artifact()
+              + getDescription()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+
+          class utils.buffs.foreverBuffs.Dexterity {
+              + Dexterity()
+              + getDescription()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+
+          class utils.buffs.foreverBuffs.Dodge {
+              + Dodge()
+              + getDescription()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+
+          class utils.buffs.foreverBuffs.Strength {
+              + Strength()
+              + getDescription()
+              + getFunc()
+              + triggerFunc()
+  
+  }
+  
+
+  utils.buffs.foreverBuffs.Artifact .up.|> utils.buffs.BuffFunction
+  utils.buffs.foreverBuffs.Artifact -up-|> utils.buffs.ForeverBuff
+  utils.buffs.foreverBuffs.Dexterity .up.|> utils.buffs.BuffFunction
+  utils.buffs.foreverBuffs.Dexterity -up-|> utils.buffs.ForeverBuff
+  utils.buffs.foreverBuffs.Dodge .up.|> utils.buffs.BuffFunction
+  utils.buffs.foreverBuffs.Dodge -up-|> utils.buffs.ForeverBuff
+  utils.buffs.foreverBuffs.Strength .up.|> utils.buffs.BuffFunction
+  utils.buffs.foreverBuffs.Strength -up-|> utils.buffs.ForeverBuff
+
+
+
+
+@enduml

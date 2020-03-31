@@ -28,4 +28,6 @@ public abstract class AttackCard extends Card {
     public void setTimes(int times) {
         this.times = times;
     }
+
+
 }

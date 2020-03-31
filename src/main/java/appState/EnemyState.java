@@ -1,5 +1,6 @@
 package appState;
 
+import character.Enemy;
 import character.Role;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -18,23 +19,26 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import org.lwjgl.Sys;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class EnemyState extends BaseAppState {
     private SimpleApplication app;
     private Node rootNode = new Node("EnemyState");  //主节点
-    private List<Role> enemies;
+    private ArrayList<Enemy> enemies;
     private RawInputListener myRawInputListener;
     private Geometry chosen;
+    private Enemy target;
+
 
     @Override
     protected void initialize(Application application) {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
         Spatial model1 = application.getAssetManager().loadModel("Dragon/dragon.obj");
-
-        model1.setName("dragon");
+        System.out.println(model1.getName());
+        model1.setName("Dragon/dragon.obj");
         model1.scale(0.03f);// 按比例缩小
         model1.center();// 将模型的中心移到原点
         model1.move(7, 0, -3);
@@ -66,6 +70,19 @@ public class EnemyState extends BaseAppState {
         rootNode.attachChild(model1);
 //        rootNode.attachChild(model2);
 
+    }
+
+    public void addEnemies(Enemy... enemies) {
+        for (int i = 0; i < enemies.length; i++) {
+            this.enemies.add(enemies[i]);
+            String src = enemies[i].getSrc();
+            Spatial model = this.app.getAssetManager().loadModel(src);
+            model.setName(src);
+            model.scale(0.03f);// 按比例缩小
+            model.center();// 将模型的中心移到原点
+            model.move(7 + 3 * i, 5 * i, -3);
+            model.rotate(0, -1f, 0);
+        }
     }
 
     private CollisionResults getRootCollision(MouseButtonEvent evt) {
@@ -131,8 +148,14 @@ public class EnemyState extends BaseAppState {
                     // 获得离射线原点最近的交点所在的图片
                     Geometry res = guiResults.getClosestCollision().getGeometry();
                     chosen = res;
+                    for (Enemy x : enemies) {
+                        if (x.getSrc().equals(res.getName())) {
+                            target = x;
+                        }
+                    }
                 } else {
                     chosen = null;
+                    target = null;
                 }
             }
         }
@@ -156,6 +179,15 @@ public class EnemyState extends BaseAppState {
         }
     }
 
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public Enemy getTarget() {
+        return target;
+    }
+
     public Geometry getChosen() {
         return chosen;
     }
@@ -174,5 +206,8 @@ public class EnemyState extends BaseAppState {
     @Override
     protected void onDisable() {
         this.rootNode.removeFromParent();
+        this.enemies.clear();
+        this.target = null;
+        this.chosen = null;
     }
 }

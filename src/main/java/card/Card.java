@@ -16,7 +16,9 @@ public class Card extends Picture {
     private TYPE type; //卡牌的类型
     private RARITY rarity; //卡牌的稀有度
     private String description; //卡牌的效果描述
-    private String path;
+    private String path;   //图片路径
+
+    private boolean upgraded; // 是否已经升级
 
     public enum OCCUPATION {SABER, CASTER, NEUTRAL}
 

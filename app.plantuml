@@ -1,0 +1,591 @@
+@startuml
+
+title __APP's Class Diagram__\n
+
+  
+    class Solution {
+    }
+
+  
+
+  
+    namespace appState {
+      class appState.DecksState {
+      }
+    }
+
+  
+
+  
+    namespace appState {
+      class appState.EnemyState {
+      }
+    }
+
+  
+
+  
+    namespace appState {
+      class appState.HandCardsState {
+      }
+    }
+
+  
+
+  
+    namespace battle {
+      class battle.Cards {
+      }
+    }
+
+  
+
+  
+    namespace battle {
+      class battle.Test {
+      }
+    }
+
+  
+
+  
+    namespace ard {
+      abstract class card.AttackCard {
+      }
+    }
+
+  
+
+  
+    namespace ard {
+      class card.Card {
+      }
+    }
+
+  
+
+  
+    namespace ard {
+      class card.CreateCard {
+      }
+    }
+
+  
+
+  
+    namespace ard {
+      abstract class card.PowerCard {
+      }
+    }
+
+  
+
+  
+    namespace ard {
+      abstract class card.SkillCard {
+      }
+    }
+
+  
+
+  
+    namespace ard {
+      namespace caster.attack {
+        class card.caster.attack.MagicImpulse {
+        }
+      }
+
+  }
+  
+
+  
+    namespace haracter {
+      abstract class character.Enemy {
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      class character.MainRole {
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      class character.Role {
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      namespace enemy.mechanicalEmpire {
+        class character.enemy.mechanicalEmpire.EliteRobot {
+        }
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      namespace enemy.mechanicalEmpire {
+        class character.enemy.mechanicalEmpire.RampageRobot {
+        }
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      namespace enemy.mechanicalEmpire {
+        class character.enemy.mechanicalEmpire.Robot {
+        }
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      namespace enemy.mechanicalEmpire {
+        class character.enemy.mechanicalEmpire.SteamRobot {
+        }
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      namespace enemy.mechanicalEmpire {
+        class character.enemy.mechanicalEmpire.StrongRobot {
+        }
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      namespace enemy.originalForest {
+        class character.enemy.originalForest.BlackSlime {
+        }
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      namespace enemy.originalForest {
+        class character.enemy.originalForest.EliteSlime {
+        }
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      namespace enemy.originalForest {
+        class character.enemy.originalForest.EliteWolfman {
+        }
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      namespace enemy.originalForest {
+        class character.enemy.originalForest.KingSlime {
+        }
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      namespace enemy.originalForest {
+        class character.enemy.originalForest.KingWolfman {
+        }
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      namespace enemy.originalForest {
+        class character.enemy.originalForest.OneEyedWolfman {
+        }
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      namespace enemy.originalForest {
+        class character.enemy.originalForest.RedSilme {
+        }
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      namespace enemy.originalForest {
+        class character.enemy.originalForest.Slime {
+        }
+      }
+    }
+
+  
+
+  
+    namespace haracter {
+      namespace enemy.originalForest {
+        class character.enemy.originalForest.Wolfman {
+        }
+      }
+    }
+
+  
+
+  
+    namespace ontrol {
+      class control.CardMotionControl {
+      }
+    }
+
+  
+
+  
+    namespace tils {
+      class utils.Test {
+      }
+    }
+
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        class utils.buffs.Buff {
+        }
+      }
+    }
+
+
+
+  
+    namespace tils {
+      namespace buffs {
+        interface utils.buffs.BuffFunction {
+        }
+      }
+    }
+
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        class utils.buffs.ForeverBuff {
+        }
+      }
+    }
+
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        class utils.buffs.LimitBuff {
+        }
+      }
+    }
+
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace foreverBuffs {
+          class utils.buffs.foreverBuffs.Artifact {
+ 
+        }
+      }
+    }
+  }
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace foreverBuffs {
+          class utils.buffs.foreverBuffs.Dexterity {
+ 
+        }
+      }
+    }
+  }
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace foreverBuffs {
+          class utils.buffs.foreverBuffs.Dodge {
+ 
+        }
+      }
+    }
+  }
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace foreverBuffs {
+          class utils.buffs.foreverBuffs.Strength {
+ 
+        }
+      }
+    }
+  }
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace limitBuffs {
+          class utils.buffs.limitBuffs.Bleeding {
+ 
+        }
+      }
+    }
+  }
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace limitBuffs {
+          class utils.buffs.limitBuffs.Disarm {
+ 
+        }
+      }
+    }
+  }
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace limitBuffs {
+          class utils.buffs.limitBuffs.Erode {
+ 
+        }
+      }
+    }
+  }
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace limitBuffs {
+          class utils.buffs.limitBuffs.Excite {
+ 
+        }
+      }
+    }
+  }
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace limitBuffs {
+          class utils.buffs.limitBuffs.Intangible {
+ 
+        }
+      }
+    }
+  }
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace limitBuffs {
+          class utils.buffs.limitBuffs.Posion {
+ 
+        }
+      }
+    }
+  }
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace limitBuffs {
+          class utils.buffs.limitBuffs.Sheild {
+ 
+        }
+      }
+    }
+  }
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace limitBuffs {
+          class utils.buffs.limitBuffs.Silence {
+ 
+        }
+      }
+    }
+  }
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace limitBuffs {
+          class utils.buffs.limitBuffs.Stun {
+ 
+        }
+      }
+    }
+  }
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace limitBuffs {
+          class utils.buffs.limitBuffs.Vulnerable {
+ 
+        }
+      }
+    }
+  }
+  
+
+  
+    namespace tils {
+      namespace buffs {
+        namespace limitBuffs {
+          class utils.buffs.limitBuffs.Weak {
+ 
+        }
+      }
+    }
+  }
+  
+
+  appState.DecksState -up-|> com.jme3.app.state.BaseAppState
+  appState.DecksState o-- appState.DecksState.MyInputListener : myActionListener
+  appState.EnemyState -up-|> com.jme3.app.state.BaseAppState
+  appState.HandCardsState -up-|> com.jme3.app.state.BaseAppState
+  appState.HandCardsState o-- appState.HandCardsState.MyRawInputListener : cardListener
+  appState.HandCardsState o-- card.Card : chosen
+  battle.Cards -up-|> com.jme3.app.SimpleApplication
+  battle.Test -up-|> com.jme3.app.SimpleApplication
+  card.AttackCard -up-|> card.Card
+  card.Card -up-|> com.jme3.ui.Picture
+  card.Card o-- card.Card.OCCUPATION : occupation
+  card.Card o-- card.Card.RARITY : rarity
+  card.Card o-- card.Card.TYPE : type
+  card.PowerCard -up-|> card.Card
+  card.SkillCard -up-|> card.Card
+  card.caster.attack.MagicImpulse -up-|> card.Card
+  character.Enemy -up-|> character.Role
+  character.Enemy o-- character.MainRole : target
+  character.MainRole -up-|> character.Role
+  character.Role o-- utils.buffs.foreverBuffs.Artifact : artifact
+  character.Role o-- utils.buffs.limitBuffs.Bleeding : bleeding
+  character.Role o-- utils.buffs.limitBuffs.Disarm : disarm
+  character.Role o-- utils.buffs.foreverBuffs.Dodge : dodge
+  character.Role o-- utils.buffs.limitBuffs.Erode : erode
+  character.Role o-- utils.buffs.limitBuffs.Excite : excite
+  character.Role o-- utils.buffs.limitBuffs.Intangible : intangible
+  character.Role o-- utils.buffs.limitBuffs.Posion : posion
+  character.Role o-- character.Role.ROLE : role
+  character.Role o-- utils.buffs.limitBuffs.Sheild : sheild
+  character.Role o-- utils.buffs.limitBuffs.Silence : silence
+  character.Role o-- utils.buffs.limitBuffs.Stun : stun
+  character.Role o-- utils.buffs.limitBuffs.Vulnerable : vulnerable
+  character.Role o-- utils.buffs.limitBuffs.Weak : weak
+  character.enemy.mechanicalEmpire.EliteRobot -up-|> character.Enemy
+  character.enemy.mechanicalEmpire.RampageRobot -up-|> character.Enemy
+  character.enemy.mechanicalEmpire.Robot -up-|> character.Enemy
+  character.enemy.mechanicalEmpire.SteamRobot -up-|> character.Enemy
+  character.enemy.mechanicalEmpire.StrongRobot -up-|> character.Enemy
+  character.enemy.originalForest.BlackSlime -up-|> character.Enemy
+  character.enemy.originalForest.EliteSlime -up-|> character.Enemy
+  character.enemy.originalForest.EliteWolfman -up-|> character.Enemy
+  character.enemy.originalForest.KingSlime -up-|> character.Enemy
+  character.enemy.originalForest.KingWolfman -up-|> character.Enemy
+  character.enemy.originalForest.OneEyedWolfman -up-|> character.Enemy
+  character.enemy.originalForest.RedSilme -up-|> character.Enemy
+  character.enemy.originalForest.Slime -up-|> character.Enemy
+  character.enemy.originalForest.Wolfman -up-|> character.Enemy
+  control.CardMotionControl -up-|> com.jme3.scene.control.AbstractControl
+  utils.buffs.Buff o-- character.Role : role
+  utils.buffs.ForeverBuff -up-|> utils.buffs.Buff
+  utils.buffs.LimitBuff -up-|> utils.buffs.Buff
+  utils.buffs.foreverBuffs.Artifact .up.|> utils.buffs.BuffFunction
+  utils.buffs.foreverBuffs.Artifact -up-|> utils.buffs.ForeverBuff
+  utils.buffs.foreverBuffs.Dexterity .up.|> utils.buffs.BuffFunction
+  utils.buffs.foreverBuffs.Dexterity -up-|> utils.buffs.ForeverBuff
+  utils.buffs.foreverBuffs.Dodge .up.|> utils.buffs.BuffFunction
+  utils.buffs.foreverBuffs.Dodge -up-|> utils.buffs.ForeverBuff
+  utils.buffs.foreverBuffs.Strength .up.|> utils.buffs.BuffFunction
+  utils.buffs.foreverBuffs.Strength -up-|> utils.buffs.ForeverBuff
+  utils.buffs.limitBuffs.Bleeding .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Bleeding -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Disarm .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Disarm -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Erode .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Erode -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Excite .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Excite -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Intangible .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Intangible -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Posion .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Posion -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Sheild .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Sheild -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Silence .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Silence -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Stun .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Stun -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Vulnerable .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Vulnerable -up-|> utils.buffs.LimitBuff
+  utils.buffs.limitBuffs.Weak .up.|> utils.buffs.BuffFunction
+  utils.buffs.limitBuffs.Weak -up-|> utils.buffs.LimitBuff
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

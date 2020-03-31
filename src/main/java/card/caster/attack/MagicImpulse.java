@@ -1,8 +1,9 @@
 package card.caster.attack;
 
+import card.AttackCard;
 import card.Card;
 
-public class MagicImpulse extends Card {
+public class MagicImpulse extends AttackCard {
     private boolean upgraded = false; //卡牌是否升级
     private int damage; //卡牌的伤害
     private int times; //卡牌的？
@@ -10,7 +11,7 @@ public class MagicImpulse extends Card {
 
 
     public MagicImpulse(boolean upgraded) {
-        super(OCCUPATION.CASTER, "Magic impulse(+)", 1, TYPE.ATTACK, RARITY.RARE, "deal 11 damage and keep one turn of cards");
+        super(OCCUPATION.CASTER, "Magic impulse(+)", 1, RARITY.RARE, "deal 11 damage and keep one turn of cards", 11, 1);
         this.upgraded = true;
         this.damage = 8;
         this.times = 1;
@@ -18,7 +19,7 @@ public class MagicImpulse extends Card {
     }
 
     public MagicImpulse() {
-        super(OCCUPATION.CASTER, "Magic impulse", 1, TYPE.ATTACK, RARITY.RARE, "deal 8 damage and keep one turn of cards");
+        super(OCCUPATION.CASTER, "Magic impulse", 1, RARITY.RARE, "deal 8 damage and keep one turn of cards", 8, 1);
         this.upgraded = false;
         this.damage = 8;
         this.times = 1;

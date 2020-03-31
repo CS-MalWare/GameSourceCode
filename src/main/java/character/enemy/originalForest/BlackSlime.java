@@ -6,8 +6,8 @@ import utils.buffs.limitBuffs.Weak;
 
 public class BlackSlime extends Enemy {
     //TODO 固化HP和src等属性
-    public BlackSlime(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
-        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
+    public BlackSlime(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
+        super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]
                 {
                         "this enemy will deal 7 damages to you",

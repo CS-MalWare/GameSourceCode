@@ -2,27 +2,17 @@ package battle;
 
 import appState.DecksState;
 import appState.EnemyState;
+import character.MainRole;
 import com.jme3.app.DebugKeysAppState;
-import com.jme3.app.FlyCamAppState;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.StatsAppState;
 import com.jme3.audio.AudioListenerState;
-import com.jme3.collision.CollisionResults;
-import com.jme3.input.KeyInput;
-import com.jme3.input.RawInputListener;
-import com.jme3.input.event.*;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
 import com.jme3.math.*;
-import com.jme3.renderer.queue.RenderQueue;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Curve;
 import com.jme3.system.AppSettings;
 import com.jme3.ui.Picture;
-import appState.HandCards;
-import appState.EnemyState;
+import appState.HandCardsState;
 
 public class Test extends SimpleApplication {
 
@@ -31,12 +21,12 @@ public class Test extends SimpleApplication {
 
     public Test() {
         super(new StatsAppState(), new AudioListenerState(), new DebugKeysAppState(),
-                new EnemyState(), new HandCards(), new DecksState());
+                new EnemyState(), new HandCardsState(), new DecksState());
     }
 
     @Override
     public void simpleInitApp() {
-
+        character.MainRole mainRole = MainRole.getInstance();
     }
 
     public void addLight() {

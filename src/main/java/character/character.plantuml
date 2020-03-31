@@ -1,0 +1,127 @@
+@startuml
+
+title __CHARACTER's Class Diagram__\n
+
+
+      abstract class character.Enemy {
+          # hints : String[]
+          # nextActionIndex : int
+          # nextActionSet : String[]
+          # specialStatus : String
+          + Enemy()
+          + Enemy()
+          {abstract} + enemyAction()
+          + getNextActionDescription()
+          + newTurn()
+          {abstract} # attack()
+          {abstract} # getBlessing()
+          {abstract} # getBlockAndAttack()
+          {abstract} # getBlocks()
+          {abstract} # releaseBuff()
+          {abstract} # releaseCurses()
+          {abstract} # releaseDebuff()
+          # treat()
+      }
+
+  
+
+
+      class character.MainRole {
+          + deck : ArrayList<Card>
+          + deck_ : ArrayList<Card>
+          - MP : int
+          - attack : int
+          - dexterity_ : int
+          - draw : int
+          - draw_ : int
+          - gold : int
+          - potionBag : int
+          - strength_ : int
+          + MainRole()
+          + drawCards()
+          + endTurn()
+          + getCard()
+          + startBattle()
+          + startTurn()
+      }
+
+  
+
+
+      class character.Role {
+          # HP : int
+          # app : SimpleApplication
+          # block : int
+          # dexterity : int
+          # src : String
+          # strength : int
+          # totalHP : int
+          - multiplyingDealDamage : double
+          - multiplyingGetBlock : double
+          - multiplyingGetDamage : double
+          + Role()
+          + bindApp()
+          + computeBlock()
+          + computeDamage()
+          + endTurn()
+          + gainBlock()
+          + getBlock()
+          + getBuff()
+          + getDamage()
+          + getDexterity()
+          + getHP()
+          + getMultiplyingDealDamage()
+          + getMultiplyingGetBlock()
+          + getMultiplyingGetDamage()
+          + getRole()
+          + getSrc()
+          + getStrength()
+          + getTotalHP()
+          + getTrueDamage()
+          + setBlock()
+          + setDexterity()
+          + setHP()
+          + setMultiplyingDealDamage()
+          + setMultiplyingGetBlock()
+          + setMultiplyingGetDamage()
+          + setRole()
+          + setSrc()
+          + setStrength()
+          + setTotalHP()
+          + startTurn()
+      }
+
+  
+
+
+      enum ROLE {
+        ENEMY
+        MAINROLE
+        NPC
+      }
+
+  
+
+  character.Enemy -up-|> character.Role
+  character.Enemy o-- character.MainRole : target
+  character.MainRole -up-|> character.Role
+  character.Role o-- utils.buffs.foreverBuffs.Artifact : artifact
+  character.Role o-- utils.buffs.limitBuffs.Bleeding : bleeding
+  character.Role o-- utils.buffs.limitBuffs.Disarm : disarm
+  character.Role o-- utils.buffs.foreverBuffs.Dodge : dodge
+  character.Role o-- utils.buffs.limitBuffs.Erode : erode
+  character.Role o-- utils.buffs.limitBuffs.Excite : excite
+  character.Role o-- utils.buffs.limitBuffs.Intangible : intangible
+  character.Role o-- utils.buffs.limitBuffs.Posion : posion
+  character.Role o-- character.Role.ROLE : role
+  character.Role o-- utils.buffs.limitBuffs.Sheild : sheild
+  character.Role o-- utils.buffs.limitBuffs.Silence : silence
+  character.Role o-- utils.buffs.limitBuffs.Stun : stun
+  character.Role o-- utils.buffs.limitBuffs.Vulnerable : vulnerable
+  character.Role o-- utils.buffs.limitBuffs.Weak : weak
+  character.Role +-down- character.Role.ROLE
+
+
+
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+
+title __BATTLE's Class Diagram__\n
+
+
+  
+
+    
+      class battle.Test {
+          ~ last : Picture
+          + Test()
+          + addLight()
+          {static} + main()
+          + simpleInitApp()
+  
+  }
+  
+
+
+  battle.Test -up-|> com.jme3.app.SimpleApplication
+
+
+
+
+@enduml

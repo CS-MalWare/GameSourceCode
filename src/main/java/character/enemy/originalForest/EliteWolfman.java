@@ -11,8 +11,8 @@ public class EliteWolfman extends Enemy {
     private boolean canSummon = true;//是否能召唤狼人
     private boolean isWake = false;//用于判断是否能够攻击吸血
 
-    public EliteWolfman(int HP, String src, MainRole target, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
-        super(HP, src, target, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
+    public EliteWolfman(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
+        super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]
                 {
                         "this enemy will deal 3*2 damages to you",

@@ -95,6 +95,11 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>net.sourceforge.plantuml</groupId>
+            <artifactId>plantuml</artifactId>
+            <version>RELEASE</version>
+        </dependency>
     </dependencies>
 
 </project>

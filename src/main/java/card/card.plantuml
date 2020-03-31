@@ -1,0 +1,112 @@
+@startuml
+
+title __CARD's Class Diagram__\n
+
+
+      abstract class card.AttackCard {
+          - damage : int
+          - times : int
+          + AttackCard()
+          + getDamage()
+          + getTimes()
+          + setDamage()
+          + setTimes()
+      }
+
+  
+
+
+      class card.Card {
+          - cost : int
+          - description : String
+          - name : String
+          - path : String
+          + Card()
+          + Card()
+          + clone()
+          + clone()
+          + func()
+          + getCardName()
+          + getCost()
+          + getDescription()
+          + getOccupation()
+          + getPath()
+          + getRarity()
+          + getType()
+          + reset()
+          + setCardName()
+          + setCost()
+          + setDescription()
+          + setImage()
+          + upgrade()
+      }
+
+
+
+      enum OCCUPATION {
+        CASTER
+        NEUTRAL
+        SABER
+      }
+
+  
+
+
+      enum RARITY {
+        COMMON
+        EPIC
+        LEGENDARY
+        RARE
+      }
+
+  
+
+
+      enum TYPE {
+        ATTACK
+        CURSE
+        POWER
+        SKILL
+      }
+
+  
+
+
+      class card.CreateCard {
+          {static} - path : String
+          {static} + createCard()
+      }
+
+
+
+      abstract class card.PowerCard {
+          + PowerCard()
+      }
+
+  
+
+
+      abstract class card.SkillCard {
+          - block : int
+          + SkillCard()
+      }
+
+  
+
+  card.AttackCard -up-|> card.Card
+  card.Card -up-|> com.jme3.ui.Picture
+  card.Card o-- card.Card.OCCUPATION : occupation
+  card.Card o-- card.Card.RARITY : rarity
+  card.Card o-- card.Card.TYPE : type
+  card.Card +-down- card.Card.OCCUPATION
+  card.Card +-down- card.Card.RARITY
+  card.Card +-down- card.Card.TYPE
+  card.PowerCard -up-|> card.Card
+  card.SkillCard -up-|> card.Card
+
+
+
+
+
+
+@enduml
