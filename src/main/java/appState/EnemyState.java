@@ -44,7 +44,7 @@ public class EnemyState extends BaseAppState {
         model1.move(7, 0, -3);
         model1.rotate(0, -1f, 0);
 
-
+        enemies = new ArrayList<>();
 //        Spatial model2 = application.getAssetManager().loadModel("Dragon/dragon.obj");
 //        model2.setName("dragon2");
 //        model2.scale(0.04f);// 按比例缩小
