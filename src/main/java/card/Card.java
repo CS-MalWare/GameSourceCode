@@ -1,5 +1,6 @@
 package card;
 
+import character.Role;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Quaternion;
 import com.jme3.scene.Geometry;
@@ -18,7 +19,7 @@ public class Card extends Picture {
     private String description; //卡牌的效果描述
     private String path;   //图片路径
 
-    private boolean upgraded; // 是否已经升级
+    protected boolean upgraded; // 是否已经升级
 
     public enum OCCUPATION {SABER, CASTER, NEUTRAL}
 
@@ -54,7 +55,7 @@ public class Card extends Picture {
                 return;
         }
         this.name = name;
-        this.path += "/" + name;
+        this.path += "/" + name + ".png";
         this.cost = cost;
         this.type = type;
         this.rarity = rarity;
@@ -122,14 +123,16 @@ public class Card extends Picture {
         this.setLocalRotation(new Quaternion());
     }
 
-
-    public void upgrade() {
-
+    // 子类需要重写该方法
+    public boolean upgrade() {
+        return false;
+        // 记得调用该函数后, 要在别的地方调用setImage,来改变实际的图片
     }
 
 
-    public void func() {
-
+    // 子类需要重写该方法
+    public boolean use(Role target) {
+        return false;
     }
 
     @Override

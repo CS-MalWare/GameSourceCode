@@ -1,5 +1,8 @@
 package card;
-import  card.Card;
+
+import card.Card;
+import character.MainRole;
+import character.Role;
 
 
 public abstract class AttackCard extends Card {
@@ -29,5 +32,19 @@ public abstract class AttackCard extends Card {
         this.times = times;
     }
 
-
+    @Override
+    public boolean use(Role target) {
+        if (target == MainRole.getInstance()) {
+            return false;
+        }
+        for (int i = 0; i < this.times; i++) {
+            target.getDamage(target.computeDamage(this.damage));
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
 }
