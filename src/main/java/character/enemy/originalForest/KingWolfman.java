@@ -5,7 +5,6 @@ import character.MainRole;
 
 public class KingWolfman extends Enemy {
     //TODO 固化HP和src等属性
-    private boolean canSummon = true;//是否能召唤狼人
     private boolean canIncreaseStrength = true;//增加力量，全局只能使用一次，因此这里写一个布尔值限制只能用一次
 
     public KingWolfman(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
@@ -18,7 +17,6 @@ public class KingWolfman extends Enemy {
                         "this enemy will inflict strong curses on you",
                         "this enemy will gain some buff",
                         "this enemy will gain some block",
-                        "???",//这个是召唤狼人
                 };
 
         this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
@@ -34,12 +32,8 @@ public class KingWolfman extends Enemy {
             this.setStrength(this.getStrength()+5);
         }
 
-        //TODO 判断能不能召唤狼人
     }
 
-    private void $(){
-        //TODO 这里写召唤狼人等逻辑处理
-    }
 
     @Override
     protected void attack() {
@@ -49,7 +43,6 @@ public class KingWolfman extends Enemy {
 
             this.treat(demage/4);
         }
-        //TODO 减少玩家 1 点MP
     }
 
     @Override
@@ -65,7 +58,6 @@ public class KingWolfman extends Enemy {
     @Override
     protected void getBlocks(){
         this.setBlock(this.getBlock() + 20);
-        //TODO 玩家下一张卡牌消耗翻倍
     }
 
     @Override
@@ -109,9 +101,6 @@ public class KingWolfman extends Enemy {
                 break;
             case 5:
                 getBlocks();
-                break;
-            case 6:
-                $();
                 break;
             default:
                 return;

@@ -19,8 +19,7 @@ public class EliteWolfman extends Enemy {
                         "this enemy will deal 15 damages to you and gain 8 blocks",
                         "this enemy will gain 20 blocks",
                         "this enemy will inflict debuffs on you",
-                        "this enemy will inflict strong curses on you",
-                        "???",//这个是召唤狼人
+                        "this enemy will inflict strong curses on you"
                 };
 
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
@@ -38,7 +37,6 @@ public class EliteWolfman extends Enemy {
                 String.format(hints[3], computeBlock(20)),
                 hints[1],
                 hints[2],
-                "???",
         };
         newTurn();
     }
@@ -55,12 +53,8 @@ public class EliteWolfman extends Enemy {
         else{
             this.isWake = false;
         }
-        //TODO 判断能不能刷新出召唤狼人的事件
     }
 
-    private void $(){
-        //TODO 这里写召唤狼人等逻辑处理
-    }
     @Override
     protected void attack() {
         if (!this.isWake) {
@@ -131,9 +125,6 @@ public class EliteWolfman extends Enemy {
                 break;
             case 4:
                 releaseCurses();
-                break;
-            case 5:
-                $();
                 break;
             default:
                 return;

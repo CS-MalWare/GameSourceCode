@@ -14,6 +14,7 @@ public class RampageRobot extends Enemy {
                         "this enemy will deal 10 damage to you and gain 10 blocks"
 
                 };
+        //TODO 5层荆棘
     }
 
     @Override

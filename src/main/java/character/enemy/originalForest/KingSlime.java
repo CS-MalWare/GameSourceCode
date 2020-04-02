@@ -35,13 +35,6 @@ public class KingSlime extends Enemy {
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
-    //分裂
-    private void split() {
-        //TODO 暂时写成void返回值类型，后面可能直接返回两个 Spatial 或者两个其他类型的史莱姆数组
-        //TODO 调用的方式为重写 newTurn 方法或者在 enemyAction 中 检测当前血量再触发，这里等待王逸润巨佬意见
-        //TODO 王逸润菜鸡:我不会写这个QAQ
-        //return new RedSilme[]();
-    }
 
     @Override
     public void enemyAction() {
@@ -78,7 +71,7 @@ public class KingSlime extends Enemy {
 
     @Override
     protected void releaseCurses() {
-        //TODO 释放3张粘液到玩家卡组
+        //TODO 3层虚弱，3层脆弱
     }
 
     @Override

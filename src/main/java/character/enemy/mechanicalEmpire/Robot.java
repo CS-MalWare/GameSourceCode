@@ -11,7 +11,7 @@ public class Robot extends Enemy {
                 {
                         "this enemy will gain some buff",
                         "this enemy will deal 10 damages to you and gain 10 blocks",
-                        "this enemy will inflict strong curses on you",
+                        "this enemy will gain 14 blocks",
                 };
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
@@ -26,7 +26,7 @@ public class Robot extends Enemy {
                 getBlockAndAttack();
                 break;
             case 2:
-                releaseCurses();
+                getBlocks();
                 break;
             default:
                 break;
@@ -45,12 +45,11 @@ public class Robot extends Enemy {
 
     @Override
     protected void releaseCurses() {
-        //TODO 随机消耗玩家一张牌
-        this.setBlock(this.getBlock()+5);
     }
 
     @Override
     protected void getBlocks() {
+        this.setBlock(this.getBlock()+14);
 
     }
 

@@ -46,23 +46,7 @@ public class LeadingActorState extends BaseAppState {
         model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
         actors = new ArrayList<>();
-
-
-
-        /*DirectionalLight sun = new DirectionalLight();
-        sun.setDirection(new Vector3f(2, 1, -3));
-
-        // 环境光
-        AmbientLight ambient = new AmbientLight();
-
-        // 调整光照亮度
-        ColorRGBA lightColor = new ColorRGBA();
-        sun.setColor(lightColor.mult(0.8f));
-        ambient.setColor(lightColor.mult(1));
         app.getInputManager().addRawInputListener(myRawInputListener);
-        // #3 将模型和光源添加到场景图中
-        rootNode.addLight(sun);
-        rootNode.addLight(ambient);*/
         rootNode.attachChild(model1);
     }
 

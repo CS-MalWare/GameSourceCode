@@ -70,8 +70,6 @@ public class EliteSlime extends Enemy {
 
     @Override
     protected void releaseCurses() {
-        //TODO 将1张玩家卡组品质最高的卡 消耗
-        // 无视设计时候改卡组的行为..实现有点麻烦,或者最后有时间可以做做
     }
 
     @Override
