@@ -48,27 +48,6 @@ public class EnemyState extends BaseAppState {
         model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
         enemies = new ArrayList<>();
-//        Spatial model2 = application.getAssetManager().loadModel("Dragon/dragon.obj");
-//        model2.setName("dragon2");
-//        model2.scale(0.04f);// 按比例缩小
-//        model2.center();// 将模型的中心移到原点
-//        model2.move(5, 0, -3);
-//        model2.rotate(0, -1f, 0);
-
-
-        /*DirectionalLight sun = new DirectionalLight();
-        sun.setDirection(new Vector3f(-1, -2, -3));
-
-        // 环境光
-        AmbientLight ambient = new AmbientLight();
-
-        // 调整光照亮度
-        ColorRGBA lightColor = new ColorRGBA();
-        sun.setColor(lightColor.mult(4f));
-        ambient.setColor(lightColor.mult(4f));
-        // #3 将模型和光源添加到场景图中
-        rootNode.addLight(sun);
-        rootNode.addLight(ambient);*/
         app.getInputManager().addRawInputListener(myRawInputListener);
         rootNode.attachChild(model1);
 //        rootNode.attachChild(model2);

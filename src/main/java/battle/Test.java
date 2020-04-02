@@ -26,9 +26,13 @@ public class Test extends SimpleApplication {
     //Picture last = new Picture("null");
 
     public Test() {
-        super(new StatsAppState(), new AudioListenerState(), new DebugKeysAppState(),
-                new EnemyState(), new HandCardsState(), new DecksState(),
-                new LeadingActorState()
+        super(new StatsAppState()
+                , new AudioListenerState()
+                , new DebugKeysAppState()
+                , new EnemyState()
+                , new HandCardsState()
+                , new DecksState()
+                , new LeadingActorState()
                 , new BattleBackGroundState()
         );
     }

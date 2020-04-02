@@ -33,9 +33,6 @@ public class EliteRobot extends Enemy {
                 this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
             }
         }
-        if(this.getHP()<0.5*this.getTotalHP()){
-            //TODO 自爆
-        }
     }
 
 
@@ -86,7 +83,6 @@ public class EliteRobot extends Enemy {
 
     @Override
     protected void releaseDebuff() {
-        //TODO 4层荆棘
     }
 
     @Override
@@ -99,7 +95,6 @@ public class EliteRobot extends Enemy {
     @Override
     protected void getBlocks() {
         this.setBlock(this.getBlock()+25);
-        //TODO 随机消耗玩家一张牌
     }
 
     @Override
@@ -109,6 +104,7 @@ public class EliteRobot extends Enemy {
 
     @Override
     protected void releaseBuff() {
+        //TODO 4层荆棘
 
     }
 

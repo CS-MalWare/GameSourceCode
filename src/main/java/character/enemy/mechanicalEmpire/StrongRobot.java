@@ -11,8 +11,7 @@ public class StrongRobot extends Enemy {
                 {
                         "this enemy will deal 20 damages to you",
                         "this enemy will exert strong blessing on itself",
-                        "this enemy will gain some block",
-                        "this enemy will inflict strong curses on you"
+                        "this enemy will gain some block"
                 };
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
@@ -28,9 +27,6 @@ public class StrongRobot extends Enemy {
                 break;
             case 2:
                 this.getBlocks();
-                break;
-            case 3:
-                this.releaseCurses();
                 break;
             default:
                 break;
@@ -50,8 +46,6 @@ public class StrongRobot extends Enemy {
 
     @Override
     protected void releaseCurses() {
-        //TODO 消耗玩家一张牌
-        this.setBlock(this.getBlock()+5);
     }
 
     @Override
