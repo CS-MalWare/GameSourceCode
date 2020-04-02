@@ -23,7 +23,7 @@ public class BattleBackGroundState extends BaseAppState {
         model1.setName("Map");
         model1.scale(6f);// 按比例缩小
         model1.center();// 将模型的中心移到原点
-        model1.move(2, (float) -0.7, -17);
+        model1.move(2, (float) 4, -3);
         model1.rotate(0, 0f, 0);
 
         model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
