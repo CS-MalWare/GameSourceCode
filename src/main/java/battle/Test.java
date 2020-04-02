@@ -23,21 +23,21 @@ import com.jme3.ui.Picture;
 
 public class Test extends SimpleApplication {
 
-    private AssetManager assetManager;
-    private SimpleApplication simpleApp;
 
-    Picture last = new Picture("null");
+    //Picture last = new Picture("null");
 
     public Test() {
         super(new StatsAppState(), new AudioListenerState(), new DebugKeysAppState(),
                 new EnemyState(), new HandCardsState(), new DecksState(), new LeadingActorState()
                 , new BattleBackGroundState());
-        addLight();
+        this.assetManager = this.getAssetManager();
+
     }
 
     @Override
     public void simpleInitApp() {
-        character.MainRole mainRole = MainRole.getInstance();
+        //character.MainRole mainRole = MainRole.getInstance();
+        addLight();
     }
 
     public void addLight() {
