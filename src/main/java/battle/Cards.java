@@ -18,12 +18,12 @@ public class Cards extends SimpleApplication {
 
         card.setHeight(350);
         card.setWidth(350);
-        card.setImage(assetManager, "Cards/caster/attack/充钱.png", true);
+        card.setImage(assetManager, "Cards/caster/attack/爆破.png", true);
         card.setPosition(650, -50);
         Picture card2 = new Picture("cacrd2");
         card2.setHeight(350);
         card2.setWidth(350);
-        card2.setImage(assetManager, "Cards/caster/attack/充钱.png", true);
+        card2.setImage(assetManager, "Cards/caster/attack/爆破.png", true);
         card2.setPosition(500, -80);
         card2.rotate(0,0,FastMath.PI/180 *5 );
 

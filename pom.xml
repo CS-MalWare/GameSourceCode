@@ -75,6 +75,11 @@
             <version>2.1.9</version>
         </dependency>
         <dependency>
+            <groupId>org</groupId>
+            <artifactId>truetypefont</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>RELEASE</version>
