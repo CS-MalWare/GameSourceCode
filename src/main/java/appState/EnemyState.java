@@ -28,7 +28,7 @@ public class EnemyState extends BaseAppState {
     private SimpleApplication app;
     private Node rootNode = new Node("EnemyState");  //主节点
     private ArrayList<Enemy> enemies;
-    private RawInputListener myRawInputListener;
+    private MyRawInputListener myRawInputListener;
     private Geometry chosen;
     private Enemy target;
 
@@ -38,8 +38,8 @@ public class EnemyState extends BaseAppState {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
         Spatial model1 = application.getAssetManager().loadModel("Dragon/dragon.obj");
-        System.out.println(model1.getName());
         model1.setName("Dragon/dragon.obj");
+        System.out.println(model1.getName());
         model1.scale(0.03f);// 按比例缩小
         model1.center();// 将模型的中心移到原点
         model1.move(7, 0, -3);
@@ -66,10 +66,10 @@ public class EnemyState extends BaseAppState {
         ColorRGBA lightColor = new ColorRGBA();
         sun.setColor(lightColor.mult(4f));
         ambient.setColor(lightColor.mult(4f));
-        app.getInputManager().addRawInputListener(myRawInputListener);
         // #3 将模型和光源添加到场景图中
         rootNode.addLight(sun);
         rootNode.addLight(ambient);*/
+        app.getInputManager().addRawInputListener(myRawInputListener);
         rootNode.attachChild(model1);
 //        rootNode.attachChild(model2);
 
@@ -128,9 +128,9 @@ public class EnemyState extends BaseAppState {
         @Override
         public void onMouseMotionEvent(MouseMotionEvent evt) {
 
-
         }
 
+        @Override
         public void onMouseButtonEvent(MouseButtonEvent evt) {
             //如果是鼠标按下去
             if (evt.isPressed()) {
