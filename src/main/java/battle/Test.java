@@ -27,9 +27,9 @@ public class Test extends SimpleApplication {
 
     public Test() {
         super(new StatsAppState(), new AudioListenerState(), new DebugKeysAppState(),
-                new EnemyState(), new HandCardsState(), new DecksState()
-//                new LeadingActorState()
-//                , new BattleBackGroundState()
+                new EnemyState(), new HandCardsState(), new DecksState(),
+                new LeadingActorState()
+                , new BattleBackGroundState()
         );
     }
 

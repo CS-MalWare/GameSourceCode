@@ -62,10 +62,21 @@
             <artifactId>jme3-effects</artifactId>
             <version>${jme3_v}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org</groupId>
+            <artifactId>jsfml</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <dependency>
             <groupId>com.simsilica</groupId>
             <artifactId>lemur</artifactId>
             <version>1.13.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.simsilica</groupId>
+            <artifactId>lemur-proto</artifactId>
+            <version>1.9.1</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->

@@ -5,9 +5,11 @@ import utils.buffs.foreverBuffs.Dodge;
 import utils.buffs.limitBuffs.Disarm;
 import utils.buffs.limitBuffs.Sheild;
 import utils.buffs.limitBuffs.Silence;
+import card.AttackCard.PROPERTY;
 
 public abstract class Enemy extends Role {
     protected MainRole target;//攻击目标
+
     protected String[] nextActionSet;
     protected String[] hints = new String[]
             {
@@ -47,7 +49,28 @@ public abstract class Enemy extends Role {
         this.getBuff(new Dodge(this, dodge), new Artifact(this, artifact),
                 new Sheild(this, shield), new Disarm(this, disarm), new Silence(this, silence));
 
-
+        // 随机获取属性
+        int random = (int) (Math.random() * 6);
+        switch (random) {
+            case 0:
+                this.property = PROPERTY.NONE;
+                break;
+            case 1:
+                this.property = PROPERTY.FIRE;
+                break;
+            case 2:
+                this.property = PROPERTY.GOLD;
+                break;
+            case 3:
+                this.property = PROPERTY.WOOD;
+                break;
+            case 4:
+                this.property = PROPERTY.WATER;
+                break;
+            case 5:
+                this.property = PROPERTY.SOIL;
+                break;
+        }
     }
 
 
@@ -59,6 +82,7 @@ public abstract class Enemy extends Role {
     public String getNextActionDescription() {
         return this.nextActionSet[this.nextActionIndex];
     }
+
 
     //新回合，重随下回合随机事件
     public void newTurn() {

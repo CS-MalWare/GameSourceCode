@@ -2,6 +2,7 @@ package character;
 
 import appState.DecksState;
 import appState.HandCardsState;
+import card.AttackCard;
 import card.Card;
 
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ public class MainRole extends Role {
     private boolean keepCard = false;
 
     //玩家的独特属性
-    private int MP;
+    private int MP_max;
+    private int MP_current;
     private int attack;
     private int draw;
     private int potionBag;
@@ -84,6 +86,22 @@ public class MainRole extends Role {
         if (this.excite.getDuration() > 0) {
             app.getStateManager().getState(HandCardsState.class).drawCards(1);
         }
+    }
+
+
+    public boolean useCard(Card card, Enemy... enemy) {
+        if (card.getCost() > this.MP_current) {
+            return false;
+        }
+
+        if (!card.use(enemy)) return false;
+
+        this.MP_current -= card.getCost();
+        return true;
+    }
+
+    public void getMP(int num) {
+        this.MP_current = Math.min(this.MP_current + num, this.MP_max);
     }
 
 

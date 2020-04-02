@@ -1,11 +1,12 @@
 package character;
 
+import card.AttackCard;
 import com.jme3.app.SimpleApplication;
 import utils.buffs.Buff;
 import utils.buffs.foreverBuffs.Artifact;
 import utils.buffs.foreverBuffs.Dodge;
 import utils.buffs.limitBuffs.*;
-
+import card.AttackCard.PROPERTY;
 public class Role {
     public enum ROLE {MAINROLE, NPC, ENEMY}
 
@@ -13,7 +14,7 @@ public class Role {
     protected int HP; // 当前血量
     protected String src; //模型路径
     protected ROLE role; // 属于什么角色
-
+    protected AttackCard.PROPERTY property;
 
     protected SimpleApplication app; //主要用于调用各个state中的方法
     //战斗中的实际属性
@@ -52,7 +53,7 @@ public class Role {
         this.HP = HP;
         this.src = src;
         this.role = role;
-
+        this.property = AttackCard.PROPERTY.NONE;
         Vulnerable vulnerable = new Vulnerable(this, 0);
         Weak weak = new Weak(this, 0);
         Stun stun = new Stun(this, 0);
@@ -81,7 +82,15 @@ public class Role {
         }
     }
 
-    ;
+    public boolean isRestrain(AttackCard.PROPERTY a, AttackCard.PROPERTY b) {
+        if (a == AttackCard.PROPERTY.FIRE && b == AttackCard.PROPERTY.GOLD) return true;
+        if (a == AttackCard.PROPERTY.GOLD && b == AttackCard.PROPERTY.WOOD) return true;
+        if (a == AttackCard.PROPERTY.WOOD && b == AttackCard.PROPERTY.WATER) return true;
+        if (a == AttackCard.PROPERTY.WATER && b == AttackCard.PROPERTY.SOIL) return true;
+        if (a == AttackCard.PROPERTY.SOIL && b == AttackCard.PROPERTY.FIRE) return true;
+        return false;
+    }
+
 
     // 表示收到伤害,并且将扣除hp返回,用于计算吸血
     public int getDamage(int damage) {
@@ -196,6 +205,14 @@ public class Role {
         if (this.weak.getDuration() > 0)
             num = (int) (num * 0.75);
         return (int) (num * this.multiplyingDealDamage);
+    }
+
+    public int computeDamage(int num, PROPERTY property) {
+        int oldDamage = computeDamage(num);
+        if (isRestrain(property, this.property)) {
+            oldDamage = (int) (oldDamage * 1.5);
+        }
+        return oldDamage;
     }
 
     // 计算经过buff后,应该获得护甲值

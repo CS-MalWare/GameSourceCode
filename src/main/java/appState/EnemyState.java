@@ -38,8 +38,8 @@ public class EnemyState extends BaseAppState {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
         Spatial model1 = application.getAssetManager().loadModel("Dragon/dragon.obj");
-        model1.setName("Dragon/dragon.obj");
         System.out.println(model1.getName());
+        model1.setName("Dragon/dragon.obj");
         model1.scale(0.03f);// 按比例缩小
         model1.center();// 将模型的中心移到原点
         model1.move(7, 0, -3);
@@ -127,6 +127,7 @@ public class EnemyState extends BaseAppState {
          */
         @Override
         public void onMouseMotionEvent(MouseMotionEvent evt) {
+
 
         }
 

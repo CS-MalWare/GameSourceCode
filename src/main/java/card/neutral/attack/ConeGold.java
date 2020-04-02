@@ -1,0 +1,43 @@
+package card.neutral.attack;
+
+import card.AttackCard;
+import character.MainRole;
+import character.Role;
+import utils.buffs.limitBuffs.Bleeding;
+import utils.buffs.limitBuffs.Weak;
+
+public class ConeGold extends AttackCard {
+    public ConeGold() {
+        super(OCCUPATION.NEUTRAL, "凝金钻", 3, RARITY.COMMON, "deal 18 gold property damage, apply 3 bleeding to the target", 18, 1);
+        this.property = PROPERTY.GOLD;
+    }
+
+    public ConeGold(boolean upgrade) {
+        super(OCCUPATION.NEUTRAL, "凝金钻+", 3, RARITY.COMMON, "deal 22 gold property damage, apply 5 bleeding to the target", 22, 1);
+        this.upgraded = true;
+        this.property = PROPERTY.GOLD;
+    }
+
+    @Override
+    public boolean upgrade() {
+        if (upgraded = true) return false;
+        this.setCardName("凝金钻+");
+        this.setDamage(22);
+        this.upgraded = true;
+        this.setDescription("deal 22 gold property damage, apply 5 bleeding to the target");
+        return true;
+    }
+
+    @Override
+    public boolean use(Role... targets) {
+        if (!super.use(targets)) return false;
+        if (!upgraded) {
+            for (Role target : targets)
+                target.getBuff(new Bleeding(target, 3));
+        } else {
+            for (Role target : targets)
+                target.getBuff(new Bleeding(target, 5));
+        }
+        return true;
+    }
+}

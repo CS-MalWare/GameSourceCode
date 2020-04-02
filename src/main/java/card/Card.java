@@ -135,6 +135,14 @@ public class Card extends Picture {
         return false;
     }
 
+    public boolean use(Role... target) {
+        return false;
+    }
+
+    public boolean use() {
+        return false;
+    }
+
     @Override
     public Card clone(boolean cloneMaterial) {
         return (Card) super.clone(cloneMaterial);

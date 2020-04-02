@@ -26,10 +26,13 @@ public class HookBoxing extends AttackCard {
     }
 
     @Override
-    public boolean use(Role target) {
-        if (!super.use(target)) return false;
-        target.getBuff(new Weak(target, 1));
+    public boolean use(Role... targets) {
+        if (!super.use(targets)) return false;
+        for (Role target : targets) {
+            target.getBuff(new Weak(target, 1));
+        }
         MainRole.getInstance().drawCards(1);
+
         return true;
     }
 }
