@@ -1,7 +1,7 @@
 package appState;
 
 import character.Enemy;
-import character.Role;
+import character.LeadingActor;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
@@ -20,65 +20,56 @@ import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 
-public class EnemyState extends BaseAppState {
+public class LeadingActorState extends BaseAppState {
     private SimpleApplication app;
-    private Node rootNode = new Node("EnemyState");  //主节点
-    private ArrayList<Enemy> enemies;
+    private Node rootNode = new Node("LeadingActorState");
+    private ArrayList<LeadingActor> actors;
     private RawInputListener myRawInputListener;
     private Geometry chosen;
-    private Enemy target;
+    private LeadingActor target;
 
 
-    @Override
     protected void initialize(Application application) {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
-        Spatial model1 = application.getAssetManager().loadModel("Dragon/dragon.obj");
+        Spatial model1 = application.getAssetManager().loadModel("LeadingActor/untitled.obj");
         System.out.println(model1.getName());
-        model1.setName("Dragon/dragon.obj");
+        model1.setName("LeadingActor/untitled.obj");
         model1.scale(0.03f);// 按比例缩小
         model1.center();// 将模型的中心移到原点
-        model1.move(7, 0, -3);
-        model1.rotate(0, -1f, 0);
+        model1.move(-7, 0, -3);
+        model1.rotate(0, 0.8f, 0);
 
         model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
-        enemies = new ArrayList<>();
-//        Spatial model2 = application.getAssetManager().loadModel("Dragon/dragon.obj");
-//        model2.setName("dragon2");
-//        model2.scale(0.04f);// 按比例缩小
-//        model2.center();// 将模型的中心移到原点
-//        model2.move(5, 0, -3);
-//        model2.rotate(0, -1f, 0);
+        actors = new ArrayList<>();
+
 
 
         /*DirectionalLight sun = new DirectionalLight();
-        sun.setDirection(new Vector3f(-1, -2, -3));
+        sun.setDirection(new Vector3f(2, 1, -3));
 
         // 环境光
         AmbientLight ambient = new AmbientLight();
 
         // 调整光照亮度
         ColorRGBA lightColor = new ColorRGBA();
-        sun.setColor(lightColor.mult(4f));
-        ambient.setColor(lightColor.mult(4f));
+        sun.setColor(lightColor.mult(0.8f));
+        ambient.setColor(lightColor.mult(1));
         app.getInputManager().addRawInputListener(myRawInputListener);
         // #3 将模型和光源添加到场景图中
         rootNode.addLight(sun);
         rootNode.addLight(ambient);*/
         rootNode.attachChild(model1);
-//        rootNode.attachChild(model2);
-
     }
 
-    public void addEnemies(Enemy... enemies) {
-        for (int i = 0; i < enemies.length; i++) {
-            this.enemies.add(enemies[i]);
-            String src = enemies[i].getSrc();
+    public void addActor(LeadingActor... actors) {
+        for (int i = 0; i < actors.length; i++) {
+            this.actors.add(actors[i]);
+            String src = actors[i].getSrc();
             Spatial model = this.app.getAssetManager().loadModel(src);
             model.setName(src);
             model.scale(0.03f);// 按比例缩小
@@ -108,7 +99,6 @@ public class EnemyState extends BaseAppState {
 
         return results;
     }
-
 
     class MyRawInputListener implements RawInputListener {
 
@@ -151,7 +141,7 @@ public class EnemyState extends BaseAppState {
                     // 获得离射线原点最近的交点所在的图片
                     Geometry res = guiResults.getClosestCollision().getGeometry();
                     chosen = res;
-                    for (Enemy x : enemies) {
+                    for (LeadingActor x : actors) {
                         if (x.getSrc().equals(res.getName())) {
                             target = x;
                         }
@@ -183,14 +173,6 @@ public class EnemyState extends BaseAppState {
     }
 
 
-    public ArrayList<Enemy> getEnemies() {
-        return enemies;
-    }
-
-    public Enemy getTarget() {
-        return target;
-    }
-
     public Geometry getChosen() {
         return chosen;
     }
@@ -209,7 +191,7 @@ public class EnemyState extends BaseAppState {
     @Override
     protected void onDisable() {
         this.rootNode.removeFromParent();
-        this.enemies.clear();
+        this.actors.clear();
         this.target = null;
         this.chosen = null;
     }
