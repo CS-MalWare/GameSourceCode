@@ -7,8 +7,8 @@ import character.Role;
 
 
 public abstract class AttackCard extends Card {
-    private int damage;
-    private int times;
+    protected int damage;
+    protected int times;
 
     public enum PROPERTY {NONE, FIRE, GOLD, WOOD, WATER, SOIL}
 

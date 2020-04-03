@@ -204,6 +204,10 @@ public class Role {
         num = num + strength;
         if (this.weak.getDuration() > 0)
             num = (int) (num * 0.75);
+        if (this.disarm.getDuration() > 0) {
+            float random = (float) (Math.random() * 3);
+            if (random < 1) return 1;
+        }
         return (int) (num * this.multiplyingDealDamage);
     }
 
@@ -322,4 +326,60 @@ public class Role {
 //        this.unableSkill = unableSkill;
 //    }
 
+
+    public PROPERTY getProperty() {
+        return property;
+    }
+
+    public Vulnerable getVulnerable() {
+        return vulnerable;
+    }
+
+    public Weak getWeak() {
+        return weak;
+    }
+
+    public Stun getStun() {
+        return stun;
+    }
+
+    public Silence getSilence() {
+        return silence;
+    }
+
+    public Sheild getSheild() {
+        return sheild;
+    }
+
+    public Posion getPosion() {
+        return posion;
+    }
+
+    public Intangible getIntangible() {
+        return intangible;
+    }
+
+    public Excite getExcite() {
+        return excite;
+    }
+
+    public Erode getErode() {
+        return erode;
+    }
+
+    public Disarm getDisarm() {
+        return disarm;
+    }
+
+    public Bleeding getBleeding() {
+        return bleeding;
+    }
+
+    public Artifact getArtifact() {
+        return artifact;
+    }
+
+    public Dodge getDodge() {
+        return dodge;
+    }
 }
