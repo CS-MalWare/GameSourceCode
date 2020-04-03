@@ -386,5 +386,12 @@ public class Role {
         return dodge;
     }
 
-
+    //适用于吸血效果或者治疗效果
+    public void treat(int number) {
+        if (this.getHP() + number >= this.getTotalHP()) {
+            this.setHP(this.getTotalHP());
+        } else {
+            this.setHP(this.getHP() + number);
+        }
+    }
 }

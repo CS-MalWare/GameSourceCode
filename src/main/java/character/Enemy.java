@@ -115,7 +115,7 @@ public abstract class Enemy extends Role {
     protected abstract void getBlessing();
 
     //适用于吸血效果或者治疗效果
-    protected void treat(int number) {
+    public void treat(int number) {
         if (this.getHP() + number >= this.getTotalHP()) {
             this.setHP(this.getTotalHP());
         } else {
