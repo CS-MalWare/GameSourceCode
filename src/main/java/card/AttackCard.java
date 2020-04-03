@@ -61,6 +61,25 @@ public abstract class AttackCard extends Card {
     }
 
 
+    public boolean use(Role target) {
+
+        if (!(target instanceof Enemy)) {
+            return false;
+        }
+        for (int i = 0; i < this.times; i++) {
+            target.getDamage(target.computeDamage(this.damage, this.property));
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        return true;
+    }
+
+
     public boolean isAOE() {
         return this.AOE;
     }

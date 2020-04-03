@@ -118,6 +118,11 @@ public class MainRole extends Role {
 
     }
 
+
+    public void getGold(int num) {
+        this.gold += num;
+    }
+
     public void drawCards(int num) {
         app.getStateManager().getState(HandCardsState.class).drawCards(num);
     }

@@ -6,14 +6,14 @@ import utils.buffs.BuffFunction;
 import utils.buffs.ForeverBuff;
 
 public class Dexterity extends ForeverBuff implements BuffFunction {
-    public Dexterity(String name, String description, Picture buffPicture, Role role, int times) {
-        super(name, description, buffPicture, role, times);
+    public Dexterity(Role target, int times) {
+        super("dexterity", "your block gained from card increase by x", new Picture(), target, times);
         this.getFunc();
     }
 
     @Override
     public String getDescription() {
-        return "description拼接";
+        return "your block gained from card increase by x";
     }
 
     @Override

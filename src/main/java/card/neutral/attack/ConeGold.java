@@ -29,14 +29,14 @@ public class ConeGold extends AttackCard {
     }
 
     @Override
-    public boolean use(Role... targets) {
-        if (!super.use(targets)) return false;
+    public boolean use(Role target) {
+        if (!super.use(target)) return false;
         if (!upgraded) {
-            for (Role target : targets)
-                target.getBuff(new Bleeding(target, 3));
+
+            target.getBuff(new Bleeding(target, 3));
         } else {
-            for (Role target : targets)
-                target.getBuff(new Bleeding(target, 5));
+
+            target.getBuff(new Bleeding(target, 5));
         }
         return true;
     }

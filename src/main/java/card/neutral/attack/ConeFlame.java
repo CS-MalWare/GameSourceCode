@@ -27,13 +27,17 @@ public class ConeFlame extends AttackCard {
     }
 
     @Override
-    public boolean use(Role... targets) {
-        if (!super.use(targets)) return false;
-        for (Role target : targets) {
-            if (target.getVulnerable().getDuration() > 0) {
-                target.getDamage(target.computeDamage(this.damage, this.property));
-            }
+    public boolean use(Role target) {
+        int oldDamge = this.damage;
+
+        if (target.getVulnerable().getDuration() > 0) {
+            this.damage *= 2;
         }
+        if (!super.use(target)) {
+            this.damage = oldDamge;
+            return false;
+        }
+        this.damage = oldDamge;
         return true;
     }
 }

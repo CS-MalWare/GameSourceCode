@@ -19,6 +19,7 @@ public class Card extends Picture {
     private String description; //卡牌的效果描述
     private String path;   //图片路径
 
+    protected boolean exhaust; //是否消耗
     protected boolean upgraded; // 是否已经升级
 
     public enum OCCUPATION {SABER, CASTER, NEUTRAL}
@@ -62,6 +63,7 @@ public class Card extends Picture {
         this.description = description;
         this.setHeight(260);
         this.setWidth(200);
+        this.exhaust = false;
     }
 
     public Card(String name) {
@@ -69,6 +71,7 @@ public class Card extends Picture {
         this.path = name;
         this.setHeight(260);
         this.setWidth(200);
+        this.exhaust = false;
     }
 
     public String getCardName() {
@@ -129,6 +132,10 @@ public class Card extends Picture {
         // 记得调用该函数后, 要在别的地方调用setImage,来改变实际的图片
     }
 
+
+    public boolean isExhaust() {
+        return exhaust;
+    }
 
     // 子类需要重写该方法
     public boolean use(Role target) {

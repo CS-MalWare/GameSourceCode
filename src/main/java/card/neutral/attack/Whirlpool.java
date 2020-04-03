@@ -9,12 +9,15 @@ public class Whirlpool extends AttackCard {
     public Whirlpool() {
         super(OCCUPATION.NEUTRAL, "旋涡", 2, RARITY.RARE, "deal 10 water property damage to all enemies, if target is killed, then gain 2 MP and draw 3 cards", 10, 1);
         this.property = PROPERTY.WATER;
+        this.AOE = true;
     }
 
     public Whirlpool(boolean upgrade) {
         super(OCCUPATION.NEUTRAL, "旋涡+", 3, RARITY.RARE, "deal 12 water property damage to all enemies, if target is killed, then gain 3 MP and draw 3 cards", 12, 1);
         this.upgraded = true;
         this.property = PROPERTY.WATER;
+        this.AOE = true;
+
     }
 
     @Override

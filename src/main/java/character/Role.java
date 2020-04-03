@@ -4,6 +4,7 @@ import card.AttackCard;
 import com.jme3.app.SimpleApplication;
 import utils.buffs.Buff;
 import utils.buffs.foreverBuffs.Artifact;
+import utils.buffs.foreverBuffs.Dexterity;
 import utils.buffs.foreverBuffs.Dodge;
 import utils.buffs.limitBuffs.*;
 import card.AttackCard.PROPERTY;
@@ -20,8 +21,8 @@ public class Role {
     //战斗中的实际属性
     protected int block;
     protected int strength;
-    protected int dexterity;
 
+    protected int dexterity;
 
 //    private boolean unableAttack;
 //    private boolean unableSkill;
@@ -54,19 +55,21 @@ public class Role {
         this.src = src;
         this.role = role;
         this.property = AttackCard.PROPERTY.NONE;
-        Vulnerable vulnerable = new Vulnerable(this, 0);
-        Weak weak = new Weak(this, 0);
-        Stun stun = new Stun(this, 0);
-        Silence silence = new Silence(this, 0);
-        Sheild sheild = new Sheild(this, 0);
-        Posion posion = new Posion(this, 0);
-        Intangible intangible = new Intangible(this, 0);
-        Excite excite = new Excite(this, 0);
-        Erode erode = new Erode(this, 0);
-        Disarm disarm = new Disarm(this, 0);
-        Bleeding bleeding = new Bleeding(this, 0);
-        Artifact artifact = new Artifact(this, 0);
-        Dodge dodge = new Dodge(this, 0);
+        vulnerable = new Vulnerable(this, 0);
+        weak = new Weak(this, 0);
+        stun = new Stun(this, 0);
+        silence = new Silence(this, 0);
+        sheild = new Sheild(this, 0);
+        posion = new Posion(this, 0);
+        intangible = new Intangible(this, 0);
+        excite = new Excite(this, 0);
+        erode = new Erode(this, 0);
+        disarm = new Disarm(this, 0);
+        bleeding = new Bleeding(this, 0);
+        artifact = new Artifact(this, 0);
+        dodge = new Dodge(this, 0);
+        dexterity = 0;
+        strength = 0;
 //        this.multiplyingDealDamage = 1;
 //        this.multiplyingGetDamage = 1;
 //        this.multiplyingGetBlock = 1;
@@ -382,4 +385,6 @@ public class Role {
     public Dodge getDodge() {
         return dodge;
     }
+
+
 }
