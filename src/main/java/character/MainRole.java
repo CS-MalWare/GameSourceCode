@@ -2,7 +2,6 @@ package character;
 
 import appState.DecksState;
 import appState.HandCardsState;
-import card.AttackCard;
 import card.Card;
 
 import java.util.ArrayList;
@@ -35,9 +34,6 @@ public class MainRole extends Role {
 
 
     public static MainRole getInstance() {
-        if (instance == null) {
-            instance = new MainRole(80, "这里写模型路径");
-        }
         return instance;
     }
 
@@ -51,6 +47,7 @@ public class MainRole extends Role {
         this.potionBag = 3;
         this.gold = 0;
         this.deck = new ArrayList<Card>();
+        instance = this;
 
     }
 

@@ -1,8 +1,13 @@
 package card.neutral.skill;
 
+import appState.DecksState;
+import appState.HandCardsState;
+import card.Card;
 import card.SkillCard;
 import character.MainRole;
 import character.Role;
+
+import java.util.ArrayList;
 
 public class Enchantment extends SkillCard {
     public Enchantment() {
@@ -33,7 +38,26 @@ public class Enchantment extends SkillCard {
 
     @Override
     public boolean use(Role target) {
-        //TODO 升级所有攻击卡
+        ArrayList<Card> handCards = HandCardsState.getInstance().getHandCards();
+        for (Card card : handCards) {
+            if (card.getType() == TYPE.SKILL)
+                card.upgrade();
+        }
+        ArrayList<Card> drawDeck = DecksState.getInstance().getDrawDeck();
+        for (Card card : drawDeck) {
+            if (card.getType() == TYPE.SKILL)
+                card.upgrade();
+        }
+        ArrayList<Card> dropDeck = DecksState.getInstance().getDropDeck();
+        for (Card card : dropDeck) {
+            if (card.getType() == TYPE.SKILL)
+                card.upgrade();
+        }
+        ArrayList<Card> exhaustDeck = DecksState.getInstance().getExhaustDeck();
+        for (Card card : exhaustDeck) {
+            if (card.getType() == TYPE.SKILL)
+                card.upgrade();
+        }
         if (upgraded) {
             MainRole.getInstance().getMP(3);
         }

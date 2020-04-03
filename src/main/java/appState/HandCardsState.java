@@ -27,6 +27,8 @@ public class HandCardsState extends BaseAppState {
     private SimpleApplication app;
     //    private double height = app.getCamera().getHeight();
 //    private double width = app.getCamera().getWidth();
+
+    private static HandCardsState instance = null;
     private double height = 900; //屏幕高度
     private double width = 1600;  // 屏幕宽度
 
@@ -110,6 +112,11 @@ public class HandCardsState extends BaseAppState {
         return card;
     }
 
+
+    public static HandCardsState getInstance() {
+        return instance;
+    }
+
     @Override
     protected void initialize(Application app) {
         this.app = (SimpleApplication) getApplication();
@@ -146,7 +153,7 @@ public class HandCardsState extends BaseAppState {
             rootNode.attachChild(card);
             i++;
         }
-
+        instance = this;
 
     }
 
@@ -177,6 +184,18 @@ public class HandCardsState extends BaseAppState {
             card.setPosition(1400, -25);
             rootNode.attachChild(card);
         }
+
+        adjustAllCardsPosition(size, size0);
+    }
+
+
+    public void addToHand(Card card) {
+        int size0 = handCards.size();//获取当前还没有抽卡的手牌数量
+        this.handCards.add(card);
+        int size = handCards.size();//获得新手牌数量
+        card.setPosition(1400, -25);
+        rootNode.attachChild(card);
+
 
         adjustAllCardsPosition(size, size0);
     }
@@ -290,7 +309,7 @@ public class HandCardsState extends BaseAppState {
         closest.setLocalTranslation(location.x, location.y, 1);//通过竖坐标增加来使得图片在前显示
         //放大这个离鼠标最近的图片
 
-        if(img!=null) {
+        if (img != null) {
             img.setWidth((float) cardWidth);
             img.setHeight((float) cardHeight);
             location = img.getLocalTranslation();
@@ -459,25 +478,25 @@ public class HandCardsState extends BaseAppState {
                     Card closest;
 
                     //如果选中的是卡牌,并且不是能力卡牌（因为power卡不需要指定目标），就获得它
-                    if (res instanceof Card && ((Card)res).getType() != Card.TYPE.POWER) {
+                    if (res instanceof Card && ((Card) res).getType() != Card.TYPE.POWER) {
                         closest = (Card) res;
                         chosen = closest;
                         center = putCardCenter(closest);//将图片放置在中央
 //                        Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
                         rootNode.attachChild(center);
-                        
+
                         if (arrow != null) {
                             arrow.removeFromParent();
                         }
                         createArrow(evt);
                     }
                 } else {
-                    if(center!=null)
+                    if (center != null)
                         center.removeFromParent();
 
                     chosen = null;//点击其他区域（不是敌人或者卡牌的时候，取消所有选择）
 
-                    if(arrow!=null)
+                    if (arrow != null)
                         arrow.removeFromParent();//鼠标释放的时候移除箭头（不论是否选中敌人）
 
                 }
@@ -490,12 +509,12 @@ public class HandCardsState extends BaseAppState {
                     useCard(chosen);
                 }
 
-                if(center!=null)
+                if (center != null)
                     center.removeFromParent();
 
                 chosen = null;//点击其他区域（不是敌人或者卡牌的时候，取消所有选择）
 
-                if(arrow!=null)
+                if (arrow != null)
                     arrow.removeFromParent();//鼠标释放的时候移除箭头（不论是否选中敌人）
 
             }

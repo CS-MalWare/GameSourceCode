@@ -1,7 +1,6 @@
 package appState;
 
-import character.Enemy;
-import character.LeadingActor;
+import character.MainRole;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
@@ -9,9 +8,6 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.*;
-import com.jme3.light.AmbientLight;
-import com.jme3.light.DirectionalLight;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
@@ -26,10 +22,10 @@ import java.util.ArrayList;
 public class LeadingActorState extends BaseAppState {
     private SimpleApplication app;
     private Node rootNode = new Node("LeadingActorState");
-    private ArrayList<LeadingActor> actors;
+    private ArrayList<MainRole> actors;
     private RawInputListener myRawInputListener;
     private Geometry chosen;
-    private LeadingActor target;
+    private MainRole target;
 
 
     protected void initialize(Application application) {
@@ -50,7 +46,7 @@ public class LeadingActorState extends BaseAppState {
         rootNode.attachChild(model1);
     }
 
-    public void addActor(LeadingActor... actors) {
+    public void addActor(MainRole... actors) {
         for (int i = 0; i < actors.length; i++) {
             this.actors.add(actors[i]);
             String src = actors[i].getSrc();
@@ -125,7 +121,7 @@ public class LeadingActorState extends BaseAppState {
                     // 获得离射线原点最近的交点所在的图片
                     Geometry res = guiResults.getClosestCollision().getGeometry();
                     chosen = res;
-                    for (LeadingActor x : actors) {
+                    for (MainRole x : actors) {
                         if (x.getSrc().equals(res.getName())) {
                             target = x;
                         }

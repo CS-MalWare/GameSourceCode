@@ -31,7 +31,7 @@ public class EnemyState extends BaseAppState {
     private MyRawInputListener myRawInputListener;
     private Geometry chosen;
     private Enemy target;
-
+    private static EnemyState instance = null;
 
     @Override
     protected void initialize(Application application) {
@@ -51,7 +51,7 @@ public class EnemyState extends BaseAppState {
         app.getInputManager().addRawInputListener(myRawInputListener);
         rootNode.attachChild(model1);
 //        rootNode.attachChild(model2);
-
+        instance = this;
     }
 
     public void addEnemies(Enemy... enemies) {
@@ -88,6 +88,10 @@ public class EnemyState extends BaseAppState {
         return results;
     }
 
+
+    public static EnemyState getInstance() {
+        return instance;
+    }
 
     class MyRawInputListener implements RawInputListener {
 

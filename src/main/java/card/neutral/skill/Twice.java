@@ -1,6 +1,7 @@
 package card.neutral.skill;
 
 import card.SkillCard;
+import character.MainRole;
 import character.Role;
 
 public class Twice extends SkillCard {
@@ -24,7 +25,6 @@ public class Twice extends SkillCard {
             this.upgraded = true;
             this.setCardName("分身+");
             this.setDescription("next damage to target will be double");
-            //TODO
         }
         return true;
     }
@@ -32,6 +32,10 @@ public class Twice extends SkillCard {
     @Override
     public boolean use(Role target) {
         // TODO 这个得之后实现一下
+
+        if (!upgraded) {
+            MainRole.getInstance().setStrength(MainRole.getInstance().getStrength() - 1);
+        }
         return true;
     }
 

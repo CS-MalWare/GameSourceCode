@@ -26,7 +26,7 @@ public class Tenacity extends SkillCard {
             this.upgraded = true;
             this.setCardName("坚定不移+");
             this.setDescription("gian 10 blocks and 1 artifact");
-            //TODO
+
         }
         return true;
     }

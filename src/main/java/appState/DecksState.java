@@ -1,6 +1,7 @@
 package appState;
 
 import card.Card;
+import character.MainRole;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
@@ -28,6 +29,8 @@ import java.util.Random;
 
 
 public class DecksState extends BaseAppState {
+    private static DecksState instance = null;
+
     private Picture drawDeckPic;
     private Picture exhaustDeckPic;
     private Picture dropDeckPic;
@@ -63,6 +66,10 @@ public class DecksState extends BaseAppState {
 
     public final static String CLICK = "CLICK";
 
+
+    public static DecksState getInstance() {
+        return instance;
+    }
 
     @Override
     protected void initialize(Application app) {
@@ -136,7 +143,7 @@ public class DecksState extends BaseAppState {
 
         this.updateNum();
         myActionListener = new MyInputListener();
-
+        instance = this;
     }
 
     @Override
@@ -164,7 +171,7 @@ public class DecksState extends BaseAppState {
         return drawNum;
     }
 
-    private void updateDrawNum() {
+    public void updateDrawNum() {
         this.drawNum = drawDeck.size();
         this.drawText.removeFromParent();
         this.drawText = font.getBitmapGeom(drawNum + "", 0, ColorRGBA.White);
@@ -181,7 +188,7 @@ public class DecksState extends BaseAppState {
 
     }
 
-    private void updateDropNum() {
+    public void updateDropNum() {
         this.dropNum = dropDeck.size();
         this.dropText.removeFromParent();
         this.dropText = font.getBitmapGeom(dropNum + "", 0, ColorRGBA.White);
@@ -197,7 +204,7 @@ public class DecksState extends BaseAppState {
         return exhaustNum;
     }
 
-    private void updateExhaustNum() {
+    public void updateExhaustNum() {
         this.exhaustNum = exhaustDeck.size();
         this.exhaustText.removeFromParent();
         this.exhaustText = font.getBitmapGeom(exhaustNum + "", 0, ColorRGBA.White);
@@ -297,6 +304,18 @@ public class DecksState extends BaseAppState {
         this.updateDropNum();
     }
 
+
+    public ArrayList<Card> getDrawDeck() {
+        return drawDeck;
+    }
+
+    public ArrayList<Card> getExhaustDeck() {
+        return exhaustDeck;
+    }
+
+    public ArrayList<Card> getDropDeck() {
+        return dropDeck;
+    }
 
     public void showCards(ArrayList<Card> cards) {
         this.hideCards();

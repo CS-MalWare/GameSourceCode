@@ -22,7 +22,7 @@ public class Unyielding extends SkillCard {
         } else {
             this.setCardName("不屈+");
             this.setDescription("after using this card, prevent a death and keep current HP, exhaust");
-            //TODO
+
         }
         return true;
     }

@@ -1,7 +1,12 @@
 package card.neutral.skill;
 
+import appState.DecksState;
+import appState.HandCardsState;
+import card.Card;
 import card.SkillCard;
 import character.Role;
+
+import java.util.ArrayList;
 
 public class SecretPower extends SkillCard {
     public SecretPower() {
@@ -32,7 +37,15 @@ public class SecretPower extends SkillCard {
 
     @Override
     public boolean use(Role target) {
-        // TODO 抽一张能力牌
+        ArrayList<Card> drawDeck = DecksState.getInstance().getDrawDeck();
+        for (Card card : drawDeck) {
+            if (card.getType() == TYPE.POWER) {
+                drawDeck.remove(card);
+                DecksState.getInstance().updateDrawNum();
+                HandCardsState.getInstance().addToHand(card);
+            }
+            return true;
+        }
 
         return true;
     }

@@ -1,6 +1,7 @@
 package card.neutral.skill;
 
 import card.SkillCard;
+import character.MainRole;
 import character.Role;
 
 public class Crystallization extends SkillCard {
@@ -29,6 +30,11 @@ public class Crystallization extends SkillCard {
     @Override
     public boolean use(Role target) {
         // TODO 这个得之后实现一下
+        if (!upgraded) {
+            // TODO 加金属性
+            // TODO 抽牌
+
+        }
         return true;
     }
 
