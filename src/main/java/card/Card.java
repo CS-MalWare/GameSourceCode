@@ -22,7 +22,9 @@ public class Card extends Picture {
     protected boolean exhaust; //是否消耗
     protected boolean upgraded; // 是否已经升级
     protected boolean ethereal; // 是否虚无(及是回合结束时,若在手中,则消耗)
-    protected boolean AOE;
+    protected boolean intrinsic; // 是否固有(战斗开始时候加入手中)
+    protected boolean AOE; // 是否是AOE伤害
+
     public enum OCCUPATION {SABER, CASTER, NEUTRAL}
 
     private OCCUPATION occupation;
@@ -66,6 +68,7 @@ public class Card extends Picture {
         this.setWidth(200);
         this.exhaust = false;
         this.ethereal = false;
+        this.intrinsic = false;
     }
 
     public Card(String name) {
@@ -75,6 +78,8 @@ public class Card extends Picture {
         this.setWidth(200);
         this.exhaust = false;
         this.ethereal = false;
+        this.intrinsic = false;
+
     }
 
     public String getCardName() {
@@ -135,6 +140,9 @@ public class Card extends Picture {
         // 记得调用该函数后, 要在别的地方调用setImage,来改变实际的图片
     }
 
+    public boolean isIntrinsic() {
+        return intrinsic;
+    }
 
     public boolean isExhaust() {
         return exhaust;
