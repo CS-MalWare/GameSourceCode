@@ -36,4 +36,16 @@ public class SoilWaveSpells extends AttackCard {
         }
         return true;
     }
+
+
+    @Override
+    public boolean use(Role target) {
+        if (!super.use(target)) return false;
+        if (!upgraded) {
+            MainRole.getInstance().gainBlock(8);
+        } else {
+            MainRole.getInstance().gainBlock(15);
+        }
+        return true;
+    }
 }

@@ -22,7 +22,7 @@ public class ChargeMoney extends SkillCard {
             this.upgraded = true;
             this.setCardName("充钱+");
             this.setDescription("select a card from anywhere, gain 4 copies of this card");
-            //TODO
+
         }
         return true;
     }

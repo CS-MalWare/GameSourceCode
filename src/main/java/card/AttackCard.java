@@ -48,7 +48,7 @@ public abstract class AttackCard extends Card {
                 return false;
             }
             for (int i = 0; i < this.times; i++) {
-                target.getDamage(target.computeDamage(this.damage, this.property));
+                target.getDamage(MainRole.getInstance().computeDamage(this.damage, this.property));
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -67,7 +67,7 @@ public abstract class AttackCard extends Card {
             return false;
         }
         for (int i = 0; i < this.times; i++) {
-            target.getDamage(target.computeDamage(this.damage, this.property));
+            target.getDamage(MainRole.getInstance().computeDamage(this.damage, this.property));
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {

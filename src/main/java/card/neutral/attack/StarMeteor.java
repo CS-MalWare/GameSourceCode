@@ -1,6 +1,7 @@
 package card.neutral.attack;
 
 import card.AttackCard;
+import character.MainRole;
 import character.Role;
 import utils.buffs.limitBuffs.Bleeding;
 import utils.buffs.limitBuffs.Vulnerable;
@@ -38,6 +39,18 @@ public class StarMeteor extends AttackCard {
         } else {
             for (Role target : targets)
                 target.getBuff(new Bleeding(target, 4));
+        }
+        return true;
+    }
+
+
+    @Override
+    public boolean use(Role target) {
+        if (!super.use(target)) return false;
+        if (!upgraded) {
+            target.getBuff(new Vulnerable(target, 2));
+        } else {
+            target.getBuff(new Vulnerable(target, 4));
         }
         return true;
     }

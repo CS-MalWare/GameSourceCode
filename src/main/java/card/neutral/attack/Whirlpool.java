@@ -4,6 +4,7 @@ import card.AttackCard;
 import character.MainRole;
 import character.Role;
 import utils.buffs.limitBuffs.Bleeding;
+import utils.buffs.limitBuffs.Vulnerable;
 
 public class Whirlpool extends AttackCard {
     public Whirlpool() {
@@ -33,7 +34,7 @@ public class Whirlpool extends AttackCard {
     @Override
     public boolean use(Role... targets) {
         if (!super.use(targets)) return false;
-        if (upgraded) {
+        if (!upgraded) {
             for (Role target : targets)
                 if (target.getHP() <= 0) {
                     MainRole.getInstance().getMP(2);
@@ -45,6 +46,24 @@ public class Whirlpool extends AttackCard {
                     MainRole.getInstance().getMP(3);
                     MainRole.getInstance().drawCards(3);
                 }
+        }
+        return true;
+    }
+
+
+    @Override
+    public boolean use(Role target) {
+        if (!super.use(target)) return false;
+        if (!upgraded) {
+            if (target.getHP() <= 0) {
+                MainRole.getInstance().getMP(2);
+                MainRole.getInstance().drawCards(3);
+            }
+        } else {
+            if (target.getHP() <= 0) {
+                MainRole.getInstance().getMP(3);
+                MainRole.getInstance().drawCards(3);
+            }
         }
         return true;
     }

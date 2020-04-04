@@ -36,4 +36,16 @@ public class SoulSacrifice extends AttackCard {
         }
         return true;
     }
+
+
+    @Override
+    public boolean use(Role target) {
+        if (!super.use(target)) return false;
+        if (!upgraded) {
+            MainRole.getInstance().drawCards(1);
+        } else {
+            MainRole.getInstance().drawCards(2);
+        }
+        return true;
+    }
 }

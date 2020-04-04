@@ -21,6 +21,7 @@ public class Card extends Picture {
 
     protected boolean exhaust; //是否消耗
     protected boolean upgraded; // 是否已经升级
+    protected boolean ethereal; // 是否虚无(及是回合结束时,若在手中,则消耗)
 
     public enum OCCUPATION {SABER, CASTER, NEUTRAL}
 
@@ -64,6 +65,7 @@ public class Card extends Picture {
         this.setHeight(260);
         this.setWidth(200);
         this.exhaust = false;
+        this.ethereal = false;
     }
 
     public Card(String name) {
@@ -72,6 +74,7 @@ public class Card extends Picture {
         this.setHeight(260);
         this.setWidth(200);
         this.exhaust = false;
+        this.ethereal = false;
     }
 
     public String getCardName() {
@@ -135,6 +138,14 @@ public class Card extends Picture {
 
     public boolean isExhaust() {
         return exhaust;
+    }
+
+    public boolean isEthereal() {
+        return ethereal;
+    }
+
+    public boolean isUpgraded() {
+        return upgraded;
     }
 
     // 子类需要重写该方法

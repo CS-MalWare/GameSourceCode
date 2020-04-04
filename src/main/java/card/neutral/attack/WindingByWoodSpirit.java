@@ -46,4 +46,14 @@ public class WindingByWoodSpirit extends AttackCard {
     }
 
 
+    @Override
+    public boolean use(Role target) {
+        if (!super.use(target)) return false;
+        if (!upgraded) {
+            target.getBuff(new Posion(target, 5));
+        } else {
+            target.getBuff(new Posion(target, 6));
+        }
+        return true;
+    }
 }
