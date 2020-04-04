@@ -37,13 +37,13 @@ public class Whirlpool extends AttackCard {
         if (!upgraded) {
             for (Role target : targets)
                 if (target.getHP() <= 0) {
-                    MainRole.getInstance().getMP(2);
+                    MainRole.getInstance().gainMP(2);
                     MainRole.getInstance().drawCards(3);
                 }
         } else {
             for (Role target : targets)
                 if (target.getHP() <= 0) {
-                    MainRole.getInstance().getMP(3);
+                    MainRole.getInstance().gainMP(3);
                     MainRole.getInstance().drawCards(3);
                 }
         }
@@ -56,12 +56,12 @@ public class Whirlpool extends AttackCard {
         if (!super.use(target)) return false;
         if (!upgraded) {
             if (target.getHP() <= 0) {
-                MainRole.getInstance().getMP(2);
+                MainRole.getInstance().gainMP(2);
                 MainRole.getInstance().drawCards(3);
             }
         } else {
             if (target.getHP() <= 0) {
-                MainRole.getInstance().getMP(3);
+                MainRole.getInstance().gainMP(3);
                 MainRole.getInstance().drawCards(3);
             }
         }

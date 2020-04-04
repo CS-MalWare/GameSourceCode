@@ -59,7 +59,7 @@ public class Enchantment extends SkillCard {
                 card.upgrade();
         }
         if (upgraded) {
-            MainRole.getInstance().getMP(3);
+            MainRole.getInstance().gainMP(3);
         }
         return true;
     }

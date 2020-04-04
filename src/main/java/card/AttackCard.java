@@ -13,7 +13,7 @@ public abstract class AttackCard extends Card {
     public enum PROPERTY {NONE, FIRE, GOLD, WOOD, WATER, SOIL}
 
     protected PROPERTY property;
-    protected boolean AOE;
+
 
     public AttackCard(OCCUPATION occupation, String name, int cost, RARITY rarity, String description, int damage, int times) {
         super(occupation, name, cost, TYPE.ATTACK, rarity, description);
@@ -80,7 +80,4 @@ public abstract class AttackCard extends Card {
     }
 
 
-    public boolean isAOE() {
-        return this.AOE;
-    }
 }

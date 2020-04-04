@@ -16,7 +16,7 @@ public class Role {
     protected String src; //模型路径
     protected ROLE role; // 属于什么角色
     protected AttackCard.PROPERTY property;
-
+    protected int atk; // 攻击力,只应用于一次伤害
     protected SimpleApplication app; //主要用于调用各个state中的方法
     //战斗中的实际属性
     protected int block;
@@ -70,6 +70,7 @@ public class Role {
         dodge = new Dodge(this, 0);
         dexterity = 0;
         strength = 0;
+        atk = 0;
 //        this.multiplyingDealDamage = 1;
 //        this.multiplyingGetDamage = 1;
 //        this.multiplyingGetBlock = 1;
@@ -204,13 +205,14 @@ public class Role {
 
     // 计算经过buff后的,应该造成的伤害值
     public int computeDamage(int num) {
-        num = num + strength;
+        num = num + strength + this.atk;
         if (this.weak.getDuration() > 0)
             num = (int) (num * 0.75);
         if (this.disarm.getDuration() > 0) {
             float random = (float) (Math.random() * 3);
             if (random < 1) return 1;
         }
+        this.atk = 0;
         return (int) (num * this.multiplyingDealDamage);
     }
 
@@ -393,5 +395,14 @@ public class Role {
         } else {
             this.setHP(this.getHP() + number);
         }
+    }
+
+
+    public int getAtk() {
+        return atk;
+    }
+
+    public void setAtk(int atk) {
+        this.atk = atk;
     }
 }

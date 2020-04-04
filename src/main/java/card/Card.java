@@ -22,7 +22,7 @@ public class Card extends Picture {
     protected boolean exhaust; //是否消耗
     protected boolean upgraded; // 是否已经升级
     protected boolean ethereal; // 是否虚无(及是回合结束时,若在手中,则消耗)
-
+    protected boolean AOE;
     public enum OCCUPATION {SABER, CASTER, NEUTRAL}
 
     private OCCUPATION occupation;
@@ -169,5 +169,10 @@ public class Card extends Picture {
     @Override
     public Card clone() {
         return (Card) super.clone();
+    }
+
+
+    public boolean isAOE() {
+        return this.AOE;
     }
 }

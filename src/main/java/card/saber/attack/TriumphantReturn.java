@@ -32,9 +32,9 @@ public class TriumphantReturn extends AttackCard {
         }
         if (target.getHP() <= 0) {
             if (!upgraded)
-                MainRole.getInstance().getMP(3);
+                MainRole.getInstance().gainMP(3);
             else
-                MainRole.getInstance().getMP(4);
+                MainRole.getInstance().gainMP(4);
         }
         return true;
     }

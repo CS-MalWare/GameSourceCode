@@ -24,7 +24,7 @@ public class MainRole extends Role {
     //玩家的独特属性
     private int MP_max;
     private int MP_current;
-    private int attack;
+
     private int draw;
     private int potionBag;
     private int gold;
@@ -56,7 +56,6 @@ public class MainRole extends Role {
 
         this.setStrength(this.strength_);
 
-        this.attack = 0;
         this.setDexterity(this.dexterity_);
 
         // 将卡组复制一份,因为战斗中可能会修改卡组
@@ -97,8 +96,26 @@ public class MainRole extends Role {
         return true;
     }
 
-    public void getMP(int num) {
+
+    public int getMP_current() {
+        return MP_current;
+    }
+
+    public void setMP_current(int MP_current) {
+        this.MP_current = MP_current;
+    }
+
+    public void gainMP(int num) {
         this.MP_current = Math.min(this.MP_current + num, this.MP_max);
+    }
+
+    public boolean decMP(int num) {
+        if (num > MP_current) {
+            return false;
+        } else {
+            this.MP_current -= num;
+            return true;
+        }
     }
 
 
