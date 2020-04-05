@@ -54,8 +54,8 @@ public class Test extends SimpleApplication {
 
         // 调整光照亮度
         ColorRGBA lightColor = new ColorRGBA();
-        sun.setColor(lightColor.mult(0.8f));
-        ambient.setColor(lightColor.mult(0.8f));
+        sun.setColor(lightColor.mult(1.3f));
+        ambient.setColor(lightColor.mult(1.3f));
 
         rootNode.addLight(sun);
         rootNode.addLight(ambient);
@@ -73,7 +73,7 @@ public class Test extends SimpleApplication {
     public static void main(String[] args) {
         // 配置参数
         AppSettings settings = new AppSettings(true);
-        settings.setTitle("守护陈岳涛殿下");// 标题
+        settings.setTitle("protect yuetao king");// 标题
         settings.setResolution(1600, 900);// 分辨率
         settings.setFrameRate(100);//限制fps
         Test app = new Test();

@@ -1,6 +1,8 @@
 package appState;
 
 import character.MainRole;
+import com.jme3.animation.AnimChannel;
+import com.jme3.animation.AnimControl;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
@@ -20,6 +22,8 @@ import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 
 public class LeadingActorState extends BaseAppState {
+    private AnimControl animControl;
+    private AnimChannel animChannel;
     private SimpleApplication app;
     private Node rootNode = new Node("LeadingActorState");
     private ArrayList<MainRole> actors;
@@ -27,17 +31,37 @@ public class LeadingActorState extends BaseAppState {
     private Geometry chosen;
     private MainRole target;
 
+    private Spatial model1;
+
 
     protected void initialize(Application application) {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
-        Spatial model1 = application.getAssetManager().loadModel("LeadingActor/untitled.obj");
+        model1 = app.getAssetManager().loadModel("LeadingActor/leader.j3o");
+        //model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+
+        Node scene = (Node) model1;
+
+        Node bip001 = (Node) scene.getChild("Bip001");
+
+        //spatial.getChild("AnimControl");
+
+
+        animControl = bip001.getControl(AnimControl.class);
+
+        //AnimControl control = (AnimControl)spatial.getControl(0);
+
+        System.out.println(animControl.getAnimationNames() + "zzzzzzz");
+
+        animChannel = animControl.createChannel();
+
+        animChannel.setAnim("walk");
         System.out.println(model1.getName());
-        model1.setName("LeadingActor/untitled.obj");
+        model1.setName("LeadingActor/leader.j3o");
         model1.scale(0.03f);// 按比例缩小
         model1.center();// 将模型的中心移到原点
-        model1.move(-7, 0, -3);
-        model1.rotate(0, 0.8f, 0);
+        model1.move(-6, 0.5f, -5);
+        model1.rotate(0, 0.2f, 0);
 
         model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
