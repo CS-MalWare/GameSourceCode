@@ -1,6 +1,9 @@
 package character.enemy.dragonWat;
 
 import character.Enemy;
+import utils.buffs.foreverBuffs.Dodge;
+import utils.buffs.limitBuffs.Vulnerable;
+import utils.buffs.limitBuffs.Weak;
 
 public class DarkDragon extends Enemy {
     public DarkDragon(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
@@ -36,19 +39,19 @@ public class DarkDragon extends Enemy {
 
     @Override
     protected void attack() {
-        this.target.getDamage((int)(25*this.getMultiplyingDealDamage()));
+        this.target.getDamage(computeDamage(25));
     }
 
     protected void attack2() {
         for(int i = 0;i<3;i++){
-            this.target.getDamage((int)(5*this.getMultiplyingDealDamage()));
+            this.target.getDamage(computeDamage(5));
         }
-        //TODO 1层闪避
+        this.getBuff(new Dodge(this,1));
     }
 
     @Override
     protected void releaseDebuff() {
-        //TODO 2层虚弱，2层脆弱
+        this.target.getBuff(new Weak(this.target,2),new Vulnerable(this.target,2));
     }
 
     @Override
@@ -58,7 +61,7 @@ public class DarkDragon extends Enemy {
 
     @Override
     protected void getBlocks() {
-        this.setBlock(this.getBlock()+15);
+        this.setBlock(this.getBlock()+computeBlock(15));
         this.setStrength(this.getStrength()+2);
     }
 

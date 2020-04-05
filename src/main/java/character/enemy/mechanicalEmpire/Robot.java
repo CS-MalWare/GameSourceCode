@@ -2,6 +2,7 @@ package character.enemy.mechanicalEmpire;
 
 import character.Enemy;
 import character.MainRole;
+import utils.buffs.limitBuffs.Intangible;
 
 public class Robot extends Enemy {
     //TODO 固化HP和SRC等属性
@@ -49,19 +50,19 @@ public class Robot extends Enemy {
 
     @Override
     protected void getBlocks() {
-        this.setBlock(this.getBlock()+14);
+        this.setBlock(this.getBlock()+computeBlock(14));
 
     }
 
     @Override
     protected void getBlockAndAttack() {
-        this.target.getDamage((int)(5*this.getMultiplyingDealDamage()));
-        this.setBlock(this.getBlock()+10);
+        this.target.getDamage(computeDamage(5));
+        this.setBlock(this.getBlock()+computeBlock(10));
     }
 
     @Override
     protected void releaseBuff() {
-        //TODO 3层荆棘
+        this.getBuff(new Intangible(this,1));
     }
 
     @Override

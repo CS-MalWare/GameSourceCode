@@ -1,6 +1,7 @@
 package character.enemy.dragonWat;
 
 import character.Enemy;
+import utils.buffs.limitBuffs.Bleeding;
 
 public class KingDarkDragon extends Enemy {
     public KingDarkDragon(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
@@ -39,20 +40,21 @@ public class KingDarkDragon extends Enemy {
 
     @Override
     protected void attack() {
-        this.target.getDamage((int)(20*this.getMultiplyingDealDamage()));
+        this.target.getDamage(computeDamage(20));
         this.setStrength(this.getStrength()+1);
-        //TODO 2层流血
+        this.target.getBuff(new Bleeding(this.target,2));
     }
 
     protected void attack2() {
         for(int i = 0;i<4;i++){
-            this.target.getDamage((int)(4*this.getMultiplyingDealDamage()));
+            this.target.getDamage(computeDamage(4));
         }
     }
 
     @Override
     protected void releaseDebuff() {
-        //TODO 玩家减2力量,3层流血
+        this.target.setStrength(this.target.getStrength()-2);
+        this.target.getBuff(new Bleeding(this.target,3));
     }
 
     @Override
@@ -62,13 +64,13 @@ public class KingDarkDragon extends Enemy {
 
     @Override
     protected void getBlocks() {
-        this.setBlock(this.getBlock()+25);
+        this.setBlock(this.getBlock()+computeBlock(20));
     }
 
     @Override
     protected void getBlockAndAttack() {
-        this.target.getDamage((int)(10*this.getMultiplyingDealDamage()));
-        this.setBlock(this.getBlock()+20);
+        this.target.getDamage(computeDamage(10));
+        this.setBlock(this.getBlock()+computeBlock(20));
     }
 
     @Override

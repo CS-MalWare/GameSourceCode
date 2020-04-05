@@ -35,7 +35,7 @@ public class StrongRobot extends Enemy {
 
     @Override
     protected void attack() {
-        this.target.getDamage((int)(20*this.getMultiplyingDealDamage()));
+        this.target.getDamage(computeDamage(20));
         this.treat(5);
     }
 
@@ -50,7 +50,7 @@ public class StrongRobot extends Enemy {
 
     @Override
     protected void getBlocks() {
-        this.setBlock(this.getBlock()+15);
+        this.setBlock(this.getBlock()+computeBlock(15));
     }
 
     @Override

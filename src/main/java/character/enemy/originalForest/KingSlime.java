@@ -3,6 +3,7 @@ package character.enemy.originalForest;
 import character.Enemy;
 import character.MainRole;
 import utils.buffs.limitBuffs.Stun;
+import utils.buffs.limitBuffs.Vulnerable;
 import utils.buffs.limitBuffs.Weak;
 
 import java.time.temporal.WeekFields;
@@ -71,7 +72,7 @@ public class KingSlime extends Enemy {
 
     @Override
     protected void releaseCurses() {
-        //TODO 3层虚弱，3层脆弱
+        this.target.getBuff(new Weak(this.target,3),new Vulnerable(this.target,3));
     }
 
     @Override

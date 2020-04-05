@@ -1,6 +1,7 @@
 package character.enemy.dragonWat;
 
 import character.Enemy;
+import utils.buffs.foreverBuffs.Dodge;
 
 public class EliteDarkDragon extends Enemy {
     public EliteDarkDragon(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
@@ -35,19 +36,19 @@ public class EliteDarkDragon extends Enemy {
 
     @Override
     protected void attack() {
-        this.target.getDamage((int)(35*this.getMultiplyingDealDamage()));
+        this.target.getDamage(computeDamage(35));
     }
 
     protected void attack2() {
         for(int i = 0;i<4;i++){
-            this.target.getDamage((int)(6*this.getMultiplyingDealDamage()));
+            this.target.getDamage(computeDamage(6));
         }
-        //TODO 1层闪避
+        this.getBuff(new Dodge(this,1));
     }
 
     @Override
     protected void releaseDebuff() {
-        //TODO 玩家减2力量
+        this.target.setStrength(this.target.getStrength()-2);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class EliteDarkDragon extends Enemy {
 
     @Override
     protected void getBlocks() {
-        this.setBlock(this.getBlock()+10);
+        this.setBlock(this.getBlock()+computeBlock(10));
         this.setStrength(this.getStrength()+4);
     }
 

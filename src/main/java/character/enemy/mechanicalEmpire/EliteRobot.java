@@ -2,6 +2,7 @@ package character.enemy.mechanicalEmpire;
 
 import character.Enemy;
 import character.MainRole;
+import utils.buffs.limitBuffs.*;
 
 public class EliteRobot extends Enemy {
     //TODO 固化HP和SRC等属性
@@ -64,20 +65,20 @@ public class EliteRobot extends Enemy {
     }
 
     protected void $(){
-        int treatValue = (int)(0.15*(this.getTotalHP()-this.getHP()));
-        this.target.getDamage((int)(treatValue*this.getMultiplyingDealDamage()));
+        int treatValue = computeDamage((int)(0.15*(this.getTotalHP()-this.getHP())));
+        this.target.getDamage(treatValue);
         this.treat(treatValue);
     }
 
     @Override
     protected void attack() {
-        this.target.getDamage((int)(20*this.getMultiplyingDealDamage()));
-        //TODO 2层虚弱，2层脆弱
+        this.target.getDamage(computeDamage(20));
+        this.target.getBuff(new Weak(this.target,2), new Vulnerable(this.target,2));
     }
 
     protected void attack2(){
         for(int i = 0;i<2;i++){
-            this.target.getDamage((int)(15*this.getMultiplyingDealDamage()));
+            this.target.getDamage(computeDamage(15));
         }
     }
 
@@ -87,14 +88,14 @@ public class EliteRobot extends Enemy {
 
     @Override
     protected void releaseCurses() {
-        //TODO 1层沉默，缴械
         this.setStrength(this.getStrength()+2);
+        this.target.getBuff(new Disarm(this.target,1),new Silence(this.target,1));
 
     }
 
     @Override
     protected void getBlocks() {
-        this.setBlock(this.getBlock()+25);
+        this.setBlock(this.getBlock()+computeDamage(25));
     }
 
     @Override
@@ -104,7 +105,7 @@ public class EliteRobot extends Enemy {
 
     @Override
     protected void releaseBuff() {
-        //TODO 4层荆棘
+        this.getBuff(new Intangible(this,2));
 
     }
 

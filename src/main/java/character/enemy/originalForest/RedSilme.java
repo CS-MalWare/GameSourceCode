@@ -35,7 +35,7 @@ public class RedSilme extends Enemy {
 
     @Override
     protected void attack() {
-        this.target.getDamage((int) (9 * this.getMultiplyingDealDamage()));
+        this.target.getDamage(computeDamage(9));
 
         this.target.getBuff(new Bleeding(target, 2));
     }

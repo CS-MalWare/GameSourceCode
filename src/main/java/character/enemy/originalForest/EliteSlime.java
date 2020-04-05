@@ -65,7 +65,7 @@ public class EliteSlime extends Enemy {
 
     @Override
     protected void releaseDebuff() {
-        this.target.getBuff(new Weak(this, 3));
+        this.target.getBuff(new Weak(this.target, 3));
     }
 
     @Override

@@ -8,7 +8,6 @@ import utils.buffs.limitBuffs.Weak;
 
 public class EliteWolfman extends Enemy {
     //TODO 固化HP和src等属性
-    private boolean canSummon = true;//是否能召唤狼人
     private boolean isWake = false;//用于判断是否能够攻击吸血
 
     public EliteWolfman(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
@@ -28,9 +27,6 @@ public class EliteWolfman extends Enemy {
     @Override
     public void startTurn() {
         super.startTurn();
-        if (stun.getDuration() > 0) {
-            return;
-        }
         this.nextActionSet = new String[]{
                 String.format(hints[7], computeDamage(3), 2),
                 String.format(hints[4], computeDamage(15), computeBlock(8)),
@@ -64,7 +60,6 @@ public class EliteWolfman extends Enemy {
         } else {
             for (int i = 0; i < 2; i++) {
                 int damage = this.target.getDamage(computeDamage(3));
-                //TODO 吸血效果处理
                 this.treat((int) (damage * 0.25));
             }
         }

@@ -1,6 +1,9 @@
 package character.enemy.dragonWat;
 
 import character.Enemy;
+import utils.buffs.foreverBuffs.Dodge;
+import utils.buffs.limitBuffs.Vulnerable;
+import utils.buffs.limitBuffs.Weak;
 
 public class RampageDarkDragon extends Enemy {
     public RampageDarkDragon(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
@@ -36,19 +39,19 @@ public class RampageDarkDragon extends Enemy {
 
     @Override
     protected void attack() {
-        this.target.getDamage((int)(30*this.getMultiplyingDealDamage()));
+        this.target.getDamage(computeDamage(30));
     }
 
     protected void attack2() {
         for(int i = 0;i<4;i++){
-            this.target.getDamage((int)(5*this.getMultiplyingDealDamage()));
+            this.target.getDamage(computeDamage(5));
         }
-        //TODO 1层闪避
+        this.getBuff(new Dodge(this,1));
     }
 
     @Override
     protected void releaseDebuff() {
-        //TODO 2层虚弱，3层脆弱
+        this.target.getBuff(new Weak(this.target,2),new Vulnerable(this.target,3));
     }
 
     @Override
@@ -58,7 +61,7 @@ public class RampageDarkDragon extends Enemy {
 
     @Override
     protected void getBlocks() {
-        this.setBlock(this.getBlock()+20);
+        this.setBlock(this.getBlock()+computeBlock(20));
         this.setStrength(this.getStrength()+2);
     }
 

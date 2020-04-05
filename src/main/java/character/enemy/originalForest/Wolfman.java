@@ -55,7 +55,7 @@ public class Wolfman extends Enemy {
 
     @Override
     protected void releaseBuff() {
-        this.strength += 2;
+        this.setStrength(this.getStrength()+2);
     }
 
     @Override

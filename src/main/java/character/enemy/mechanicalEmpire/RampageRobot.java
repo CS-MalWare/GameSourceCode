@@ -2,6 +2,10 @@ package character.enemy.mechanicalEmpire;
 
 import character.Enemy;
 import character.MainRole;
+import utils.buffs.limitBuffs.Disarm;
+import utils.buffs.limitBuffs.Intangible;
+import utils.buffs.limitBuffs.Silence;
+import utils.buffs.limitBuffs.Weak;
 
 public class RampageRobot extends Enemy {
     //TODO 固化HP和SRC等属性
@@ -14,7 +18,8 @@ public class RampageRobot extends Enemy {
                         "this enemy will deal 10 damage to you and gain 10 blocks"
 
                 };
-        //TODO 5层荆棘
+        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
+        this.getBuff(new Intangible(this,2));
     }
 
     @Override
@@ -36,17 +41,17 @@ public class RampageRobot extends Enemy {
 
     @Override
     protected void attack() {
-        this.target.getDamage((int)(20*this.getMultiplyingDealDamage()));
-        //TODO 2层虚弱
+        this.target.getDamage(computeDamage(20));
+        this.target.getBuff(new Weak(this.target,2));
     }
 
     @Override
     protected void releaseDebuff() {
         if(Math.random()>0.5){
-            //TODO 1层缴械
+            this.target.getBuff(new Disarm(this.target,1));
         }
         else{
-            //TODO 1层沉默
+            this.target.getBuff(new Silence(this.target,1));
         }
         this.treat(5);
     }
@@ -63,8 +68,8 @@ public class RampageRobot extends Enemy {
 
     @Override
     protected void getBlockAndAttack() {
-        this.target.getDamage((int)(10*this.getMultiplyingDealDamage()));
-        this.setBlock(this.getBlock()+10);
+        this.target.getDamage(computeDamage(10));
+        this.setBlock(this.getBlock()+computeBlock(10));
     }
 
     @Override

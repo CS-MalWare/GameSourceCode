@@ -2,6 +2,7 @@ package character.enemy.originalForest;
 
 import character.Enemy;
 import character.MainRole;
+import utils.buffs.limitBuffs.Bleeding;
 
 public class OneEyedWolfman extends Enemy {
     //TODO 固化HP和src等属性
@@ -12,18 +13,18 @@ public class OneEyedWolfman extends Enemy {
                         "this enemy will deal 5 damages to you",
                         "this enemy will gain some buff",
                 };
-        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length + 0.5);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
     @Override
     protected void attack() {
-        int damage = (int) (7 * this.getMultiplyingDealDamage());
+        int damage = computeDamage((int) (7 * this.getMultiplyingDealDamage()));
         this.target.getDamage(damage);
 
         //回复50%伤害值的血量，需要修改，因为伤害值计算还没有准确
         int treatValue = damage/2;
         this.treat(treatValue);
-        //TODO 3层流血
+        this.target.getBuff(new Bleeding(this.target,3));
     }
 
     @Override

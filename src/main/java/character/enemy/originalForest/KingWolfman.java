@@ -2,6 +2,10 @@ package character.enemy.originalForest;
 
 import character.Enemy;
 import character.MainRole;
+import utils.buffs.limitBuffs.Bleeding;
+import utils.buffs.limitBuffs.Intangible;
+import utils.buffs.limitBuffs.Vulnerable;
+import utils.buffs.limitBuffs.Weak;
 
 public class KingWolfman extends Enemy {
     //TODO 固化HP和src等属性
@@ -37,7 +41,7 @@ public class KingWolfman extends Enemy {
 
     @Override
     protected void attack() {
-        int demage = (int) (5 * this.getMultiplyingDealDamage());
+        int demage = computeDamage((int) (5 * this.getMultiplyingDealDamage()));
         for(int i = 0;i<3;i++) {
             this.target.getDamage(demage);
 
@@ -47,32 +51,31 @@ public class KingWolfman extends Enemy {
 
     @Override
     protected void releaseDebuff(){
-        //TODO 5层 流血给玩家
+        this.target.getBuff(new Bleeding(this.target,5));
     }
 
     @Override
     protected void releaseCurses() {
-        this.setStrength(this.getStrength()+2);
-        //TODO 2 层迟钝给玩家
+        this.target.setStrength(this.target.getStrength()-2);
     }
     @Override
     protected void getBlocks(){
-        this.setBlock(this.getBlock() + 20);
+        this.setBlock(this.getBlock() + computeDamage(20));
     }
 
     @Override
     protected void getBlockAndAttack() {
-        int demage = (int)(20*this.getMultiplyingDealDamage());
+        int demage = computeDamage((int)(20*this.getMultiplyingDealDamage()));
         this.target.getDamage(demage);
 
         this.treat(demage/4);
-        this.setBlock(this.getBlock()+10);
-        //TODO 2层 虚弱，2 层 脆弱
+        this.setBlock(this.getBlock()+computeDamage(10));
+        this.target.getBuff(new Weak(this.target,2),new Vulnerable(this.target,2));
     }
 
     @Override
     protected void releaseBuff() {
-        //TODO 4 层荆棘
+        this.getBuff(new Intangible(this,1));
     }
 
     @Override

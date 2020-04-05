@@ -2,6 +2,11 @@ package character.enemy.mechanicalEmpire;
 
 import character.Enemy;
 import character.MainRole;
+import utils.buffs.foreverBuffs.Dodge;
+import utils.buffs.limitBuffs.Silence;
+import utils.buffs.limitBuffs.Stun;
+import utils.buffs.limitBuffs.Vulnerable;
+import utils.buffs.limitBuffs.Weak;
 
 public class SteamRobot extends Enemy {
     //TODO 固化HP和SRC等属性
@@ -56,45 +61,45 @@ public class SteamRobot extends Enemy {
 
     @Override
     protected void attack() {
-        this.target.getDamage((int)(45*this.getMultiplyingDealDamage()));
-        //todo 眩晕自己1层
+        this.target.getDamage(computeDamage(45));
+        this.getBuff(new Stun(this,1));
     }
 
     protected void attack2(){
         for(int i = 0;i<3;i++)
-            this.target.getDamage((int)(10*this.getMultiplyingDealDamage()));
+            this.target.getDamage(computeDamage(15));
     }
 
     protected void attack3(){
-        this.target.getDamage((int)(15*this.getMultiplyingDealDamage()));
-        //TODO 2层沉默
+        this.target.getDamage(computeDamage(15));
+        this.target.getBuff(new Silence(this.target,2));
     }
 
     @Override
     protected void releaseDebuff() {
-        //TODO 2层虚弱，2层脆弱
+        this.target.getBuff(new Weak(this.target,2),new Vulnerable(this.target,2));
 
     }
 
     @Override
     protected void releaseCurses() {
-        //TODO 5层虚弱，5层脆弱
+        this.target.getBuff(new Weak(this.target,5),new Vulnerable(this.target,5));
     }
 
     @Override
     protected void getBlocks() {
-        this.setBlock(this.getBlock()+20);
+        this.setBlock(this.getBlock()+computeDamage(20));
     }
 
     @Override
     protected void getBlockAndAttack() {
-        this.setBlock(this.getBlock()+15);
-        this.target.getDamage((int)(15*this.getMultiplyingDealDamage()));
+        this.target.getDamage(computeDamage(15));
+        this.setBlock(this.getBlock()+computeBlock(15));
     }
 
     @Override
     protected void releaseBuff() {
-        //TODO 1层闪避
+        this.getBuff(new Dodge(this,1));
     }
 
     @Override
