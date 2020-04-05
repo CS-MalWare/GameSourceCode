@@ -37,7 +37,7 @@ public class LeadingActorState extends BaseAppState {
     protected void initialize(Application application) {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
-        model1 = app.getAssetManager().loadModel("leader.j3o");
+        model1 = app.getAssetManager().loadModel("LeadingActor/leader.j3o");
         //model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
         Node scene = (Node) model1;
