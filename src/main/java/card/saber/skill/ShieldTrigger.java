@@ -41,7 +41,7 @@ public class ShieldTrigger extends SkillCard {
         ArrayList<Enemy> enemies = EnemyState.getInstance().getEnemies();
         boolean flag = false;
         for (Enemy enemy : enemies) {
-            if (enemy.getBleeding().getDuration() > 0) {
+            if (enemy.getWeak().getDuration() > 0) {
                 flag = true;
                 break;
             }
