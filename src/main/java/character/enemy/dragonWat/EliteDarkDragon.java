@@ -14,6 +14,22 @@ public class EliteDarkDragon extends Enemy {
         };
         this.nextActionIndex = (int)(Math.random()*(this.nextActionSet.length));
     }
+
+    @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(35)),
+                hints[1],
+                String.format(hints[3],computeBlock(10)),
+                String.format(hints[7],computeDamage(6),4),
+        };
+        newTurn();
+    }
+
     @Override
     public void enemyAction() {
         switch (this.nextActionIndex){

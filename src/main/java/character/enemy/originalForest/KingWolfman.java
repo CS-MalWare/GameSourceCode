@@ -15,17 +15,33 @@ public class KingWolfman extends Enemy {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]
                 {
-                        "this enemy will deal 20 damages to you and gain some block",
+                        "this enemy will deal 20 damages to you and gain 10 block",
                         "this enemy will inflict debuffs on you",
                         "this enemy will deal 5*3 damages to you",
                         "this enemy will inflict strong curses on you",
                         "this enemy will gain some buff",
-                        "this enemy will gain some block",
+                        "this enemy will gain 20 block",
                 };
 
         this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
     }
 
+    @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                String.format(hints[4], computeDamage(20),computeBlock(10)),
+                hints[1],
+                String.format(hints[7], computeDamage(5),3),
+                hints[2],
+                hints[5],
+                String.format(hints[3],computeBlock(20))
+        };
+        newTurn();
+    }
 
     @Override
     public void newTurn() {
@@ -65,7 +81,7 @@ public class KingWolfman extends Enemy {
 
     @Override
     protected void getBlockAndAttack() {
-        int demage = computeDamage((int)(20*this.getMultiplyingDealDamage()));
+        int demage = computeDamage(20);
         this.target.getDamage(demage);
 
         this.treat(demage/4);

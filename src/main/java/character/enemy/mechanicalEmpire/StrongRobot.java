@@ -11,9 +11,23 @@ public class StrongRobot extends Enemy {
                 {
                         "this enemy will deal 20 damages to you",
                         "this enemy will exert strong blessing on itself",
-                        "this enemy will gain some block"
+                        "this enemy will gain 15 block"
                 };
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
+    }
+
+    @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(20)),
+                hints[6],
+                String.format(hints[3],computeBlock(15)),
+        };
+        newTurn();
     }
 
     @Override

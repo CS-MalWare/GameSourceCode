@@ -18,6 +18,21 @@ public class RampageDarkDragon extends Enemy {
     }
 
     @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(30)),
+                hints[1],
+                String.format(hints[3], computeBlock(20)),
+                String.format(hints[7],computeDamage(5),4),
+        };
+        newTurn();
+    }
+
+    @Override
     public void enemyAction() {
         switch (this.nextActionIndex){
             case 0:

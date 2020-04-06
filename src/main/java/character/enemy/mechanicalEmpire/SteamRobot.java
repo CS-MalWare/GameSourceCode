@@ -20,11 +20,30 @@ public class SteamRobot extends Enemy {
                         "this enemy will gain some buff",
                         "this enemy will deal 45 damages to you",
                         "this enemy will inflict strong curses on you",
-                        "this enemy will deal some damages to you and gain some blocks",
+                        "this enemy will deal 15 damages to you and gain 15 blocks",
                         "this enemy will deal 10*3 damages to you",
                         "this enemy will deal 15 damages to you"
                 };
         this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
+    }
+
+    @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                String.format(hints[3], computeBlock(20)),
+                hints[1],
+                hints[5],
+                String.format(hints[0], computeDamage(45)),
+                hints[2],
+                String.format(hints[4],computeDamage(15),computeBlock(15)),
+                String.format(hints[7],computeBlock(10),3),
+                String.format(hints[0],computeDamage(15)),
+        };
+        newTurn();
     }
 
     @Override

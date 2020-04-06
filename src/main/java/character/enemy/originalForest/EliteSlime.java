@@ -20,7 +20,6 @@ public class EliteSlime extends Enemy {
 
     @Override
     public void startTurn() {
-        newTurn();
         super.startTurn();
         if (stun.getDuration() > 0) {
             return;

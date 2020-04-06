@@ -18,6 +18,20 @@ public class Robot extends Enemy {
     }
 
     @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                hints[5],
+                String.format(hints[0], computeDamage(10)),
+                String.format(hints[3],computeBlock(14)),
+        };
+        newTurn();
+    }
+
+    @Override
     public void enemyAction() {
         switch (this.nextActionIndex){
             case 0:

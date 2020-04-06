@@ -135,7 +135,7 @@ public class Role {
     public void endTurn() {
         this.sheild.triggerFunc();
         this.posion.triggerFunc();
-        this.bleeding.decDuration();
+        this.bleeding.triggerFunc();
         this.vulnerable.triggerFunc();
         this.intangible.triggerFunc();
         this.disarm.triggerFunc();

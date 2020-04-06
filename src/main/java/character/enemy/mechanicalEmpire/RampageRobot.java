@@ -23,6 +23,19 @@ public class RampageRobot extends Enemy {
     }
 
     @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(20)),
+                hints[1],
+                String.format(hints[4], computeDamage(10), computeBlock(10)),
+        };
+        newTurn();
+    }
+    @Override
     public void enemyAction() {
         switch (this.nextActionIndex){
             case 0:

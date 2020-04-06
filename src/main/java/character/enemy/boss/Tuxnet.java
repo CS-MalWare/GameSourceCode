@@ -21,6 +21,23 @@ public class Tuxnet extends Enemy {
     }
 
     @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(lastDamageSum)),
+                String.format(hints[7],computeDamage(1),8),
+                "this enemy will gain some blocks",
+                String.format(hints[4],computeDamage(30),computeBlock(15)),
+                hints[5],
+                hints[2]
+        };
+        newTurn();
+    }
+
+    @Override
     public void enemyAction() {
         switch (this.nextActionIndex){
             case 0:

@@ -5,7 +5,7 @@ import utils.buffs.limitBuffs.Bleeding;
 
 public class KingDarkDragon extends Enemy {
     public KingDarkDragon(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
-        //TODO 玩家使用攻击牌时候,受到一点伤害 玩家使用技能牌时候,自己恢复一点hp
+
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]{
                 "this enemy will deal 20 damages to you",
@@ -16,6 +16,30 @@ public class KingDarkDragon extends Enemy {
         };
         this.nextActionIndex = (int)(Math.random()*(this.nextActionSet.length));
     }
+
+    @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(20)),
+                hints[1],
+                String.format(hints[3],computeBlock(25)),
+                String.format(hints[7],computeDamage(4),4),
+                String.format(hints[4],computeDamage(10),computeBlock(20))
+        };
+        newTurn();
+    }
+
+    @Override
+    public void newTurn() {
+        super.newTurn();
+        this.target.getTrueDamage(1);
+        this.treat(2);
+    }
+
     @Override
     public void enemyAction() {
         switch (this.nextActionIndex){

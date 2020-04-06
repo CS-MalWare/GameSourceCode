@@ -17,6 +17,19 @@ public class OneEyedWolfman extends Enemy {
     }
 
     @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(5)),
+                hints[5],
+        };
+        newTurn();
+    }
+
+    @Override
     protected void attack() {
         int damage = computeDamage((int) (7 * this.getMultiplyingDealDamage()));
         this.target.getDamage(damage);

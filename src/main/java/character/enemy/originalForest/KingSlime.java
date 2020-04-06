@@ -34,6 +34,7 @@ public class KingSlime extends Enemy {
                 hints[2]
         };
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
+        newTurn();
     }
 
 

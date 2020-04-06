@@ -25,6 +25,24 @@ public class Ace extends Enemy {
     }
 
     @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(25)),
+                hints[5],
+                hints[1],
+                String.format(hints[3], computeBlock(20)),
+                hints[6],
+                String.format(hints[7],computeDamage(4),4),
+                String.format(hints[4],computeDamage(10),computeBlock(10)),
+        };
+        newTurn();
+    }
+
+    @Override
     public void newTurn() {
         super.newTurn();
         if(turnCount%3==0){
