@@ -37,7 +37,7 @@ public class LeadingActorState extends BaseAppState {
     protected void initialize(Application application) {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
-        model1 = app.getAssetManager().loadModel("LeadingActor/leader.j3o");
+        model1 = app.getAssetManager().loadModel("LeadingActor/MajorActor4.j3o");
         //model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
         Node scene = (Node) model1;
@@ -61,7 +61,7 @@ public class LeadingActorState extends BaseAppState {
         model1.scale(0.03f);// 按比例缩小
         model1.center();// 将模型的中心移到原点
         model1.move(-6, 0.5f, -5);
-        model1.rotate(0, 0.2f, 0);
+        model1.rotate(-1.5f, 1.3f, 0);
 
         model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
