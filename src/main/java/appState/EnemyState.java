@@ -1,7 +1,6 @@
 package appState;
 
 import character.Enemy;
-import character.Role;
 import character.enemy.dragonWat.DarkDragon;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -10,8 +9,6 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.*;
-import com.jme3.light.AmbientLight;
-import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
@@ -21,7 +18,6 @@ import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import org.lwjgl.Sys;
 import truetypefont.TrueTypeFont;
 import truetypefont.TrueTypeKey;
 import truetypefont.TrueTypeLoader;
@@ -32,9 +28,12 @@ public class EnemyState extends BaseAppState {
     private SimpleApplication app;
     private Node rootNode = new Node("EnemyState");  //主节点
     private ArrayList<Enemy> enemies;
+    private ArrayList<Geometry> hpHints;
+    private ArrayList<Geometry> blockHints;
     private MyRawInputListener myRawInputListener;
-    private Geometry chosen;
-    private Enemy target;
+    private Geometry chosen;  // 选中的模型
+    private Enemy target;   // 选中模型对应的enemy类
+    private int targetID; // 选中的enemy类在 数组中的位置,主要用于更新hp和block
     private static EnemyState instance = null;
     TrueTypeFont font;
 
@@ -50,7 +49,7 @@ public class EnemyState extends BaseAppState {
         font = (TrueTypeFont) this.app.getAssetManager().loadAsset(ttk);
 
         Spatial model1 = application.getAssetManager().loadModel("Dragon/dragon.obj");
-        addEnemies(new DarkDragon(85,"Dragon/dragon.obj",0,0,0,0,0,0,0,0));
+        addEnemies(new DarkDragon(85, "Dragon/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0));
 
         System.out.println(model1.getName());
         model1.setName("Dragon/dragon.obj");
@@ -65,14 +64,76 @@ public class EnemyState extends BaseAppState {
         rootNode.attachChild(model1);
 
 
-
-        Geometry temp = font.getBitmapGeom(String.format("%s/%s", getEnemies().get(0).getHP(),getEnemies().get(0).getTotalHP()), 0, ColorRGBA.White);
-        temp.scale(0.02f);
-        temp.setLocalTranslation(3, 1, 1);
-        rootNode.attachChild(temp);
+        Geometry hpHint = font.getBitmapGeom(String.format("%s/%s", getEnemies().get(0).getHP(), getEnemies().get(0).getTotalHP()), 0, ColorRGBA.Red);
+        hpHint.scale(0.02f);
+        hpHint.setLocalTranslation(3, 1, 1);
+        rootNode.attachChild(hpHint);
+        Geometry blockHint = font.getBitmapGeom(String.format("%s", getEnemies().get(0).getBlock()), 0, ColorRGBA.Blue);
+        blockHint.scale(0.02f);
+        blockHint.setLocalTranslation(3.5f, -1.2f, 1);
+        rootNode.attachChild(blockHint);
 //        rootNode.attachChild(model2);
         instance = this;
+        chosen = null;
+        target = null;
+        targetID = -1;
     }
+
+    public void initializeHints() {
+        int index = 0;
+        for (Enemy enemy : enemies) {
+            Geometry hpHint = font.getBitmapGeom(String.format("%s/%s", enemy.getHP(), enemy.getTotalHP()), 0, ColorRGBA.Red);
+            hpHint.scale(0.015f);
+            hpHint.setLocalTranslation(3, 1 - index * 3, 1);
+            hpHints.add(hpHint);
+            rootNode.attachChild(hpHint);
+            Geometry blockHint = font.getBitmapGeom(String.format("%s", enemy.getBlock()), 0, ColorRGBA.Blue);
+            blockHint.scale(0.015f);
+            blockHint.setLocalTranslation(3.5f, -1.2f - index * 3, 1);
+            blockHints.add(blockHint);
+            rootNode.attachChild(blockHint);
+            index += 1;
+        }
+    }
+
+    public void updateHints(boolean isAOE) {
+        int index = 0;
+        if (isAOE)
+            for (Enemy enemy : enemies) {
+                hpHints.get(index).removeFromParent();
+                Geometry hpHint = font.getBitmapGeom(String.format("%s/%s", enemy.getHP(), enemy.getTotalHP()), 0, ColorRGBA.Red);
+                hpHint.scale(0.015f);
+                hpHint.setLocalTranslation(3, 1 - index * 3, 1);
+                rootNode.attachChild(hpHint);
+                hpHints.set(index, hpHint);
+
+                blockHints.get(index).removeFromParent();
+                Geometry blockHint = font.getBitmapGeom(String.format("%s", enemy.getBlock()), 0, ColorRGBA.Blue);
+                blockHint.scale(0.015f);
+                blockHint.setLocalTranslation(3.5f, -1.2f - index * 3, 1);
+                rootNode.attachChild(blockHint);
+                blockHints.set(index, blockHint);
+                index += 1;
+            }
+        else {
+            if (targetID != -1) {
+                hpHints.get(targetID).removeFromParent();
+                Geometry hpHint = font.getBitmapGeom(String.format("%s/%s", enemies.get(targetID).getHP(), enemies.get(targetID).getTotalHP()), 0, ColorRGBA.Red);
+                hpHint.scale(0.015f);
+                hpHint.setLocalTranslation(3, 1 - targetID * 3, 1);
+                rootNode.attachChild(hpHint);
+                hpHints.set(targetID, hpHint);
+
+                blockHints.get(targetID).removeFromParent();
+                Geometry blockHint = font.getBitmapGeom(String.format("%s", enemies.get(targetID).getBlock()), 0, ColorRGBA.Blue);
+                blockHint.scale(0.015f);
+                blockHint.setLocalTranslation(3.5f, -1.2f - targetID * 3, 1);
+                rootNode.attachChild(blockHint);
+                blockHints.set(targetID, blockHint);
+            }
+        }
+    }
+
 
     public void addEnemies(Enemy... enemies) {
         for (int i = 0; i < enemies.length; i++) {
@@ -147,6 +208,8 @@ public class EnemyState extends BaseAppState {
                     System.out.println(res.getName());
                 } else {
                     chosen = null;
+                    target = null;
+                    targetID = -1;
                 }
 
             } else if (evt.isReleased()) {
@@ -155,14 +218,18 @@ public class EnemyState extends BaseAppState {
                     // 获得离射线原点最近的交点所在的图片
                     Geometry res = guiResults.getClosestCollision().getGeometry();
                     chosen = res;
+                    targetID = 0;
                     for (Enemy x : enemies) {
                         if (x.getSrc().equals(res.getName())) {
                             target = x;
+                            break;
                         }
+                        targetID++;
                     }
                 } else {
                     chosen = null;
                     target = null;
+                    targetID = -1;
                 }
             }
         }

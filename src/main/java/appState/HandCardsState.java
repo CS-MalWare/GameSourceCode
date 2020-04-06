@@ -2,6 +2,8 @@ package appState;
 
 import card.Card;
 import card.CreateCard;
+import character.Enemy;
+import character.Role;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
@@ -246,13 +248,29 @@ public class HandCardsState extends BaseAppState {
 
     //卡牌打出时候的操作
     private void useCard(Card card) {
-        handCards.remove(card);
+        if (card.isAOE()) {
+            ArrayList<Enemy> targets = app.getStateManager().getState(EnemyState.class).getEnemies();
+            Enemy[] enermies = targets.toArray(new Enemy[0]);
+            if (card.use(enermies)) {
+                handCards.remove(card);
 //        rootNode.detachChild(card);
 
-        app.getStateManager().getState(DecksState.class).addToDrop(card);
+                app.getStateManager().getState(DecksState.class).addToDrop(card);
 
-        int size = handCards.size();
-        adjustAllCardsPosition(size, -1);
+                int size = handCards.size();
+                adjustAllCardsPosition(size, -1);
+            }
+        } else {
+            if (card.use(app.getStateManager().getState(EnemyState.class).getTarget())) {
+                handCards.remove(card);
+//        rootNode.detachChild(card);
+
+                app.getStateManager().getState(DecksState.class).addToDrop(card);
+
+                int size = handCards.size();
+                adjustAllCardsPosition(size, -1);
+            }
+        }
 
     }
 
@@ -478,7 +496,7 @@ public class HandCardsState extends BaseAppState {
                     Card closest;
 
                     //如果选中的是卡牌,并且不是能力卡牌（因为power卡不需要指定目标），就获得它
-                    if (res instanceof Card && ((Card) res).getType() != Card.TYPE.POWER) {
+                    if (res instanceof Card) {
                         closest = (Card) res;
                         chosen = closest;
                         center = putCardCenter(closest);//将图片放置在中央
@@ -504,8 +522,8 @@ public class HandCardsState extends BaseAppState {
 
             } else if (evt.isReleased()) {
                 //这里处理的是拖动导致的释放卡牌
-                Geometry enemyChosen = app.getStateManager().getState(EnemyState.class).getChosen();
-                if (chosen != null && enemyChosen != null) {
+
+                if (chosen != null) {
                     useCard(chosen);
                 }
 
