@@ -2,6 +2,7 @@ package appState;
 
 import character.Enemy;
 import character.Role;
+import character.enemy.dragonWat.DarkDragon;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
@@ -21,6 +22,9 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import org.lwjgl.Sys;
+import truetypefont.TrueTypeFont;
+import truetypefont.TrueTypeKey;
+import truetypefont.TrueTypeLoader;
 
 import java.util.ArrayList;
 
@@ -32,12 +36,22 @@ public class EnemyState extends BaseAppState {
     private Geometry chosen;
     private Enemy target;
     private static EnemyState instance = null;
+    TrueTypeFont font;
 
     @Override
     protected void initialize(Application application) {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
+        enemies = new ArrayList<Enemy>();
+        this.app.getAssetManager().registerLoader(TrueTypeLoader.class, "ttf");
+        TrueTypeKey ttk = new TrueTypeKey("Util/font.ttf", // 字体
+                1, // 字形：0 普通、1 粗体、2 斜体
+                20);// 字号
+        font = (TrueTypeFont) this.app.getAssetManager().loadAsset(ttk);
+
         Spatial model1 = application.getAssetManager().loadModel("Dragon/dragon.obj");
+        addEnemies(new DarkDragon(85,"Dragon/dragon.obj",0,0,0,0,0,0,0,0));
+
         System.out.println(model1.getName());
         model1.setName("Dragon/dragon.obj");
         model1.scale(0.03f);// 按比例缩小
@@ -47,9 +61,15 @@ public class EnemyState extends BaseAppState {
 
         model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
-        enemies = new ArrayList<>();
         app.getInputManager().addRawInputListener(myRawInputListener);
         rootNode.attachChild(model1);
+
+
+
+        Geometry temp = font.getBitmapGeom(String.format("%s/%s", getEnemies().get(0).getHP(),getEnemies().get(0).getTotalHP()), 0, ColorRGBA.White);
+        temp.scale(0.02f);
+        temp.setLocalTranslation(3, 1, 1);
+        rootNode.attachChild(temp);
 //        rootNode.attachChild(model2);
         instance = this;
     }
