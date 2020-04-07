@@ -126,7 +126,7 @@ public class Card extends Picture {
 
 
     public void setImage(AssetManager assetManager) {
-        System.out.println(this.path);
+
         super.setImage(assetManager, this.path, true);
         this.setHeight(260);
         this.setWidth(200);

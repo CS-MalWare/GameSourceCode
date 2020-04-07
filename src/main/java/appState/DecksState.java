@@ -435,6 +435,25 @@ public class DecksState extends BaseAppState {
                             isDropDeckShow = false;
                             hideCards();
                     }
+                    if (res == drawText) {
+                        if (!isDrawDeckShow) showCards(drawDeck);
+                        else hideCards();
+                        isDrawDeckShow = !isDrawDeckShow;
+                        isDropDeckShow = false;
+                        isExhuastDeckShow = false;
+                    } else if (res == dropText) {
+                        if (!isDropDeckShow) showCards(dropDeck);
+                        else hideCards();
+                        isDropDeckShow = !isDropDeckShow;
+                        isDrawDeckShow = false;
+                        isExhuastDeckShow = false;
+                    } else if (res == exhaustText) {
+                        if (!isExhuastDeckShow) showCards(exhaustDeck);
+                        else hideCards();
+                        isExhuastDeckShow = !isExhuastDeckShow;
+                        isDrawDeckShow = false;
+                        isDropDeckShow = false;
+                    }
                 } else {
 //                    System.out.println("nothing");
                     isExhuastDeckShow = false;

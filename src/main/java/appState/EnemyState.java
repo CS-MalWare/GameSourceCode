@@ -21,6 +21,7 @@ import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import org.lwjgl.Sys;
 import truetypefont.TrueTypeFont;
 import truetypefont.TrueTypeKey;
 import truetypefont.TrueTypeLoader;
@@ -97,12 +98,13 @@ public class EnemyState extends BaseAppState {
 
     public void updateHints(boolean isAOE) {
         int index = 0;
-        if (isAOE)
+        if (isAOE) {
+            System.out.println("更新多个");
             for (Enemy enemy : enemies) {
                 hpHints.get(index).removeFromParent();
                 Geometry hpHint = font.getBitmapGeom(String.format("%s/%s", enemy.getHP(), enemy.getTotalHP()), 0, ColorRGBA.Red);
                 hpHint.scale(0.015f);
-                hpHint.setLocalTranslation(4 + 1.85f*(index==0?0:(float)Math.pow(-1,index)), 1.5f, 0);
+                hpHint.setLocalTranslation(4 + 1.85f * (index == 0 ? 0 : (float) Math.pow(-1, index)), 1.5f, 0);
                 rootNode.attachChild(hpHint);
                 hpHints.set(index, hpHint);
 
@@ -114,9 +116,12 @@ public class EnemyState extends BaseAppState {
                 blockHints.set(index, blockHint);
                 index += 1;
             }
+        }
         else {
             if (targetID != -1) {
+                System.out.println("更新单个");
                 hpHints.get(targetID).removeFromParent();
+
                 Geometry hpHint = font.getBitmapGeom(String.format("%s/%s", enemies.get(targetID).getHP(), enemies.get(targetID).getTotalHP()), 0, ColorRGBA.Red);
                 hpHint.scale(0.015f);
                 hpHint.setLocalTranslation(4 + 1.85f*(index==0?0:(float)Math.pow(-1,index)), 1.5f, 0);
