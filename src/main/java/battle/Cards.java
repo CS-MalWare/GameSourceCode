@@ -5,7 +5,6 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.*;
 import com.jme3.math.FastMath;
-import com.jme3.math.Matrix3f;
 import com.jme3.system.AppSettings;
 import com.jme3.ui.Picture;
 
