@@ -4,7 +4,7 @@
 .DS_Store
 */*/.DS_Store
 /src/main/java/Solution.java
-
+.idea/*
 
 *.plantuml
 /src/main/java/appState.png
