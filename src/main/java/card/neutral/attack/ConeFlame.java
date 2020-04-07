@@ -1,6 +1,7 @@
 package card.neutral.attack;
 
 import card.AttackCard;
+import character.Enemy;
 import character.Role;
 import utils.buffs.limitBuffs.Bleeding;
 
@@ -28,6 +29,7 @@ public class ConeFlame extends AttackCard {
 
     @Override
     public boolean use(Role target) {
+        if (!(target instanceof Enemy)) return false;
         int oldDamge = this.damage;
 
         if (target.getVulnerable().getDuration() > 0) {

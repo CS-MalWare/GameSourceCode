@@ -1,6 +1,13 @@
 package appState;
 
 import card.Card;
+import card.neutral.attack.ConeFlame;
+import card.neutral.attack.ConeGold;
+import card.neutral.attack.TheKissOfDeath;
+import card.neutral.attack.Whirlpool;
+import card.saber.attack.LightSlash;
+import card.saber.attack.Slash;
+import card.saber.attack.SoilSlash;
 import character.MainRole;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -120,15 +127,15 @@ public class DecksState extends BaseAppState {
         exhaustText.setLocalTranslation(positionX[2], positionY[2], 1);
         rootNode.attachChild(exhaustText);
 
-        drawDeck.add(new Card("Cards/caster/attack/流星雨.png"));
-        drawDeck.add(new Card("Cards/caster/attack/炎爆.png"));
-        drawDeck.add(new Card("Cards/caster/attack/破碎虚空(+).png"));
-        drawDeck.add(new Card("Cards/caster/attack/魔法吸血(+).png"));
+        drawDeck.add(new ConeFlame(true));
+        drawDeck.add(new ConeGold());
+        drawDeck.add(new Whirlpool());
+        drawDeck.add(new TheKissOfDeath());
 
-        dropDeck.add(new Card("Cards/caster/power/思维窃取(+).png"));
-        dropDeck.add(new Card("Cards/caster/power/超杀回复(+).png"));
+        dropDeck.add(new Slash());
+        dropDeck.add(new SoilSlash());
 
-        exhaustDeck.add(new Card("Cards/caster/skill/寒冰护甲(+).png"));
+        exhaustDeck.add(new LightSlash());
 
         for (Card card : drawDeck) {
             card.setImage(app.getAssetManager());

@@ -45,7 +45,8 @@ public class Card extends Picture {
             default:
                 return;
         }
-        switch (this.type) {
+        System.out.println(this.type);
+        switch (type) {
             case ATTACK:
                 this.path += "/attack";
                 break;
@@ -69,6 +70,7 @@ public class Card extends Picture {
         this.exhaust = false;
         this.ethereal = false;
         this.intrinsic = false;
+
     }
 
     public Card(String name) {
@@ -124,6 +126,7 @@ public class Card extends Picture {
 
 
     public void setImage(AssetManager assetManager) {
+        System.out.println(this.path);
         super.setImage(assetManager, this.path, true);
         this.setHeight(260);
         this.setWidth(200);

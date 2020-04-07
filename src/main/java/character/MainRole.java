@@ -3,6 +3,7 @@ package character;
 import appState.DecksState;
 import appState.HandCardsState;
 import card.Card;
+import org.codehaus.groovy.tools.shell.Main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +35,9 @@ public class MainRole extends Role {
 
 
     public static MainRole getInstance() {
+        if (instance == null) {
+            instance = new MainRole(85, "LeadingActor/MajorActor4.j3o");
+        }
         return instance;
     }
 

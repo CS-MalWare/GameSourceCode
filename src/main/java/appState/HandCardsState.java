@@ -2,6 +2,9 @@ package appState;
 
 import card.Card;
 import card.CreateCard;
+import card.saber.power.ManaBoost;
+import card.saber.skill.Defense;
+import card.saber.skill.Heal;
 import character.Enemy;
 import character.Role;
 import com.jme3.app.Application;
@@ -106,7 +109,7 @@ public class HandCardsState extends BaseAppState {
 //        System.out.println(name);
 //        Card card = CreateCard.createCard(name, Card.TYPE.ATTACK);//创建卡牌
         Card card = new Card(path);
-        card.setImage(app.getAssetManager(), path, true);
+
         card.setHeight((float) cardHeight);//设置宽高
 
         card.setWidth((float) cardWidth);//设置宽高
@@ -132,10 +135,16 @@ public class HandCardsState extends BaseAppState {
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
+        ManaBoost card1 = new ManaBoost();
 
-        handCards.add(newCard("Cards/caster/attack/双龙炼狱(+).png"));
-        handCards.add(newCard("Cards/caster/attack/奥数冲击.png"));
-        handCards.add(newCard("Cards/caster/attack/流星雨(+).png"));
+        card1.setImage(app.getAssetManager());
+        handCards.add(card1);
+        Defense card2 = new Defense();
+        card2.setImage(app.getAssetManager());
+        handCards.add(card2);
+        Heal card3 = new Heal();
+        card3.setImage(app.getAssetManager());
+        handCards.add(card3);
 //        handCards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
 //        handCards.add(newCard("Cards/caster/attack/爆破(+).png"));
 //        handCards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
@@ -343,7 +352,7 @@ public class HandCardsState extends BaseAppState {
     }
 
     private Card putCardCenter(Card closest) {
-        Card center = newCard(closest.getName());
+        Card center = newCard(closest.getPath());
         center.setPosition((float) ((width - cardWidth * 1.5) / 2.0), (float) ((height - cardHeight) / 2.0));
         center.setWidth((float) (cardWidth * 1.5));
         center.setHeight((float) (cardHeight * 1.5));
