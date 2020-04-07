@@ -24,7 +24,6 @@ import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import truetypefont.TrueTypeFont;
 
 import java.util.ArrayList;
 
@@ -39,7 +38,6 @@ public class EnemyState extends BaseAppState {
     private Enemy target;   // 选中模型对应的enemy类
     private int targetID; // 选中的enemy类在 数组中的位置,主要用于更新hp和block
     private static EnemyState instance = null;
-    TrueTypeFont font;
     private SimpleApplication simpleApp;
     private AssetManager assetManager;
     private AppStateManager stateManager;
@@ -53,8 +51,8 @@ public class EnemyState extends BaseAppState {
         this.assetManager = app.getAssetManager();
         this.stateManager = app.getStateManager();
         this.inputManager = app.getInputManager();
-        this.viewPort     = app.getViewPort();
-        this.camera       = app.getCamera();
+        this.viewPort = app.getViewPort();
+        this.camera = app.getCamera();
         this.myRawInputListener = new MyRawInputListener();
         enemies = new ArrayList<Enemy>();
         hpHints = new ArrayList<BitmapText>();
@@ -79,18 +77,18 @@ public class EnemyState extends BaseAppState {
         BitmapFont fnt = assetManager.loadFont("Interface/Fonts/Default.fnt");
         for (Enemy enemy : enemies) {
             BitmapText hpHint = new BitmapText(fnt, false);
-            hpHint.setBox(new Rectangle(3.9f+2*(index==0?0:(float)Math.pow(-1,index)), 1.5f, 6, 3));
+            hpHint.setBox(new Rectangle(3.9f + 2 * (index == 0 ? 0 : (float) Math.pow(-1, index)), 1.5f, 6, 3));
             hpHint.setQueueBucket(RenderQueue.Bucket.Transparent);
-            hpHint.setSize( 0.3f );
+            hpHint.setSize(0.3f);
             hpHint.setColor(ColorRGBA.Red);
             hpHint.setText(String.format("HP: %s/%s", enemy.getHP(), enemy.getTotalHP()));
             rootNode.attachChild(hpHint);
             hpHints.add(hpHint);
 
             BitmapText blockHint = new BitmapText(fnt, false);
-            blockHint.setBox(new Rectangle(3.9f+2*(index==0?0:(float)Math.pow(-1,index)), -1f, 6, 3));
+            blockHint.setBox(new Rectangle(3.9f + 2 * (index == 0 ? 0 : (float) Math.pow(-1, index)), -1f, 6, 3));
             blockHint.setQueueBucket(RenderQueue.Bucket.Transparent);
-            blockHint.setSize( 0.3f );
+            blockHint.setSize(0.3f);
             blockHint.setColor(ColorRGBA.Blue);
             blockHint.setText(String.format("Blocks: %s", enemy.getBlock()));
             rootNode.attachChild(blockHint);
@@ -102,13 +100,13 @@ public class EnemyState extends BaseAppState {
     public void updateHints(boolean isAOE) {
         int index = 0;
         BitmapFont fnt = assetManager.loadFont("Interface/Fonts/Default.fnt");
-        if (isAOE){
+        if (isAOE) {
             for (Enemy enemy : enemies) {
                 hpHints.get(index).removeFromParent();
                 BitmapText hpHint = new BitmapText(fnt, false);
-                hpHint.setBox(new Rectangle(4+2*(index==0?0:(float)Math.pow(-1,index)), 1.5f, 6, 3));
+                hpHint.setBox(new Rectangle(4 + 2 * (index == 0 ? 0 : (float) Math.pow(-1, index)), 1.5f, 6, 3));
                 hpHint.setQueueBucket(RenderQueue.Bucket.Transparent);
-                hpHint.setSize( 0.3f );
+                hpHint.setSize(0.3f);
                 hpHint.setColor(ColorRGBA.Red);
                 hpHint.setText(String.format("HP: %s/%s", enemy.getHP(), enemy.getTotalHP()));
                 rootNode.attachChild(hpHint);
@@ -116,24 +114,23 @@ public class EnemyState extends BaseAppState {
 
                 blockHints.get(index).removeFromParent();
                 BitmapText blockHint = new BitmapText(fnt, false);
-                blockHint.setBox(new Rectangle(4f+2*(index==0?0:(float)Math.pow(-1,index)), -1f, 6, 3));
+                blockHint.setBox(new Rectangle(4f + 2 * (index == 0 ? 0 : (float) Math.pow(-1, index)), -1f, 6, 3));
                 blockHint.setQueueBucket(RenderQueue.Bucket.Transparent);
-                blockHint.setSize( 0.3f );
+                blockHint.setSize(0.3f);
                 blockHint.setColor(ColorRGBA.Blue);
                 blockHint.setText(String.format("Blocks: %s", enemies.get(targetID).getBlock()));
                 rootNode.attachChild(blockHint);
                 blockHints.set(index, blockHint);
                 index += 1;
             }
-        }
-        else {
+        } else {
             if (targetID != -1) {
                 System.out.println("更新单个");
                 hpHints.get(targetID).removeFromParent();
                 BitmapText hpHint = new BitmapText(fnt, false);
-                hpHint.setBox(new Rectangle(4+2*(index==0?0:(float)Math.pow(-1,index)), 1.5f, 6, 3));
+                hpHint.setBox(new Rectangle(4 + 2 * (index == 0 ? 0 : (float) Math.pow(-1, index)), 1.5f, 6, 3));
                 hpHint.setQueueBucket(RenderQueue.Bucket.Transparent);
-                hpHint.setSize( 0.3f );
+                hpHint.setSize(0.3f);
                 hpHint.setColor(ColorRGBA.Red);
                 hpHint.setText(String.format("HP: %s/%s", enemies.get(targetID).getHP(), enemies.get(targetID).getTotalHP()));
                 rootNode.attachChild(hpHint);
@@ -141,9 +138,9 @@ public class EnemyState extends BaseAppState {
 
                 blockHints.get(targetID).removeFromParent();
                 BitmapText blockHint = new BitmapText(fnt, false);
-                blockHint.setBox(new Rectangle(4f+2*(index==0?0:(float)Math.pow(-1,index)), -1f, 6, 3));
+                blockHint.setBox(new Rectangle(4f + 2 * (index == 0 ? 0 : (float) Math.pow(-1, index)), -1f, 6, 3));
                 blockHint.setQueueBucket(RenderQueue.Bucket.Transparent);
-                blockHint.setSize( 0.3f );
+                blockHint.setSize(0.3f);
                 blockHint.setColor(ColorRGBA.Blue);
                 blockHint.setText(String.format("Blocks: %s", enemies.get(targetID).getBlock()));
                 rootNode.attachChild(blockHint);
@@ -161,7 +158,7 @@ public class EnemyState extends BaseAppState {
             model.setName(src);
             model.scale(0.03f);// 按比例缩小
             model.center();// 将模型的中心移到原点
-            model.move(6 + 2*(i==0?0:(float)Math.pow(-1,i)), 0, -1);
+            model.move(6 + 2 * (i == 0 ? 0 : (float) Math.pow(-1, i)), 0, -1);
             model.rotate(0, -0.9f, 0);//调整y角度可以设置怪物脸的朝向，0为正对屏幕，负数为向左看，正数为向右看
             rootNode.attachChild(model);
         }
