@@ -7,9 +7,13 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.collision.CollisionResults;
+import com.jme3.font.BitmapFont;
+import com.jme3.font.BitmapText;
+import com.jme3.font.Rectangle;
 import com.jme3.input.InputManager;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.*;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
@@ -37,6 +41,7 @@ public class LeadingActorState extends BaseAppState {
     protected void initialize(Application application) {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
+        this.target = new MainRole(100,"LeadingActor/MajorActor4.j3o");
         model1 = app.getAssetManager().loadModel("LeadingActor/MajorActor4.j3o");
         //model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
@@ -68,6 +73,48 @@ public class LeadingActorState extends BaseAppState {
         actors = new ArrayList<>();
         app.getInputManager().addRawInputListener(myRawInputListener);
         rootNode.attachChild(model1);
+        initializeHints();
+    }
+
+    public void initializeHints() {
+        BitmapFont fnt = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+
+        BitmapText hpHint = new BitmapText(fnt, false);
+        hpHint.setBox(new Rectangle(-3.9f, 2.5f, 6, 3));
+        hpHint.setQueueBucket(RenderQueue.Bucket.Transparent);
+        hpHint.setSize(0.3f);
+        hpHint.setColor(ColorRGBA.Red);
+        hpHint.setText(String.format("HP: %d/%d",this.target.getHP(),this.target.getTotalHP()));
+        rootNode.attachChild(hpHint);
+
+        BitmapText blHint = new BitmapText(fnt, false);
+        blHint.setBox(new Rectangle(-3.9f, 0, 6, 3));
+        blHint.setQueueBucket(RenderQueue.Bucket.Transparent);
+        blHint.setSize(0.3f);
+        blHint.setColor(ColorRGBA.Blue);
+        blHint.setText(String.format("Blocks: %d",this.target.getBlock()));
+        rootNode.attachChild(blHint);
+    }
+
+    public void updateHints() {
+        BitmapFont fnt = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+
+        BitmapText hpHint = new BitmapText(fnt, false);
+        hpHint.setBox(new Rectangle(-3.9f, 2.5f, 6, 3));
+        hpHint.setQueueBucket(RenderQueue.Bucket.Transparent);
+        hpHint.setSize(0.3f);
+        hpHint.setColor(ColorRGBA.Red);
+        hpHint.setText(String.format("HP: %d/%d",this.target.getHP(),this.target.getTotalHP()));
+        rootNode.attachChild(hpHint);
+
+        BitmapText blHint = new BitmapText(fnt, false);
+        blHint.setBox(new Rectangle(-3.9f, 0, 6, 3));
+        blHint.setQueueBucket(RenderQueue.Bucket.Transparent);
+        blHint.setSize(0.3f);
+        blHint.setColor(ColorRGBA.Blue);
+        blHint.setText(String.format("Blocks: %d",this.target.getBlock()));
+        rootNode.attachChild(blHint);
+
     }
 
     public void addActor(MainRole... actors) {
