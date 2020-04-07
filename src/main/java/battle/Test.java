@@ -26,7 +26,8 @@ public class Test extends SimpleApplication {
     //Picture last = new Picture("null");
 
     public Test() {
-        super(new StatsAppState()
+        super(
+                new StatsAppState()
                 , new AudioListenerState()
                 , new DebugKeysAppState()
                 , new EnemyState()

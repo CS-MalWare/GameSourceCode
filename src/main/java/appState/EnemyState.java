@@ -4,7 +4,9 @@ import character.Enemy;
 import character.enemy.dragonWat.DarkDragon;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
+import com.jme3.app.state.AppStateManager;
 import com.jme3.app.state.BaseAppState;
+import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
 import com.jme3.input.RawInputListener;
@@ -14,6 +16,7 @@ import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -36,60 +39,56 @@ public class EnemyState extends BaseAppState {
     private int targetID; // 选中的enemy类在 数组中的位置,主要用于更新hp和block
     private static EnemyState instance = null;
     TrueTypeFont font;
+    private SimpleApplication simpleApp;
+    private AssetManager assetManager;
+    private AppStateManager stateManager;
+    private InputManager inputManager;
+    private ViewPort viewPort;
+    private Camera camera;
 
     @Override
     protected void initialize(Application application) {
         this.app = (SimpleApplication) getApplication();
+        this.assetManager = app.getAssetManager();
+        this.stateManager = app.getStateManager();
+        this.inputManager = app.getInputManager();
+        this.viewPort     = app.getViewPort();
+        this.camera       = app.getCamera();
         this.myRawInputListener = new MyRawInputListener();
         enemies = new ArrayList<Enemy>();
-        this.app.getAssetManager().registerLoader(TrueTypeLoader.class, "ttf");
+        hpHints = new ArrayList<Geometry>();
+        blockHints = new ArrayList<Geometry>();
+        this.assetManager.registerLoader(TrueTypeLoader.class, "ttf");
         TrueTypeKey ttk = new TrueTypeKey("Util/font.ttf", // 字体
                 1, // 字形：0 普通、1 粗体、2 斜体
                 20);// 字号
-        font = (TrueTypeFont) this.app.getAssetManager().loadAsset(ttk);
-
-        Spatial model1 = application.getAssetManager().loadModel("Dragon/dragon.obj");
-        addEnemies(new DarkDragon(85, "Dragon/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0));
-
-        System.out.println(model1.getName());
-        model1.setName("Dragon/dragon.obj");
-        model1.scale(0.03f);// 按比例缩小
-        model1.center();// 将模型的中心移到原点
-        model1.move(7, 0, -3);
-        model1.rotate(0, -1f, 0);
-
-        model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
-
-        app.getInputManager().addRawInputListener(myRawInputListener);
-        rootNode.attachChild(model1);
-
-
-        Geometry hpHint = font.getBitmapGeom(String.format("%s/%s", getEnemies().get(0).getHP(), getEnemies().get(0).getTotalHP()), 0, ColorRGBA.Red);
-        hpHint.scale(0.02f);
-        hpHint.setLocalTranslation(3, 1, 1);
-        rootNode.attachChild(hpHint);
-        Geometry blockHint = font.getBitmapGeom(String.format("%s", getEnemies().get(0).getBlock()), 0, ColorRGBA.Blue);
-        blockHint.scale(0.02f);
-        blockHint.setLocalTranslation(3.5f, -1.2f, 1);
-        rootNode.attachChild(blockHint);
-//        rootNode.attachChild(model2);
+        font = (TrueTypeFont) this.assetManager.loadAsset(ttk);
+        addEnemies(
+                new DarkDragon(85, "Dragon/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
+                new DarkDragon(85, "Dragon/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
+                new DarkDragon(85, "Dragon/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0)
+        );
+        initializeHints();
+        this.inputManager.addRawInputListener(myRawInputListener);
         instance = this;
         chosen = null;
         target = null;
         targetID = -1;
     }
 
+    //加载的时候渲染护甲和血量的值
     public void initializeHints() {
         int index = 0;
+        //为每个敌人添加血量
         for (Enemy enemy : enemies) {
             Geometry hpHint = font.getBitmapGeom(String.format("%s/%s", enemy.getHP(), enemy.getTotalHP()), 0, ColorRGBA.Red);
             hpHint.scale(0.015f);
-            hpHint.setLocalTranslation(3, 1 - index * 3, 1);
+            hpHint.setLocalTranslation(4 + 1.85f*(index==0?0:(float)Math.pow(-1,index)), 1.5f, 0);
             hpHints.add(hpHint);
             rootNode.attachChild(hpHint);
             Geometry blockHint = font.getBitmapGeom(String.format("%s", enemy.getBlock()), 0, ColorRGBA.Blue);
             blockHint.scale(0.015f);
-            blockHint.setLocalTranslation(3.5f, -1.2f - index * 3, 1);
+            blockHint.setLocalTranslation(4.5f + 1.85f*(index==0?0:(float)Math.pow(-1,index)), -1.5f, 0);
             blockHints.add(blockHint);
             rootNode.attachChild(blockHint);
             index += 1;
@@ -103,14 +102,14 @@ public class EnemyState extends BaseAppState {
                 hpHints.get(index).removeFromParent();
                 Geometry hpHint = font.getBitmapGeom(String.format("%s/%s", enemy.getHP(), enemy.getTotalHP()), 0, ColorRGBA.Red);
                 hpHint.scale(0.015f);
-                hpHint.setLocalTranslation(3, 1 - index * 3, 1);
+                hpHint.setLocalTranslation(4 + 1.85f*(index==0?0:(float)Math.pow(-1,index)), 1.5f, 0);
                 rootNode.attachChild(hpHint);
                 hpHints.set(index, hpHint);
 
                 blockHints.get(index).removeFromParent();
                 Geometry blockHint = font.getBitmapGeom(String.format("%s", enemy.getBlock()), 0, ColorRGBA.Blue);
                 blockHint.scale(0.015f);
-                blockHint.setLocalTranslation(3.5f, -1.2f - index * 3, 1);
+                blockHint.setLocalTranslation(4.5f + 1.85f*(index==0?0:(float)Math.pow(-1,index)), -1.5f, 0);
                 rootNode.attachChild(blockHint);
                 blockHints.set(index, blockHint);
                 index += 1;
@@ -120,14 +119,14 @@ public class EnemyState extends BaseAppState {
                 hpHints.get(targetID).removeFromParent();
                 Geometry hpHint = font.getBitmapGeom(String.format("%s/%s", enemies.get(targetID).getHP(), enemies.get(targetID).getTotalHP()), 0, ColorRGBA.Red);
                 hpHint.scale(0.015f);
-                hpHint.setLocalTranslation(3, 1 - targetID * 3, 1);
+                hpHint.setLocalTranslation(4 + 1.85f*(index==0?0:(float)Math.pow(-1,index)), 1.5f, 0);
                 rootNode.attachChild(hpHint);
                 hpHints.set(targetID, hpHint);
 
                 blockHints.get(targetID).removeFromParent();
                 Geometry blockHint = font.getBitmapGeom(String.format("%s", enemies.get(targetID).getBlock()), 0, ColorRGBA.Blue);
                 blockHint.scale(0.015f);
-                blockHint.setLocalTranslation(3.5f, -1.2f - targetID * 3, 1);
+                blockHint.setLocalTranslation(4.5f + 1.85f*(index==0?0:(float)Math.pow(-1,index)), -1.5f, 0);
                 rootNode.attachChild(blockHint);
                 blockHints.set(targetID, blockHint);
             }
@@ -139,12 +138,13 @@ public class EnemyState extends BaseAppState {
         for (int i = 0; i < enemies.length; i++) {
             this.enemies.add(enemies[i]);
             String src = enemies[i].getSrc();
-            Spatial model = this.app.getAssetManager().loadModel(src);
+            Spatial model = this.assetManager.loadModel(src);
             model.setName(src);
             model.scale(0.03f);// 按比例缩小
             model.center();// 将模型的中心移到原点
-            model.move(7 + 3 * i, 5 * i, -3);
-            model.rotate(0, -1f, 0);
+            model.move(6 + 2*(i==0?0:(float)Math.pow(-1,i)), 0, -1);
+            model.rotate(0, -0.9f, 0);//调整y角度可以设置怪物脸的朝向，0为正对屏幕，负数为向左看，正数为向右看
+            rootNode.attachChild(model);
         }
     }
 
@@ -264,6 +264,11 @@ public class EnemyState extends BaseAppState {
 
     public Geometry getChosen() {
         return chosen;
+    }
+
+    @Override
+    public void update(float tpf) {
+        super.update(tpf);
     }
 
     @Override
