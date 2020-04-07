@@ -2,6 +2,7 @@ package appState;
 
 import card.Card;
 import card.CreateCard;
+import card.saber.attack.Slash;
 import card.saber.power.ManaBoost;
 import card.saber.skill.Defense;
 import card.saber.skill.Heal;
@@ -135,7 +136,7 @@ public class HandCardsState extends BaseAppState {
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
-        ManaBoost card1 = new ManaBoost();
+        Slash card1 = new Slash();
 
         card1.setImage(app.getAssetManager());
         handCards.add(card1);
@@ -265,6 +266,7 @@ public class HandCardsState extends BaseAppState {
 //        rootNode.detachChild(card);
 
                 app.getStateManager().getState(DecksState.class).addToDrop(card);
+                app.getStateManager().getState(EnemyState.class).updateHints(true);
 
                 int size = handCards.size();
                 adjustAllCardsPosition(size, -1);
@@ -275,6 +277,7 @@ public class HandCardsState extends BaseAppState {
 //        rootNode.detachChild(card);
 
                 app.getStateManager().getState(DecksState.class).addToDrop(card);
+                app.getStateManager().getState(EnemyState.class).updateHints(false);
 
                 int size = handCards.size();
                 adjustAllCardsPosition(size, -1);

@@ -102,7 +102,7 @@ public class EnemyState extends BaseAppState {
     public void updateHints(boolean isAOE) {
         int index = 0;
         BitmapFont fnt = assetManager.loadFont("Interface/Fonts/Default.fnt");
-        if (isAOE)
+        if (isAOE){
             for (Enemy enemy : enemies) {
                 hpHints.get(index).removeFromParent();
                 BitmapText hpHint = new BitmapText(fnt, false);
@@ -125,8 +125,10 @@ public class EnemyState extends BaseAppState {
                 blockHints.set(index, blockHint);
                 index += 1;
             }
+        }
         else {
             if (targetID != -1) {
+                System.out.println("更新单个");
                 hpHints.get(targetID).removeFromParent();
                 BitmapText hpHint = new BitmapText(fnt, false);
                 hpHint.setBox(new Rectangle(4+2*(index==0?0:(float)Math.pow(-1,index)), 1.5f, 6, 3));

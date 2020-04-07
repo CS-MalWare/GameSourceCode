@@ -30,6 +30,7 @@ public class Slash extends AttackCard {
         if (!super.use(target)) {
             return false;
         }
+
         return true;
     }
 

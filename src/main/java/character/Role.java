@@ -71,9 +71,9 @@ public class Role {
         dexterity = 0;
         strength = 0;
         atk = 0;
-//        this.multiplyingDealDamage = 1;
-//        this.multiplyingGetDamage = 1;
-//        this.multiplyingGetBlock = 1;
+        this.multiplyingDealDamage = 1;
+        this.multiplyingGetDamage = 1;
+        this.multiplyingGetBlock = 1;
     }
 
     public String getSrc() {
@@ -117,7 +117,7 @@ public class Role {
         if (this.intangible.getDuration() > 0) {
             damage = (int) (damage * 0.5);
         }
-        damage = (int) (damage * multiplyingDealDamage);
+        damage = (int) (damage * multiplyingGetDamage);
         if (this.block >= damage) {
             this.block -= damage;
             return 0;
