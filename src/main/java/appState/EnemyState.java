@@ -28,6 +28,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
+import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,9 @@ public class EnemyState extends BaseAppState {
     private ArrayList<Spatial> enemiesModel;
     private ArrayList<BitmapText> hpHints;
     private ArrayList<BitmapText> blockHints;
+    private ArrayList<Float> hpPositions;
+    private ArrayList<Integer> modelPositions;
+    private ArrayList<Float> blockPositions;
     private MyRawInputListener myRawInputListener;
     private Geometry chosen;  // 选中的模型
     private Enemy target;   // 选中模型对应的enemy类
@@ -63,6 +67,42 @@ public class EnemyState extends BaseAppState {
         hpHints = new ArrayList<BitmapText>();
         blockHints = new ArrayList<BitmapText>();
         enemiesModel = new ArrayList<Spatial>();
+        modelPositions = new ArrayList<Integer>() {{
+            //每个怪物的x y z坐标
+            add(4);
+            add(0);
+            add(-1);
+
+            add(6);
+            add(0);
+            add(-1);
+
+            add(8);
+            add(0);
+            add(-1);
+        }};
+        hpPositions = new ArrayList<Float>() {{
+            //每个血量提示的x y坐标
+            add(1.9f);
+            add(1.5f);
+
+            add(3.9f);
+            add(1.5f);
+
+            add(5.9f);
+            add(1.5f);
+        }};
+        blockPositions = new ArrayList<Float>() {{
+            //每个护甲提示的x y坐标
+            add(2f);
+            add(-1f);
+
+            add(4f);
+            add(-1f);
+
+            add(6f);
+            add(-1f);
+        }};
         addEnemies(
                 new DarkDragon(85, "Dragon/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
                 new DarkDragon(85, "Dragon2/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
@@ -83,7 +123,7 @@ public class EnemyState extends BaseAppState {
         BitmapFont fnt = assetManager.loadFont("Interface/Fonts/Default.fnt");
         for (Enemy enemy : enemies) {
             BitmapText hpHint = new BitmapText(fnt, false);
-            hpHint.setBox(new Rectangle(3.9f + 2 * (index == 0 ? 0 : (float) Math.pow(-1, index)), 1.5f, 6, 3));
+            hpHint.setBox(new Rectangle(hpPositions.get(2 * index), hpPositions.get(2 * index + 1), 6, 3));
             hpHint.setQueueBucket(RenderQueue.Bucket.Transparent);
             hpHint.setSize(0.3f);
             hpHint.setColor(ColorRGBA.Red);
@@ -92,7 +132,7 @@ public class EnemyState extends BaseAppState {
             hpHints.add(hpHint);
 
             BitmapText blockHint = new BitmapText(fnt, false);
-            blockHint.setBox(new Rectangle(3.9f + 2 * (index == 0 ? 0 : (float) Math.pow(-1, index)), -1f, 6, 3));
+            blockHint.setBox(new Rectangle(blockPositions.get(2 * index), blockPositions.get(2 * index + 1), 6, 3));
             blockHint.setQueueBucket(RenderQueue.Bucket.Transparent);
             blockHint.setSize(0.3f);
             blockHint.setColor(ColorRGBA.Blue);
@@ -110,7 +150,7 @@ public class EnemyState extends BaseAppState {
             for (Enemy enemy : enemies) {
                 hpHints.get(index).removeFromParent();
                 BitmapText hpHint = new BitmapText(fnt, false);
-                hpHint.setBox(new Rectangle(4 + 2 * (index == 0 ? 0 : (float) Math.pow(-1, index)), 1.5f, 6, 3));
+                hpHint.setBox(new Rectangle(hpPositions.get(2 * index), hpPositions.get(2 * index + 1), 6, 3));
                 hpHint.setQueueBucket(RenderQueue.Bucket.Transparent);
                 hpHint.setSize(0.3f);
                 hpHint.setColor(ColorRGBA.Red);
@@ -120,7 +160,7 @@ public class EnemyState extends BaseAppState {
 
                 blockHints.get(index).removeFromParent();
                 BitmapText blockHint = new BitmapText(fnt, false);
-                blockHint.setBox(new Rectangle(4f + 2 * (index == 0 ? 0 : (float) Math.pow(-1, index)), -1f, 6, 3));
+                blockHint.setBox(new Rectangle(blockPositions.get(2 * index), blockPositions.get(2 * index + 1), 6, 3));
                 blockHint.setQueueBucket(RenderQueue.Bucket.Transparent);
                 blockHint.setSize(0.3f);
                 blockHint.setColor(ColorRGBA.Blue);
@@ -131,10 +171,10 @@ public class EnemyState extends BaseAppState {
             }
         } else {
             if (targetID != -1) {
-                System.out.println("更新单个");
+                System.out.println(targetID);
                 hpHints.get(targetID).removeFromParent();
                 BitmapText hpHint = new BitmapText(fnt, false);
-                hpHint.setBox(new Rectangle(4 + 2 * (targetID == 0 ? 0 : (float) Math.pow(-1, targetID)), 1.5f, 6, 3));
+                hpHint.setBox(new Rectangle(hpPositions.get(2 * targetID), hpPositions.get(2 * targetID + 1), 6, 3));
                 hpHint.setQueueBucket(RenderQueue.Bucket.Transparent);
                 hpHint.setSize(0.3f);
                 hpHint.setColor(ColorRGBA.Red);
@@ -144,7 +184,7 @@ public class EnemyState extends BaseAppState {
 
                 blockHints.get(targetID).removeFromParent();
                 BitmapText blockHint = new BitmapText(fnt, false);
-                blockHint.setBox(new Rectangle(4f + 2 * (targetID == 0 ? 0 : (float) Math.pow(-1, targetID)), -1f, 6, 3));
+                blockHint.setBox(new Rectangle(blockPositions.get(2 * targetID), blockPositions.get(2 * targetID + 1), 6, 3));
                 blockHint.setQueueBucket(RenderQueue.Bucket.Transparent);
                 blockHint.setSize(0.3f);
                 blockHint.setColor(ColorRGBA.Blue);
@@ -165,7 +205,7 @@ public class EnemyState extends BaseAppState {
             model.setName(src);
             model.scale(0.03f);// 按比例缩小
             model.center();// 将模型的中心移到原点
-            model.move(6 + 2 * (i == 0 ? 0 : (float) Math.pow(-1, i)), 0, -1);
+            model.move(modelPositions.get(i * 3), modelPositions.get(i * 3 + 1), modelPositions.get(i * 3 + 2));
             model.rotate(0, -0.9f, 0);//调整y角度可以设置怪物脸的朝向，0为正对屏幕，负数为向左看，正数为向右看
             model.setModelBound(new BoundingSphere());// 使用包围球
             model.updateModelBound();// 更新包围球
@@ -357,8 +397,8 @@ public class EnemyState extends BaseAppState {
     @Override
     public void update(float tpf) {
         super.update(tpf);
-        for(int i = 0 ;i<enemies.size();i++){
-            if(enemies.get(i).getHP()<=0){
+        for (int i = 0; i < enemies.size(); i++) {
+            if (enemies.get(i).getHP() <= 0) {
                 enemiesModel.get(i).removeFromParent();
                 hpHints.get(i).removeFromParent();
                 blockHints.get(i).removeFromParent();
@@ -366,6 +406,13 @@ public class EnemyState extends BaseAppState {
                 hpHints.remove(i);
                 enemies.remove(i);
                 enemiesModel.remove(i);
+                blockPositions.remove(2 * i);
+                blockPositions.remove(2 * i);
+                hpPositions.remove(2 * i);
+                hpPositions.remove(2 * i);
+                modelPositions.remove(i * 3);
+                modelPositions.remove(i * 3);
+                modelPositions.remove(i * 3);
             }
         }
     }

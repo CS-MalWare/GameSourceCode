@@ -7,6 +7,7 @@ import com.jme3.animation.AnimControl;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
+import com.jme3.bounding.BoundingSphere;
 import com.jme3.collision.CollisionResults;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
@@ -28,6 +29,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
 import com.jme3.ui.Picture;
 import org.ejml.alg.generic.GenericMatrixOps;
+import org.lwjgl.Sys;
 import truetypefont.TrueTypeFont;
 import truetypefont.TrueTypeKey;
 
@@ -92,6 +94,8 @@ public class LeadingActorState extends BaseAppState {
         model1.rotate(-1.5f, 1.3f, 0);
 
         model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+        model1.setModelBound(new BoundingSphere());// 使用包围球
+        model1.updateModelBound();// 更新包围球
 
         actors = new ArrayList<>();
         app.getInputManager().addRawInputListener(myRawInputListener);
@@ -212,8 +216,7 @@ public class LeadingActorState extends BaseAppState {
         ray.setOrigin(this.app.getCamera().getLocation());
         ray.setDirection(dir);
         CollisionResults results = new CollisionResults();
-        rootNode.collideWith(ray, results);//检测guinode 中所有图形对象 和 ray 的碰撞
-
+        model1.getWorldBound().collideWith(ray, results);//检测guinode 中所有图形对象 和 ray 的碰撞
         return results;
     }
 
@@ -240,10 +243,7 @@ public class LeadingActorState extends BaseAppState {
         public void onMouseMotionEvent(MouseMotionEvent evt) {
             CollisionResults results = getGuiCollision(evt);
             if (results.size() > 0) {
-                Geometry res = results.getClosestCollision().getGeometry();
-                //可能是因为加入了动作，导致可能出现的geometry有 Mesh, Mesh.001, Mesh.002等
-                //但是放置在这些上面都是应该显示buff的
-                if (res.getName().substring(0, 4).equals("Mesh") && target != null) {
+                if (target != null) {
                     buffDisplayBoard.setLocalTranslation(2, 2, -1);
                     Material mt = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
                     mt.setColor("Color", ColorRGBA.Red);
@@ -327,6 +327,11 @@ public class LeadingActorState extends BaseAppState {
     public void update(float tpf) {
         super.update(tpf);
         if (this.target.getHP() <= 0) {
+            BitmapFont fnt = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+            BitmapText word = new BitmapText(fnt, false);//显示的文字
+            word.setText("Game Over");
+            word.setSize(1);
+            word.setLocalTranslation(-2.5f,0.5f,0);
 
             Material mat = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
             mat.setColor("Color", new ColorRGBA(1f, 1f, 1f, 0.01f));// 镜面反射时，高光的颜色。
@@ -340,6 +345,7 @@ public class LeadingActorState extends BaseAppState {
             geom.setQueueBucket(RenderQueue.Bucket.Transparent);
 
             geom.center();
+            rootNode.attachChild(word);
             rootNode.attachChild(geom);
         }
 
