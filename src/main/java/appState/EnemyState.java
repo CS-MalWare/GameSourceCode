@@ -28,7 +28,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
-import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 
@@ -36,6 +35,7 @@ public class EnemyState extends BaseAppState {
     private SimpleApplication app;
     private Node rootNode = new Node("EnemyState");  //主节点
     private ArrayList<Enemy> enemies;
+    private ArrayList<Spatial> enemiesModel;
     private ArrayList<BitmapText> hpHints;
     private ArrayList<BitmapText> blockHints;
     private MyRawInputListener myRawInputListener;
@@ -62,6 +62,7 @@ public class EnemyState extends BaseAppState {
         enemies = new ArrayList<Enemy>();
         hpHints = new ArrayList<BitmapText>();
         blockHints = new ArrayList<BitmapText>();
+        enemiesModel = new ArrayList<Spatial>();
         addEnemies(
                 new DarkDragon(85, "Dragon1/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
                 new DarkDragon(85, "Dragon2/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
@@ -167,6 +168,7 @@ public class EnemyState extends BaseAppState {
             model.rotate(0, -0.9f, 0);//调整y角度可以设置怪物脸的朝向，0为正对屏幕，负数为向左看，正数为向右看
             model.setModelBound(new BoundingSphere());// 使用包围球
             model.updateModelBound();// 更新包围球
+            this.enemiesModel.add(model);
             rootNode.attachChild(model);
         }
     }
@@ -231,7 +233,7 @@ public class EnemyState extends BaseAppState {
             CollisionResults results = getGuiCollision(evt);
             if (results.size() > 0) {
                 Geometry res = results.getClosestCollision().getGeometry();
-                if(!res.getName().equals("BitmapFont")) {
+                if (!res.getName().equals("BitmapFont")) {
                     //遍历敌人数组，确定鼠标选中的是哪一个敌人
                     Enemy targetEnemy = null;
                     for (Enemy enemy : enemies) {
@@ -274,9 +276,9 @@ public class EnemyState extends BaseAppState {
                 }
             } else {
 //                if (buffDisplay != null)
-                    buffDisplay.removeFromParent();
+                buffDisplay.removeFromParent();
 //                if (buffDisplayBoard != null)
-                    buffDisplayBoard.removeFromParent();
+                buffDisplayBoard.removeFromParent();
             }
         }
 
@@ -354,6 +356,13 @@ public class EnemyState extends BaseAppState {
     @Override
     public void update(float tpf) {
         super.update(tpf);
+        for(int i = 0 ;i<enemies.size();i++){
+            if(enemies.get(i).getHP()<=0){
+                enemiesModel.get(i).removeFromParent();
+                enemies.remove(i);
+                enemiesModel.remove(i);
+            }
+        }
     }
 
     @Override
