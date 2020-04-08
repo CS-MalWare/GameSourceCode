@@ -360,6 +360,10 @@ public class EnemyState extends BaseAppState {
         for(int i = 0 ;i<enemies.size();i++){
             if(enemies.get(i).getHP()<=0){
                 enemiesModel.get(i).removeFromParent();
+                hpHints.get(i).removeFromParent();
+                blockHints.get(i).removeFromParent();
+                blockHints.remove(i);
+                hpHints.remove(i);
                 enemies.remove(i);
                 enemiesModel.remove(i);
             }
