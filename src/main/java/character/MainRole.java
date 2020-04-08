@@ -51,6 +51,9 @@ public class MainRole extends Role {
         this.potionBag = 3;
         this.gold = 0;
         this.deck = new ArrayList<Card>();
+
+        this.MP_max = 4;
+        this.MP_current = 4;
         instance = this;
 
     }
@@ -68,7 +71,7 @@ public class MainRole extends Role {
         //将卡组加入抽牌堆
         app.getStateManager().getState(DecksState.class).addToDraw(this.deck);
 
-
+        this.MP_current = this.MP_max;
     }
 
     public void getCard(Card... cards) {
@@ -86,6 +89,8 @@ public class MainRole extends Role {
         if (this.excite.getDuration() > 0) {
             app.getStateManager().getState(HandCardsState.class).drawCards(1);
         }
+        this.MP_current = this.MP_max;
+
     }
 
 
@@ -136,6 +141,14 @@ public class MainRole extends Role {
 
     }
 
+
+    public int getMP_max() {
+        return MP_max;
+    }
+
+    public int getGold() {
+        return gold;
+    }
 
     public void getGold(int num) {
         this.gold += num;

@@ -73,6 +73,7 @@ public class DecksState extends BaseAppState {
 
     public final static String CLICK = "CLICK";
 
+    private Picture endTurn;
 
     public static DecksState getInstance() {
         return instance;
@@ -88,20 +89,28 @@ public class DecksState extends BaseAppState {
         exhaustDeckPic.setImage(app.getAssetManager(), "Util/消耗堆.png", true);
         dropDeckPic = new Picture("弃牌堆");
         dropDeckPic.setImage(app.getAssetManager(), "Util/弃牌堆.png", true);
+        endTurn = new Picture("结束回合");
+        endTurn.setImage(app.getAssetManager(), "Util/结束.png", true);
 
 
         drawDeckPic.setPosition(30, 20);
         dropDeckPic.setPosition(1430, 20);
         exhaustDeckPic.setPosition(1430, 130);
+        endTurn.setPosition(1220, 220);
+
         drawDeckPic.setHeight(100);
         drawDeckPic.setWidth(100);
         dropDeckPic.setHeight(100);
         dropDeckPic.setWidth(100);
         exhaustDeckPic.setHeight(100);
         exhaustDeckPic.setWidth(100);
+        endTurn.setWidth(200);
+        endTurn.setHeight(80);
+
         rootNode.attachChild(drawDeckPic);
         rootNode.attachChild(dropDeckPic);
         rootNode.attachChild(exhaustDeckPic);
+        rootNode.attachChild(endTurn);
 
 
         this.app.getAssetManager().registerLoader(TrueTypeLoader.class, "ttf");
@@ -423,11 +432,15 @@ public class DecksState extends BaseAppState {
                             isExhuastDeckShow = false;
                             break;
                         case "消耗堆":
-                            if(!isExhuastDeckShow)showCards(exhaustDeck);
+                            if (!isExhuastDeckShow) showCards(exhaustDeck);
                             else hideCards();
                             isExhuastDeckShow = !isExhuastDeckShow;
                             isDrawDeckShow = false;
                             isDropDeckShow = false;
+                            break;
+                        case "结束回合":
+                            // TODO 结束回合,敌人开始行动
+
                             break;
                         default:
                             isExhuastDeckShow = false;

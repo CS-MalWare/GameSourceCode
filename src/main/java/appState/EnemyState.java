@@ -59,8 +59,8 @@ public class EnemyState extends BaseAppState {
         blockHints = new ArrayList<BitmapText>();
         addEnemies(
                 new DarkDragon(85, "Dragon/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
-                new DarkDragon(85, "Dragon/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
-                new DarkDragon(85, "Dragon/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0)
+                new DarkDragon(85, "Dragon2/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
+                new DarkDragon(85, "Dragon3/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0)
         );
         initializeHints();
         this.inputManager.addRawInputListener(myRawInputListener);
@@ -118,7 +118,7 @@ public class EnemyState extends BaseAppState {
                 blockHint.setQueueBucket(RenderQueue.Bucket.Transparent);
                 blockHint.setSize(0.3f);
                 blockHint.setColor(ColorRGBA.Blue);
-                blockHint.setText(String.format("Blocks: %s", enemies.get(targetID).getBlock()));
+                blockHint.setText(String.format("Blocks: %s", enemies.get(index).getBlock()));
                 rootNode.attachChild(blockHint);
                 blockHints.set(index, blockHint);
                 index += 1;
@@ -128,7 +128,7 @@ public class EnemyState extends BaseAppState {
                 System.out.println("更新单个");
                 hpHints.get(targetID).removeFromParent();
                 BitmapText hpHint = new BitmapText(fnt, false);
-                hpHint.setBox(new Rectangle(4 + 2 * (index == 0 ? 0 : (float) Math.pow(-1, index)), 1.5f, 6, 3));
+                hpHint.setBox(new Rectangle(4 + 2 * (targetID == 0 ? 0 : (float) Math.pow(-1, targetID)), 1.5f, 6, 3));
                 hpHint.setQueueBucket(RenderQueue.Bucket.Transparent);
                 hpHint.setSize(0.3f);
                 hpHint.setColor(ColorRGBA.Red);
@@ -138,7 +138,7 @@ public class EnemyState extends BaseAppState {
 
                 blockHints.get(targetID).removeFromParent();
                 BitmapText blockHint = new BitmapText(fnt, false);
-                blockHint.setBox(new Rectangle(4f + 2 * (index == 0 ? 0 : (float) Math.pow(-1, index)), -1f, 6, 3));
+                blockHint.setBox(new Rectangle(4f + 2 * (targetID == 0 ? 0 : (float) Math.pow(-1, targetID)), -1f, 6, 3));
                 blockHint.setQueueBucket(RenderQueue.Bucket.Transparent);
                 blockHint.setSize(0.3f);
                 blockHint.setColor(ColorRGBA.Blue);

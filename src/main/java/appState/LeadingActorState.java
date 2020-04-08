@@ -22,6 +22,10 @@ import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.ui.Picture;
+import org.ejml.alg.generic.GenericMatrixOps;
+import truetypefont.TrueTypeFont;
+import truetypefont.TrueTypeKey;
 
 import java.util.ArrayList;
 
@@ -30,24 +34,36 @@ public class LeadingActorState extends BaseAppState {
     private AnimChannel animChannel;
     private SimpleApplication app;
     private Node rootNode = new Node("LeadingActorState");
+    private Node guiNode = new Node("MP");
     private ArrayList<MainRole> actors;
     private RawInputListener myRawInputListener;
     private Geometry chosen;
     private MainRole target;
 
+    private Picture MpPic;
+    private Geometry MpText;
+
     private Spatial model1;
+
+
+    BitmapFont fnt;
+
+    TrueTypeKey ttk;
+
+    TrueTypeFont font;
 
 
     protected void initialize(Application application) {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
-        this.target = new MainRole(100,"LeadingActor/MajorActor4.j3o");
+        this.target = new MainRole(100, "LeadingActor/MajorActor4.j3o");
         model1 = app.getAssetManager().loadModel("LeadingActor/MajorActor4.j3o");
         //model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
         Node scene = (Node) model1;
 
         Node bip001 = (Node) scene.getChild("Bip001");
+
 
         //spatial.getChild("AnimControl");
 
@@ -73,18 +89,25 @@ public class LeadingActorState extends BaseAppState {
         actors = new ArrayList<>();
         app.getInputManager().addRawInputListener(myRawInputListener);
         rootNode.attachChild(model1);
+
+        fnt = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+
+        ttk = new TrueTypeKey("Util/font.ttf", // 字体
+                1, // 字形：0 普通、1 粗体、2 斜体
+                30);// 字号
+
+        font = (TrueTypeFont) this.app.getAssetManager().loadAsset(ttk);
+
         initializeHints();
     }
 
     public void initializeHints() {
-        BitmapFont fnt = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
-
         BitmapText hpHint = new BitmapText(fnt, false);
         hpHint.setBox(new Rectangle(-3.9f, 2.5f, 6, 3));
         hpHint.setQueueBucket(RenderQueue.Bucket.Transparent);
         hpHint.setSize(0.3f);
         hpHint.setColor(ColorRGBA.Red);
-        hpHint.setText(String.format("HP: %d/%d",this.target.getHP(),this.target.getTotalHP()));
+        hpHint.setText(String.format("HP: %d/%d", this.target.getHP(), this.target.getTotalHP()));
         rootNode.attachChild(hpHint);
 
         BitmapText blHint = new BitmapText(fnt, false);
@@ -92,19 +115,33 @@ public class LeadingActorState extends BaseAppState {
         blHint.setQueueBucket(RenderQueue.Bucket.Transparent);
         blHint.setSize(0.3f);
         blHint.setColor(ColorRGBA.Blue);
-        blHint.setText(String.format("Blocks: %d",this.target.getBlock()));
+        blHint.setText(String.format("Blocks: %d", this.target.getBlock()));
         rootNode.attachChild(blHint);
+
+        // 添加MP显示的图片与文字
+        MpPic = new Picture("MP");
+        MpPic.setImage(app.getAssetManager(), "Util/MP.png", true);
+        MpPic.setHeight(120);
+        MpPic.setWidth(120);
+        MpPic.setPosition(220, 220);
+        guiNode.attachChild(MpPic);
+
+
+        // 创建MP文字
+        MpText = font.getBitmapGeom(String.format("%d/%d", MainRole.getInstance().getMP_current(), MainRole.getInstance().getMP_max()), 0, ColorRGBA.Red);
+        MpText.setLocalTranslation(250, 270, 1);
+        guiNode.attachChild(MpText);
+
     }
 
     public void updateHints() {
-        BitmapFont fnt = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
 
         BitmapText hpHint = new BitmapText(fnt, false);
         hpHint.setBox(new Rectangle(-3.9f, 2.5f, 6, 3));
         hpHint.setQueueBucket(RenderQueue.Bucket.Transparent);
         hpHint.setSize(0.3f);
         hpHint.setColor(ColorRGBA.Red);
-        hpHint.setText(String.format("HP: %d/%d",this.target.getHP(),this.target.getTotalHP()));
+        hpHint.setText(String.format("HP: %d/%d", this.target.getHP(), this.target.getTotalHP()));
         rootNode.attachChild(hpHint);
 
         BitmapText blHint = new BitmapText(fnt, false);
@@ -112,8 +149,13 @@ public class LeadingActorState extends BaseAppState {
         blHint.setQueueBucket(RenderQueue.Bucket.Transparent);
         blHint.setSize(0.3f);
         blHint.setColor(ColorRGBA.Blue);
-        blHint.setText(String.format("Blocks: %d",this.target.getBlock()));
+        blHint.setText(String.format("Blocks: %d", this.target.getBlock()));
         rootNode.attachChild(blHint);
+
+        MpText.removeFromParent();
+        MpText = font.getBitmapGeom(String.format("%d/%d", MainRole.getInstance().getMP_current(), MainRole.getInstance().getMP_max()), 0, ColorRGBA.Red);
+        MpText.setLocalTranslation(240, 240, 1);
+        guiNode.attachChild(MpText);
 
     }
 
@@ -236,12 +278,13 @@ public class LeadingActorState extends BaseAppState {
     @Override
     protected void onEnable() {
         app.getRootNode().attachChild(this.rootNode);
-
+        app.getGuiNode().attachChild(this.guiNode);
     }
 
     @Override
     protected void onDisable() {
         this.rootNode.removeFromParent();
+        this.guiNode.removeFromParent();
         this.actors.clear();
         this.target = null;
         this.chosen = null;

@@ -136,25 +136,21 @@ public class HandCardsState extends BaseAppState {
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
-        Slash card1 = new Slash();
 
-        card1.setImage(app.getAssetManager());
-        handCards.add(card1);
-        Defense card2 = new Defense();
-        card2.setImage(app.getAssetManager());
-        handCards.add(card2);
-        Heal card3 = new Heal();
-        card3.setImage(app.getAssetManager());
-        handCards.add(card3);
+        handCards.add(new Slash());
+
+        handCards.add(new Defense());
+        handCards.add(new Heal());
 //        handCards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
 //        handCards.add(newCard("Cards/caster/attack/爆破(+).png"));
 //        handCards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
         int i = 0;
         int length = handCards.size();
-        for (Picture card : handCards) {
+        for (Card card : handCards) {
             double x = this.positions[length][i][0];
             double y = this.positions[length][i][1];
             double angle = this.positions[length][i][2];
+            card.setImage(app.getAssetManager());
             card.setPosition((float) x, (float) y);
             card.rotate(0, 0, (float) angle);
 
