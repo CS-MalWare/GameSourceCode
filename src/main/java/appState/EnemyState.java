@@ -7,6 +7,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.asset.AssetManager;
+import com.jme3.bounding.BoundingSphere;
 import com.jme3.collision.CollisionResults;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
@@ -14,6 +15,8 @@ import com.jme3.font.Rectangle;
 import com.jme3.input.InputManager;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.*;
+import com.jme3.material.Material;
+import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
@@ -24,6 +27,8 @@ import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Quad;
+import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 
@@ -58,7 +63,7 @@ public class EnemyState extends BaseAppState {
         hpHints = new ArrayList<BitmapText>();
         blockHints = new ArrayList<BitmapText>();
         addEnemies(
-                new DarkDragon(85, "Dragon/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
+                new DarkDragon(85, "Dragon2/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
                 new DarkDragon(85, "Dragon2/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
                 new DarkDragon(85, "Dragon3/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0)
         );
@@ -160,37 +165,53 @@ public class EnemyState extends BaseAppState {
             model.center();// 将模型的中心移到原点
             model.move(6 + 2 * (i == 0 ? 0 : (float) Math.pow(-1, i)), 0, -1);
             model.rotate(0, -0.9f, 0);//调整y角度可以设置怪物脸的朝向，0为正对屏幕，负数为向左看，正数为向右看
+            model.setModelBound(new BoundingSphere());// 使用包围球
+            model.updateModelBound();// 更新包围球
             rootNode.attachChild(model);
         }
     }
 
     private CollisionResults getRootCollision(MouseButtonEvent evt) {
-        int x = evt.getX();//得到鼠标的横坐标
-        int y = evt.getY();//得到鼠标的纵坐标
-
-        InputManager inputManager = app.getInputManager();
-        Camera cam = app.getCamera();
-        Vector2f screenCoord = inputManager.getCursorPosition();
-        Vector3f worldCoord = cam.getWorldCoordinates(screenCoord, 1f);
+        Vector2f screenCoord = this.inputManager.getCursorPosition();
+        Vector3f worldCoord = this.camera.getWorldCoordinates(screenCoord, 1f);
 
         // 计算方向
-        Vector3f dir = worldCoord.subtract(cam.getLocation());
+        Vector3f dir = worldCoord.subtract(this.camera.getLocation());
         dir.normalizeLocal();
         Ray ray = new Ray();
-        ray.setOrigin(cam.getLocation());
+        ray.setOrigin(this.camera.getLocation());
         ray.setDirection(dir);
         CollisionResults results = new CollisionResults();
-        rootNode.collideWith(ray, results);//rootNode 中所有图形对象 和 ray 的碰撞
+        rootNode.collideWith(ray, results);//检测guinode 中所有图形对象 和 ray 的碰撞
 
         return results;
     }
 
+    private CollisionResults getGuiCollision(MouseMotionEvent evt) {
+        Vector2f screenCoord = this.inputManager.getCursorPosition();
+        Vector3f worldCoord = this.camera.getWorldCoordinates(screenCoord, 1f);
+
+        // 计算方向
+        Vector3f dir = worldCoord.subtract(this.camera.getLocation());
+        dir.normalizeLocal();
+        Ray ray = new Ray();
+        ray.setOrigin(this.camera.getLocation());
+        ray.setDirection(dir);
+        CollisionResults results = new CollisionResults();
+        rootNode.collideWith(ray, results);//检测guinode 中所有图形对象 和 ray 的碰撞
+
+        return results;
+    }
 
     public static EnemyState getInstance() {
         return instance;
     }
 
     class MyRawInputListener implements RawInputListener {
+        Quad q = new Quad(6, 3);
+        BitmapFont fnt = assetManager.loadFont("Interface/Fonts/Default.fnt");
+        private BitmapText buffDisplay = new BitmapText(fnt, false);//显示的文字
+        private Geometry buffDisplayBoard = new Geometry("quad", q);//文字后面的版
 
 
         /**
@@ -207,8 +228,54 @@ public class EnemyState extends BaseAppState {
          */
         @Override
         public void onMouseMotionEvent(MouseMotionEvent evt) {
+            CollisionResults results = getGuiCollision(evt);
+            if (results.size() > 0) {
+                Geometry res = results.getClosestCollision().getGeometry();
+                //遍历敌人数组，确定鼠标选中的是哪一个敌人
+                Enemy targetEnemy = null;
+                for (Enemy enemy:enemies) {
+                    if(enemy.getSrc().equals(res.getName())){
+                        targetEnemy = enemy;
+                        break;
+                    }
+                }
+                buffDisplayBoard.setLocalTranslation(2, 2, -1);
+                Material mt = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+                mt.setColor("Color",ColorRGBA.Red);
+                mt.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+                buffDisplayBoard.setQueueBucket(RenderQueue.Bucket.Transparent);
+                buffDisplayBoard.setMaterial(mt);
+                rootNode.attachChild(buffDisplayBoard);
+                String txtB = "This character's buff:\n\n";
+                if(targetEnemy!=null) {
+                    txtB += String.format("   Bleeding: %d      ", targetEnemy.getBleeding().getDuration());
+                    txtB += String.format("     Disarm: %d      ", targetEnemy.getDisarm().getDuration());
+                    txtB += String.format("      Erode: %d       \n", targetEnemy.getErode().getDuration());
+                    txtB += String.format("     Excite: %d      ", targetEnemy.getExcite().getDuration());
+                    txtB += String.format(" Intangible: %d      ", targetEnemy.getIntangible().getDuration());
+                    txtB += String.format("     Posion: %d       \n", targetEnemy.getPosion().getDuration());
+                    txtB += String.format("     Sheild: %d      ", targetEnemy.getSheild().getDuration());
+                    txtB += String.format("    Silence: %d      ", targetEnemy.getSilence().getDuration());
+                    txtB += String.format("       Stun: %d       \n", targetEnemy.getStun().getDuration());
+                    txtB += String.format("Vunlnerable: %d      ", targetEnemy.getVulnerable().getDuration());
+                    txtB += String.format("       Weak: %d      ", targetEnemy.getWeak().getDuration());
+                    txtB += String.format("   Artifact: %d       \n", targetEnemy.getArtifact().getTimes());
+                    txtB += String.format("  Dexterity: %d      ", targetEnemy.getDexterity());
+                    txtB += String.format("      Dodge: %d      ", targetEnemy.getDodge().getTimes());
+                    txtB += String.format("     Excite: %d      ", targetEnemy.getStrength());
 
-
+                }
+                buffDisplay.setBox(new Rectangle(2, 4, 6, 3));
+                buffDisplay.setQueueBucket(RenderQueue.Bucket.Transparent);
+                buffDisplay.setSize(0.25f);
+                buffDisplay.setText(txtB);
+                rootNode.attachChild(buffDisplay);
+            } else {
+//                if (buffDisplay != null)
+                    buffDisplay.removeFromParent();
+//                if (buffDisplayBoard != null)
+                    buffDisplayBoard.removeFromParent();
+            }
         }
 
         @Override
