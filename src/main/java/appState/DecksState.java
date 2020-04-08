@@ -440,7 +440,7 @@ public class DecksState extends BaseAppState {
                             break;
                         case "结束回合":
                             // TODO 结束回合,敌人开始行动
-
+                            MainRole.getInstance().endTurn();
                             break;
                         default:
                             isExhuastDeckShow = false;

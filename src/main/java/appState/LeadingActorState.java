@@ -52,11 +52,14 @@ public class LeadingActorState extends BaseAppState {
 
     TrueTypeFont font;
 
+    BitmapText hpHint; // 显示的hp
+
+    BitmapText blHint;  // 显示的护甲
 
     protected void initialize(Application application) {
         this.app = (SimpleApplication) getApplication();
         this.myRawInputListener = new MyRawInputListener();
-        this.target = new MainRole(100, "LeadingActor/MajorActor4.j3o");
+        this.target = MainRole.getInstance();
         model1 = app.getAssetManager().loadModel("LeadingActor/MajorActor4.j3o");
         //model1.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
@@ -102,7 +105,7 @@ public class LeadingActorState extends BaseAppState {
     }
 
     public void initializeHints() {
-        BitmapText hpHint = new BitmapText(fnt, false);
+        hpHint = new BitmapText(fnt, false);
         hpHint.setBox(new Rectangle(-3.9f, 2.5f, 6, 3));
         hpHint.setQueueBucket(RenderQueue.Bucket.Transparent);
         hpHint.setSize(0.3f);
@@ -110,7 +113,7 @@ public class LeadingActorState extends BaseAppState {
         hpHint.setText(String.format("HP: %d/%d", this.target.getHP(), this.target.getTotalHP()));
         rootNode.attachChild(hpHint);
 
-        BitmapText blHint = new BitmapText(fnt, false);
+        blHint = new BitmapText(fnt, false);
         blHint.setBox(new Rectangle(-3.9f, 0, 6, 3));
         blHint.setQueueBucket(RenderQueue.Bucket.Transparent);
         blHint.setSize(0.3f);
@@ -135,8 +138,8 @@ public class LeadingActorState extends BaseAppState {
     }
 
     public void updateHints() {
-
-        BitmapText hpHint = new BitmapText(fnt, false);
+        hpHint.removeFromParent();
+        hpHint = new BitmapText(fnt, false);
         hpHint.setBox(new Rectangle(-3.9f, 2.5f, 6, 3));
         hpHint.setQueueBucket(RenderQueue.Bucket.Transparent);
         hpHint.setSize(0.3f);
@@ -144,7 +147,8 @@ public class LeadingActorState extends BaseAppState {
         hpHint.setText(String.format("HP: %d/%d", this.target.getHP(), this.target.getTotalHP()));
         rootNode.attachChild(hpHint);
 
-        BitmapText blHint = new BitmapText(fnt, false);
+        blHint.removeFromParent();
+        blHint = new BitmapText(fnt, false);
         blHint.setBox(new Rectangle(-3.9f, 0, 6, 3));
         blHint.setQueueBucket(RenderQueue.Bucket.Transparent);
         blHint.setSize(0.3f);
@@ -154,7 +158,7 @@ public class LeadingActorState extends BaseAppState {
 
         MpText.removeFromParent();
         MpText = font.getBitmapGeom(String.format("%d/%d", MainRole.getInstance().getMP_current(), MainRole.getInstance().getMP_max()), 0, ColorRGBA.Red);
-        MpText.setLocalTranslation(240, 240, 1);
+        MpText.setLocalTranslation(250, 270, 1);
         guiNode.attachChild(MpText);
 
     }
@@ -216,34 +220,7 @@ public class LeadingActorState extends BaseAppState {
 
         public void onMouseButtonEvent(MouseButtonEvent evt) {
             //如果是鼠标按下去
-            if (evt.isPressed()) {
 
-                //获得当前鼠标选中的位置
-                CollisionResults guiResults = getRootCollision(evt);
-                if (guiResults.size() > 0) {
-                    // 获得离射线原点最近的交点所在的图片
-                    Geometry res = guiResults.getClosestCollision().getGeometry();
-                    System.out.println(res.getName());
-                } else {
-                    chosen = null;
-                }
-
-            } else if (evt.isReleased()) {
-                CollisionResults guiResults = getRootCollision(evt);
-                if (guiResults.size() > 0) {
-                    // 获得离射线原点最近的交点所在的图片
-                    Geometry res = guiResults.getClosestCollision().getGeometry();
-                    chosen = res;
-                    for (MainRole x : actors) {
-                        if (x.getSrc().equals(res.getName())) {
-                            target = x;
-                        }
-                    }
-                } else {
-                    chosen = null;
-                    target = null;
-                }
-            }
         }
 
         @Override

@@ -63,7 +63,7 @@ public class EnemyState extends BaseAppState {
         hpHints = new ArrayList<BitmapText>();
         blockHints = new ArrayList<BitmapText>();
         addEnemies(
-                new DarkDragon(85, "Dragon2/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
+                new DarkDragon(85, "Dragon/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
                 new DarkDragon(85, "Dragon2/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
                 new DarkDragon(85, "Dragon3/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0)
         );
@@ -158,6 +158,7 @@ public class EnemyState extends BaseAppState {
     public void addEnemies(Enemy... enemies) {
         for (int i = 0; i < enemies.length; i++) {
             this.enemies.add(enemies[i]);
+            enemies[i].bindApp(app);
             String src = enemies[i].getSrc();
             Spatial model = this.assetManager.loadModel(src);
             model.setName(src);

@@ -2,11 +2,13 @@ package appState;
 
 import card.Card;
 import card.CreateCard;
+import card.neutral.skill.Intelligent;
 import card.saber.attack.Slash;
 import card.saber.power.ManaBoost;
 import card.saber.skill.Defense;
 import card.saber.skill.Heal;
 import character.Enemy;
+import character.MainRole;
 import character.Role;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -141,6 +143,7 @@ public class HandCardsState extends BaseAppState {
 
         handCards.add(new Defense());
         handCards.add(new Heal());
+        handCards.add(new Intelligent(true));
 //        handCards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
 //        handCards.add(newCard("Cards/caster/attack/爆破(+).png"));
 //        handCards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
@@ -183,38 +186,48 @@ public class HandCardsState extends BaseAppState {
     }
 
 
-    public void addToHand(ArrayList<Card> cards) {
+    public void addToHand(ArrayList<Card> cards, boolean withAdjust) {
         int size0 = handCards.size();//获取当前还没有抽卡的手牌数量
         this.handCards.addAll(cards);
         int size = handCards.size();//获得新手牌数量
+
         for (int i = size0; i < size; i++) {
             Picture card = handCards.get(i);
             card.setPosition(1400, -25);
             rootNode.attachChild(card);
         }
-
-        adjustAllCardsPosition(size, size0);
+        if (withAdjust)
+            adjustAllCardsPosition(size, size0);
     }
 
 
-    public void addToHand(Card card) {
+    public void addToHand(ArrayList<Card> cards) {
+        this.addToHand(cards, false);
+    }
+
+    public void addToHand(Card card, boolean withAdjust) {
         int size0 = handCards.size();//获取当前还没有抽卡的手牌数量
         this.handCards.add(card);
         int size = handCards.size();//获得新手牌数量
         card.setPosition(1400, -25);
         rootNode.attachChild(card);
 
-
-        adjustAllCardsPosition(size, size0);
+        if (withAdjust)
+            adjustAllCardsPosition(size, size0);
     }
 
-    public void drawCards(int num) {
+
+    public void addToHand(Card card) {
+        this.addToHand(card, false);
+    }
+
+    public void drawCards(int num, boolean withAdjust) {
 //        int size0 = handCards.size();//获取当前还没有抽卡的手牌数量
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
         ArrayList<Card> cards = app.getStateManager().getState(DecksState.class).drawCard(num);
 
 
-        this.addToHand(cards);
+        this.addToHand(cards, withAdjust);
 //        int size = handCards.size();//获得新手牌数量
 //        //放置新卡牌
 //        for (int i = size0; i < size; i++) {
@@ -229,6 +242,7 @@ public class HandCardsState extends BaseAppState {
     }
 
     //多张卡变动时调整卡牌位置，如果传入的size0是-1，那么就是一张卡牌的调节
+    // size 新的卡牌数, size0 旧的卡牌数
     private void adjustAllCardsPosition(int size, int size0) {
         for (int i = 0; i < size; i++) {
             Picture card = handCards.get(i);
@@ -237,9 +251,9 @@ public class HandCardsState extends BaseAppState {
             control.setSpatial(card);
 
             //size0为-1说明是单张卡牌当操作，不需要调整移动速度
-            if (size0 != -1)
-                if (i >= size0)
-                    control.setWalkSpeed(1200f);
+
+            if (i >= size0 - 1)
+                control.setWalkSpeed(1200f);
 
 
             double[] position = positions[size][i];
@@ -257,26 +271,33 @@ public class HandCardsState extends BaseAppState {
         if (card.isAOE()) {
             ArrayList<Enemy> targets = app.getStateManager().getState(EnemyState.class).getEnemies();
             Enemy[] enermies = targets.toArray(new Enemy[0]);
+            int size0 = handCards.size();
+
             if (card.use(enermies)) {
                 handCards.remove(card);
 //        rootNode.detachChild(card);
-
+                card.removeFromParent();
+                int size = handCards.size();
+                adjustAllCardsPosition(size, size0);
                 app.getStateManager().getState(DecksState.class).addToDrop(card);
                 app.getStateManager().getState(EnemyState.class).updateHints(true);
+                app.getStateManager().getState(LeadingActorState.class).updateHints();
 
-                int size = handCards.size();
-                adjustAllCardsPosition(size, -1);
             }
         } else {
+            int size0 = handCards.size();
             if (card.use(app.getStateManager().getState(EnemyState.class).getTarget())) {
                 handCards.remove(card);
+                card.removeFromParent();
 //        rootNode.detachChild(card);
+                int size = handCards.size();
+                adjustAllCardsPosition(size, size0);
 
                 app.getStateManager().getState(DecksState.class).addToDrop(card);
                 app.getStateManager().getState(EnemyState.class).updateHints(false);
+                app.getStateManager().getState(LeadingActorState.class).updateHints();
 
-                int size = handCards.size();
-                adjustAllCardsPosition(size, -1);
+
             }
         }
 
@@ -439,7 +460,10 @@ public class HandCardsState extends BaseAppState {
             int keyCode = evt.getKeyCode();
             boolean isPressed = evt.isPressed();
             if (keyCode == KeyInput.KEY_L && isPressed) {
-                drawCards(1);
+                drawCards(1, true);
+            } else if (keyCode == KeyInput.KEY_M && isPressed) {
+                MainRole.getInstance().gainMP(1);
+                app.getStateManager().getState(LeadingActorState.class).updateHints();
             }
 
         }

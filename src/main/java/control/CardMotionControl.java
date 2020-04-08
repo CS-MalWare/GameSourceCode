@@ -46,7 +46,7 @@ public class CardMotionControl extends AbstractControl {
     private float rotateDir;
 
     public CardMotionControl() {
-        this(100f, 0);
+        this(200f, 0);
     }
 
     public CardMotionControl(float walkSpeed, float rotateSpeed) {
@@ -65,7 +65,7 @@ public class CardMotionControl extends AbstractControl {
      * @param walkSpeed
      */
     public void setWalkSpeed(float walkSpeed) {
-        this.speedFactor = walkSpeed;
+        this.walkSpeed = walkSpeed;
     }
 
 

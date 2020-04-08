@@ -36,6 +36,7 @@ public class MainRole extends Role {
 
     public static MainRole getInstance() {
         if (instance == null) {
+            System.out.println("初始化主角类");
             instance = new MainRole(85, "LeadingActor/MajorActor4.j3o");
         }
         return instance;
@@ -44,18 +45,15 @@ public class MainRole extends Role {
 
     public MainRole(int HP, String src) {
         super(HP, src, ROLE.MAINROLE);
+
         this.strength_ = 0;
         this.dexterity_ = 0;
         this.draw_ = 6;
-
         this.potionBag = 3;
         this.gold = 0;
         this.deck = new ArrayList<Card>();
-
         this.MP_max = 4;
         this.MP_current = 4;
-        instance = this;
-
     }
 
 
@@ -85,25 +83,16 @@ public class MainRole extends Role {
             return;
         }
         this.keepCard = false;
-        app.getStateManager().getState(HandCardsState.class).drawCards(this.draw);
+        this.drawCards(this.draw, true);
         if (this.excite.getDuration() > 0) {
-            app.getStateManager().getState(HandCardsState.class).drawCards(1);
+            this.drawCards(1, true);
         }
         this.MP_current = this.MP_max;
 
     }
 
 
-    public boolean useCard(Card card, Enemy... enemy) {
-        if (card.getCost() > this.MP_current) {
-            return false;
-        }
 
-        if (!card.use(enemy)) return false;
-
-        this.MP_current -= card.getCost();
-        return true;
-    }
 
 
     public int getMP_current() {
@@ -136,7 +125,7 @@ public class MainRole extends Role {
         } else {
             DecksState deckState = app.getStateManager().getState(DecksState.class);
             HandCardsState handCardsState = app.getStateManager().getState(HandCardsState.class);
-            deckState.addToDraw(handCardsState.getHandCards());
+            deckState.addToDrop(handCardsState.getHandCards().toArray(new Card[0]));
         }
 
     }
@@ -155,7 +144,12 @@ public class MainRole extends Role {
     }
 
     public void drawCards(int num) {
-        app.getStateManager().getState(HandCardsState.class).drawCards(num);
+
+        this.app.getStateManager().getState(HandCardsState.class).drawCards(num, false);
+    }
+
+    public void drawCards(int num, boolean withAdjust) {
+        this.app.getStateManager().getState(HandCardsState.class).drawCards(num, withAdjust);
     }
 
 
