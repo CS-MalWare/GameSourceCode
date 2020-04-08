@@ -232,45 +232,47 @@ public class EnemyState extends BaseAppState {
             CollisionResults results = getGuiCollision(evt);
             if (results.size() > 0) {
                 Geometry res = results.getClosestCollision().getGeometry();
-                //遍历敌人数组，确定鼠标选中的是哪一个敌人
-                Enemy targetEnemy = null;
-                for (Enemy enemy:enemies) {
-                    if(enemy.getSrc().equals(res.getName())){
-                        targetEnemy = enemy;
-                        break;
+                if(!res.getName().equals("BitmapFont")) {
+                    //遍历敌人数组，确定鼠标选中的是哪一个敌人
+                    Enemy targetEnemy = null;
+                    for (Enemy enemy : enemies) {
+                        if (enemy.getSrc().equals(res.getName())) {
+                            targetEnemy = enemy;
+                            break;
+                        }
                     }
-                }
-                buffDisplayBoard.setLocalTranslation(2, 2, -1);
-                Material mt = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-                mt.setColor("Color",ColorRGBA.Red);
-                mt.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
-                buffDisplayBoard.setQueueBucket(RenderQueue.Bucket.Transparent);
-                buffDisplayBoard.setMaterial(mt);
-                rootNode.attachChild(buffDisplayBoard);
-                String txtB = "This character's buff:\n\n";
-                if(targetEnemy!=null) {
-                    txtB += String.format("   Bleeding: %d      ", targetEnemy.getBleeding().getDuration());
-                    txtB += String.format("     Disarm: %d      ", targetEnemy.getDisarm().getDuration());
-                    txtB += String.format("      Erode: %d       \n", targetEnemy.getErode().getDuration());
-                    txtB += String.format("     Excite: %d      ", targetEnemy.getExcite().getDuration());
-                    txtB += String.format(" Intangible: %d      ", targetEnemy.getIntangible().getDuration());
-                    txtB += String.format("     Posion: %d       \n", targetEnemy.getPosion().getDuration());
-                    txtB += String.format("     Sheild: %d      ", targetEnemy.getSheild().getDuration());
-                    txtB += String.format("    Silence: %d      ", targetEnemy.getSilence().getDuration());
-                    txtB += String.format("       Stun: %d       \n", targetEnemy.getStun().getDuration());
-                    txtB += String.format("Vunlnerable: %d      ", targetEnemy.getVulnerable().getDuration());
-                    txtB += String.format("       Weak: %d      ", targetEnemy.getWeak().getDuration());
-                    txtB += String.format("   Artifact: %d       \n", targetEnemy.getArtifact().getTimes());
-                    txtB += String.format("  Dexterity: %d      ", targetEnemy.getDexterity());
-                    txtB += String.format("      Dodge: %d      ", targetEnemy.getDodge().getTimes());
-                    txtB += String.format("     Excite: %d      ", targetEnemy.getStrength());
+                    buffDisplayBoard.setLocalTranslation(2, 2, -1);
+                    Material mt = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+                    mt.setColor("Color", ColorRGBA.Red);
+                    mt.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+                    buffDisplayBoard.setQueueBucket(RenderQueue.Bucket.Transparent);
+                    buffDisplayBoard.setMaterial(mt);
+                    rootNode.attachChild(buffDisplayBoard);
+                    String txtB = "This character's buff:\n\n";
+                    if (targetEnemy != null) {
+                        txtB += String.format("   Bleeding: %d      ", targetEnemy.getBleeding().getDuration());
+                        txtB += String.format("     Disarm: %d      ", targetEnemy.getDisarm().getDuration());
+                        txtB += String.format("      Erode: %d       \n", targetEnemy.getErode().getDuration());
+                        txtB += String.format("     Excite: %d      ", targetEnemy.getExcite().getDuration());
+                        txtB += String.format(" Intangible: %d      ", targetEnemy.getIntangible().getDuration());
+                        txtB += String.format("     Posion: %d       \n", targetEnemy.getPosion().getDuration());
+                        txtB += String.format("     Sheild: %d      ", targetEnemy.getSheild().getDuration());
+                        txtB += String.format("    Silence: %d      ", targetEnemy.getSilence().getDuration());
+                        txtB += String.format("       Stun: %d       \n", targetEnemy.getStun().getDuration());
+                        txtB += String.format("Vunlnerable: %d      ", targetEnemy.getVulnerable().getDuration());
+                        txtB += String.format("       Weak: %d      ", targetEnemy.getWeak().getDuration());
+                        txtB += String.format("   Artifact: %d       \n", targetEnemy.getArtifact().getTimes());
+                        txtB += String.format("  Dexterity: %d      ", targetEnemy.getDexterity());
+                        txtB += String.format("      Dodge: %d      ", targetEnemy.getDodge().getTimes());
+                        txtB += String.format("     Excite: %d      ", targetEnemy.getStrength());
 
+                    }
+                    buffDisplay.setBox(new Rectangle(2, 4, 6, 3));
+                    buffDisplay.setQueueBucket(RenderQueue.Bucket.Transparent);
+                    buffDisplay.setSize(0.25f);
+                    buffDisplay.setText(txtB);
+                    rootNode.attachChild(buffDisplay);
                 }
-                buffDisplay.setBox(new Rectangle(2, 4, 6, 3));
-                buffDisplay.setQueueBucket(RenderQueue.Bucket.Transparent);
-                buffDisplay.setSize(0.25f);
-                buffDisplay.setText(txtB);
-                rootNode.attachChild(buffDisplay);
             } else {
 //                if (buffDisplay != null)
                     buffDisplay.removeFromParent();
