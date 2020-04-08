@@ -63,7 +63,7 @@ public class EnemyState extends BaseAppState {
         hpHints = new ArrayList<BitmapText>();
         blockHints = new ArrayList<BitmapText>();
         addEnemies(
-                new DarkDragon(85, "Dragon2/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
+                new DarkDragon(85, "Dragon1/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
                 new DarkDragon(85, "Dragon2/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0),
                 new DarkDragon(85, "Dragon3/dragon.obj", 0, 0, 0, 0, 0, 0, 0, 0)
         );
