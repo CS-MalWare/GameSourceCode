@@ -41,6 +41,7 @@ public class Test extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         character.MainRole mainRole = MainRole.getInstance();
+        mainRole.bindApp(this);
         addLight();
     }
 

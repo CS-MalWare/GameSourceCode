@@ -149,6 +149,7 @@ public class Role {
 
 
     public void bindApp(SimpleApplication app) {
+        System.out.println("绑定app");
         this.app = app;
     }
 
