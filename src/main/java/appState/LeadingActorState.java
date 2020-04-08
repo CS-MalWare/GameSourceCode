@@ -243,7 +243,7 @@ public class LeadingActorState extends BaseAppState {
                 Geometry res = results.getClosestCollision().getGeometry();
                 //可能是因为加入了动作，导致可能出现的geometry有 Mesh, Mesh.001, Mesh.002等
                 //但是放置在这些上面都是应该显示buff的
-                if (res.getName().substring(0,4).equals("Mesh")&&target!=null) {
+                if (res.getName().substring(0, 4).equals("Mesh") && target != null) {
                     buffDisplayBoard.setLocalTranslation(2, 2, -1);
                     Material mt = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
                     mt.setColor("Color", ColorRGBA.Red);
@@ -321,6 +321,28 @@ public class LeadingActorState extends BaseAppState {
     protected void onEnable() {
         app.getRootNode().attachChild(this.rootNode);
         app.getGuiNode().attachChild(this.guiNode);
+    }
+
+    @Override
+    public void update(float tpf) {
+        super.update(tpf);
+        if (this.target.getHP() <= 0) {
+
+            Material mat = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+            mat.setColor("Color", new ColorRGBA(1f, 1f, 1f, 0.01f));// 镜面反射时，高光的颜色。
+
+            // 应用材质。
+            Geometry geom = new Geometry("结束界面", new Quad(1600, 900));
+            geom.setMaterial(mat);
+
+            // 使物体看起来透明
+            mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+            geom.setQueueBucket(RenderQueue.Bucket.Transparent);
+
+            geom.center();
+            rootNode.attachChild(geom);
+        }
+
     }
 
     @Override
