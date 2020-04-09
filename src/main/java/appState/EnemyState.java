@@ -290,8 +290,10 @@ public class EnemyState extends BaseAppState {
                     buffDisplayBoard.setQueueBucket(RenderQueue.Bucket.Transparent);
                     buffDisplayBoard.setMaterial(mt);
                     rootNode.attachChild(buffDisplayBoard);
-                    String txtB = "This character's buff:\n\n";
+                    String txtB = "This character's buff:\n";
                     if (targetEnemy != null) {
+                        txtB += String.format("   Strength: %d      ", targetEnemy.getStrength());
+                        txtB += String.format("  Dexterity: %d       \n", targetEnemy.getDexterity());
                         txtB += String.format("   Bleeding: %d      ", targetEnemy.getBleeding().getDuration());
                         txtB += String.format("     Disarm: %d      ", targetEnemy.getDisarm().getDuration());
                         txtB += String.format("      Erode: %d       \n", targetEnemy.getErode().getDuration());

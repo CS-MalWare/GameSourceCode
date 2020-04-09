@@ -251,7 +251,9 @@ public class LeadingActorState extends BaseAppState {
                     buffDisplayBoard.setQueueBucket(RenderQueue.Bucket.Transparent);
                     buffDisplayBoard.setMaterial(mt);
                     rootNode.attachChild(buffDisplayBoard);
-                    String txtB = "This character's buff:\n\n";
+                    String txtB = "This character's buff:\n";
+                    txtB += String.format("   Strength: %d      ", target.getStrength());
+                    txtB += String.format("  Dexterity: %d       \n", target.getDexterity());
                     txtB += String.format("   Bleeding: %d      ", target.getBleeding().getDuration());
                     txtB += String.format("     Disarm: %d      ", target.getDisarm().getDuration());
                     txtB += String.format("      Erode: %d       \n", target.getErode().getDuration());
