@@ -280,7 +280,10 @@ public class HandCardsState extends BaseAppState {
                     card.removeFromParent();
                     int size = handCards.size();
                     adjustAllCardsPosition(size, size0);
-                    app.getStateManager().getState(DecksState.class).addToDrop(card);
+                    if (card.isExhaust())
+                        app.getStateManager().getState(DecksState.class).addToExhaust(card);
+                    else
+                        app.getStateManager().getState(DecksState.class).addToDrop(card);
                     app.getStateManager().getState(EnemyState.class).updateHints(true);
                     app.getStateManager().getState(LeadingActorState.class).updateHints();
 
@@ -293,8 +296,10 @@ public class HandCardsState extends BaseAppState {
 //        rootNode.detachChild(card);
                     int size = handCards.size();
                     adjustAllCardsPosition(size, size0);
-
-                    app.getStateManager().getState(DecksState.class).addToDrop(card);
+                    if (card.isExhaust())
+                        app.getStateManager().getState(DecksState.class).addToExhaust(card);
+                    else
+                        app.getStateManager().getState(DecksState.class).addToDrop(card);
                     app.getStateManager().getState(EnemyState.class).updateHints(false);
                     app.getStateManager().getState(LeadingActorState.class).updateHints();
 
