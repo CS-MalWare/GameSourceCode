@@ -19,7 +19,7 @@ public class ConeFlame extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("艳阳锥+");
         this.setDamage(22);
         this.upgraded = true;

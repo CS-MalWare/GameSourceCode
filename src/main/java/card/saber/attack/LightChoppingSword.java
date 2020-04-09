@@ -19,7 +19,7 @@ public class LightChoppingSword extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("光剑斩+");
         this.setDamage(13);
         this.upgraded = true;

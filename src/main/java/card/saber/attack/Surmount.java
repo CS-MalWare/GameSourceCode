@@ -21,7 +21,7 @@ public class Surmount extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("超越+");
         this.setDamage(40);
         this.upgraded = true;

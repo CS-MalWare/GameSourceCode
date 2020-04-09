@@ -8,6 +8,7 @@ import card.neutral.attack.Whirlpool;
 import card.saber.attack.LightSlash;
 import card.saber.attack.Slash;
 import card.saber.attack.SoilSlash;
+import character.Enemy;
 import character.MainRole;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -136,16 +137,22 @@ public class DecksState extends BaseAppState {
         exhaustText.setLocalTranslation(positionX[2], positionY[2], 1);
         rootNode.attachChild(exhaustText);
 
-        drawDeck.add(new ConeFlame(true));
-        drawDeck.add(new ConeGold());
-        drawDeck.add(new Whirlpool());
-        drawDeck.add(new TheKissOfDeath());
+//        drawDeck.add(new ConeFlame(true));
+//        drawDeck.add(new ConeGold());
+//        drawDeck.add(new Whirlpool());
+//        drawDeck.add(new TheKissOfDeath());
+//
+//        dropDeck.add(new Slash());
+//        dropDeck.add(new SoilSlash());
+//
+//        exhaustDeck.add(new LightSlash());
 
-        dropDeck.add(new Slash());
-        dropDeck.add(new SoilSlash());
 
-        exhaustDeck.add(new LightSlash());
+        myActionListener = new MyInputListener();
+        instance = this;
+    }
 
+    public void setImages(SimpleApplication app) {
         for (Card card : drawDeck) {
             card.setImage(app.getAssetManager());
         }
@@ -156,10 +163,7 @@ public class DecksState extends BaseAppState {
         for (Card card : exhaustDeck) {
             card.setImage(app.getAssetManager());
         }
-
         this.updateNum();
-        myActionListener = new MyInputListener();
-        instance = this;
     }
 
     @Override
@@ -174,6 +178,9 @@ public class DecksState extends BaseAppState {
 
         app.getGuiNode().attachChild(this.rootNode);
         app.getInputManager().addRawInputListener(myActionListener);
+        MainRole.getInstance().startBattle();
+        this.setImages(app);
+        MainRole.getInstance().startTurn();
     }
 
     @Override
@@ -415,7 +422,7 @@ public class DecksState extends BaseAppState {
                 CollisionResults guiResults = getGuiCollision(evt);
                 if (guiResults.size() > 0) {
                     Geometry res = guiResults.getClosestCollision().getGeometry();
-                    System.out.println(res.getName());
+
                     switch (res.getName()) {
                         case "抽牌堆":
                             if(!isDrawDeckShow)showCards(drawDeck);
@@ -439,8 +446,32 @@ public class DecksState extends BaseAppState {
                             isDropDeckShow = false;
                             break;
                         case "结束回合":
-                            // TODO 结束回合,敌人开始行动
+
                             MainRole.getInstance().endTurn();
+                            app.getStateManager().getState(LeadingActorState.class).updateHints();
+
+                            ArrayList<Enemy> enemies = app.getStateManager().getState(EnemyState.class).getEnemies();
+                            // 所有敌人开始行动
+                            for (Enemy enemy : enemies) {
+                                enemy.startTurn();
+                                enemy.enemyAction();
+                                app.getStateManager().getState(EnemyState.class).updateHints(true);
+                                app.getStateManager().getState(LeadingActorState.class).updateHints();
+                                try {
+                                    Thread.sleep(300);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            // 停顿一下,假装在加载
+                            try {
+                                Thread.sleep(300);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            // 敌人行动完后,主角可以行动
+                            MainRole.getInstance().startTurn();
+                            app.getStateManager().getState(LeadingActorState.class).updateHints();
                             break;
                         default:
                             isExhuastDeckShow = false;

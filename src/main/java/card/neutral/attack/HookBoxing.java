@@ -17,7 +17,7 @@ public class HookBoxing extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("上勾拳+");
         this.setDamage(7);
         this.upgraded = true;

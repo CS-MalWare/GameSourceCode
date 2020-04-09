@@ -139,11 +139,11 @@ public class HandCardsState extends BaseAppState {
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
 //        cards.add(newCard("Cards/caster/attack/充钱.png"));
 
-        handCards.add(new Slash());
-
-        handCards.add(new Defense());
-        handCards.add(new Heal());
-        handCards.add(new Intelligent(true));
+//        handCards.add(new Slash());
+//
+//        handCards.add(new Defense());
+//        handCards.add(new Heal());
+//        handCards.add(new Intelligent(true));
 //        handCards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
 //        handCards.add(newCard("Cards/caster/attack/爆破(+).png"));
 //        handCards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
@@ -268,38 +268,41 @@ public class HandCardsState extends BaseAppState {
 
     //卡牌打出时候的操作
     private void useCard(Card card) {
-        if (card.isAOE()) {
-            ArrayList<Enemy> targets = app.getStateManager().getState(EnemyState.class).getEnemies();
-            Enemy[] enermies = targets.toArray(new Enemy[0]);
-            int size0 = handCards.size();
+        if (MainRole.getInstance().decMP(card.getCost())) {
+            if (card.isAOE()) {
+                ArrayList<Enemy> targets = app.getStateManager().getState(EnemyState.class).getEnemies();
+                Enemy[] enermies = targets.toArray(new Enemy[0]);
+                int size0 = handCards.size();
 
-            if (card.use(enermies)) {
-                handCards.remove(card);
+                if (card.use(enermies)) {
+                    handCards.remove(card);
 //        rootNode.detachChild(card);
-                card.removeFromParent();
-                int size = handCards.size();
-                adjustAllCardsPosition(size, size0);
-                app.getStateManager().getState(DecksState.class).addToDrop(card);
-                app.getStateManager().getState(EnemyState.class).updateHints(true);
-                app.getStateManager().getState(LeadingActorState.class).updateHints();
+                    card.removeFromParent();
+                    int size = handCards.size();
+                    adjustAllCardsPosition(size, size0);
+                    app.getStateManager().getState(DecksState.class).addToDrop(card);
+                    app.getStateManager().getState(EnemyState.class).updateHints(true);
+                    app.getStateManager().getState(LeadingActorState.class).updateHints();
 
-            }
-        } else {
-            int size0 = handCards.size();
-            if (card.use(app.getStateManager().getState(EnemyState.class).getTarget())) {
-                handCards.remove(card);
-                card.removeFromParent();
+                }
+            } else {
+                int size0 = handCards.size();
+                if (card.use(app.getStateManager().getState(EnemyState.class).getTarget())) {
+                    handCards.remove(card);
+                    card.removeFromParent();
 //        rootNode.detachChild(card);
-                int size = handCards.size();
-                adjustAllCardsPosition(size, size0);
+                    int size = handCards.size();
+                    adjustAllCardsPosition(size, size0);
 
-                app.getStateManager().getState(DecksState.class).addToDrop(card);
-                app.getStateManager().getState(EnemyState.class).updateHints(false);
-                app.getStateManager().getState(LeadingActorState.class).updateHints();
+                    app.getStateManager().getState(DecksState.class).addToDrop(card);
+                    app.getStateManager().getState(EnemyState.class).updateHints(false);
+                    app.getStateManager().getState(LeadingActorState.class).updateHints();
 
 
+                }
             }
         }
+
 
     }
 

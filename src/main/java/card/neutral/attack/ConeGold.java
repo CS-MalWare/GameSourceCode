@@ -20,7 +20,7 @@ public class ConeGold extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("凝金钻+");
         this.setDamage(22);
         this.upgraded = true;

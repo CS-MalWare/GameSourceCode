@@ -20,7 +20,7 @@ public class GreedHand extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("贪婪之手+");
         this.setDamage(14);
         this.upgraded = true;

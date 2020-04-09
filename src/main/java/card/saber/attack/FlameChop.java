@@ -19,7 +19,7 @@ public class FlameChop extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("烈焰斩+");
         this.setDamage(18);
         this.upgraded = true;

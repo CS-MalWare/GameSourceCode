@@ -17,7 +17,7 @@ public class Slash extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("打击+");
         this.setDamage(8);
         this.upgraded = true;

@@ -19,7 +19,7 @@ public class BladeDance extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("剑舞+");
         this.setDamage(10);
         this.upgraded = true;

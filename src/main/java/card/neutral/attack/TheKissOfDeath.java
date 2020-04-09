@@ -18,7 +18,7 @@ public class TheKissOfDeath extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("黯灭吻+");
         this.setDamage(16);
         this.upgraded = true;

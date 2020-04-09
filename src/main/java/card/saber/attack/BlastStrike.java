@@ -18,7 +18,7 @@ public class BlastStrike extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("奋力打击+");
         this.setDamage(10);
         this.upgraded = true;

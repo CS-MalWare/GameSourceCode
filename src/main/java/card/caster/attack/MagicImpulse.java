@@ -31,7 +31,7 @@ public class MagicImpulse extends AttackCard {
     }
 
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
 
         this.setName("Magic impulse(+)");
         this.setDamage(11);

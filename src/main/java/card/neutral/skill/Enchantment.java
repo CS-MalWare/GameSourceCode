@@ -40,23 +40,31 @@ public class Enchantment extends SkillCard {
     public boolean use(Role target) {
         ArrayList<Card> handCards = HandCardsState.getInstance().getHandCards();
         for (Card card : handCards) {
-            if (card.getType() == TYPE.SKILL)
+            if (card.getType() == TYPE.SKILL) {
                 card.upgrade();
+                card.setImage(MainRole.getInstance().getApp().getAssetManager());
+            }
         }
         ArrayList<Card> drawDeck = DecksState.getInstance().getDrawDeck();
         for (Card card : drawDeck) {
-            if (card.getType() == TYPE.SKILL)
+            if (card.getType() == TYPE.SKILL) {
                 card.upgrade();
+                card.setImage(MainRole.getInstance().getApp().getAssetManager());
+            }
         }
         ArrayList<Card> dropDeck = DecksState.getInstance().getDropDeck();
         for (Card card : dropDeck) {
-            if (card.getType() == TYPE.SKILL)
+            if (card.getType() == TYPE.SKILL) {
                 card.upgrade();
+                card.setImage(MainRole.getInstance().getApp().getAssetManager());
+            }
         }
         ArrayList<Card> exhaustDeck = DecksState.getInstance().getExhaustDeck();
         for (Card card : exhaustDeck) {
-            if (card.getType() == TYPE.SKILL)
+            if (card.getType() == TYPE.SKILL) {
                 card.upgrade();
+                card.setImage(MainRole.getInstance().getApp().getAssetManager());
+            }
         }
         if (upgraded) {
             MainRole.getInstance().gainMP(3);

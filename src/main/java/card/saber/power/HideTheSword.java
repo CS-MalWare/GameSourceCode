@@ -15,7 +15,7 @@ public class HideTheSword extends PowerCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("藏剑+");
         this.upgraded = true;
         this.setDescription("The next attack gets 3^n ATK(n is the round)");

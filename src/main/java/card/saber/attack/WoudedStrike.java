@@ -18,7 +18,7 @@ public class WoudedStrike extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("奋力打击+");
         this.setDamage(18);
         this.upgraded = true;

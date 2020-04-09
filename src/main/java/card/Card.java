@@ -44,7 +44,7 @@ public class Card extends Picture {
             default:
                 return;
         }
-        System.out.println(this.type);
+
         switch (type) {
             case ATTACK:
                 this.path += "/attack";
@@ -105,6 +105,8 @@ public class Card extends Picture {
 
     public void setCardName(String name) {
         this.name = name;
+        int index = this.path.lastIndexOf("/");
+        this.path = this.path.substring(0, index + 1) + this.name + ".png";
     }
 
     public void setCost(int cost) {

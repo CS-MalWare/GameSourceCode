@@ -38,26 +38,34 @@ public class Winding extends SkillCard {
 
     @Override
     public boolean use(Role target) {
-
         ArrayList<Card> handCards = HandCardsState.getInstance().getHandCards();
         for (Card card : handCards) {
-            if (card.getType() == TYPE.ATTACK)
+            if (card.getType() == TYPE.ATTACK) {
                 card.upgrade();
+                card.setImage(MainRole.getInstance().getApp().getAssetManager());
+
+            }
         }
         ArrayList<Card> drawDeck = DecksState.getInstance().getDrawDeck();
         for (Card card : drawDeck) {
-            if (card.getType() == TYPE.ATTACK)
+            if (card.getType() == TYPE.ATTACK) {
                 card.upgrade();
+                card.setImage(MainRole.getInstance().getApp().getAssetManager());
+            }
         }
         ArrayList<Card> dropDeck = DecksState.getInstance().getDropDeck();
         for (Card card : dropDeck) {
-            if (card.getType() == TYPE.ATTACK)
+            if (card.getType() == TYPE.ATTACK) {
                 card.upgrade();
+                card.setImage(MainRole.getInstance().getApp().getAssetManager());
+            }
         }
         ArrayList<Card> exhaustDeck = DecksState.getInstance().getExhaustDeck();
         for (Card card : exhaustDeck) {
-            if (card.getType() == TYPE.ATTACK)
+            if (card.getType() == TYPE.ATTACK) {
                 card.upgrade();
+                card.setImage(MainRole.getInstance().getApp().getAssetManager());
+            }
         }
         if (upgraded) {
             MainRole.getInstance().treat(10);

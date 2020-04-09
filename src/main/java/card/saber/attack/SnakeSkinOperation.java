@@ -21,7 +21,7 @@ public class SnakeSkinOperation extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("蛇皮操作+");
         this.setDamage(0);
         this.upgraded = true;

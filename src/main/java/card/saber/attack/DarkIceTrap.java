@@ -21,7 +21,7 @@ public class DarkIceTrap extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("冥海玄冰阵+");
         this.setDamage(20);
         this.upgraded = true;

@@ -17,7 +17,7 @@ public class LightSlash extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("光之挥舞+");
         this.setDamage(5);
         this.upgraded = true;

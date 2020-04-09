@@ -19,7 +19,7 @@ public class StaggeringBlow extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("当头一击+");
         this.setDamage(9);
         this.upgraded = true;

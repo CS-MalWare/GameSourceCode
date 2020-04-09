@@ -84,6 +84,7 @@ public class Role {
         if (this.stun.getDuration() > 0) {
             this.endTurn();
         }
+        this.block = 0;
     }
 
     public boolean isRestrain(AttackCard.PROPERTY a, AttackCard.PROPERTY b) {
@@ -405,5 +406,9 @@ public class Role {
 
     public void setAtk(int atk) {
         this.atk = atk;
+    }
+
+    public SimpleApplication getApp() {
+        return app;
     }
 }

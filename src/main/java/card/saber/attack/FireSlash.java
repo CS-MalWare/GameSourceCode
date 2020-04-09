@@ -19,7 +19,7 @@ public class FireSlash extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("火焰斩+");
         this.setDamage(8);
         this.upgraded = true;

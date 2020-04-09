@@ -18,7 +18,7 @@ public class DrawSwordStrike extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("拔刀斩+");
         this.setDamage(20);
         this.upgraded = true;

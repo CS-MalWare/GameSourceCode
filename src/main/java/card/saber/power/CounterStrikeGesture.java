@@ -18,7 +18,7 @@ public class CounterStrikeGesture extends PowerCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("逆转反击+");
         this.upgraded = true;
         this.setDescription("every time get attacked, deal 40% of damage to the attacker");

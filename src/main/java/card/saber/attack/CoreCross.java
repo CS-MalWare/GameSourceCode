@@ -18,7 +18,7 @@ public class CoreCross extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("十字斩+");
         this.setDamage(9);
         this.upgraded = true;

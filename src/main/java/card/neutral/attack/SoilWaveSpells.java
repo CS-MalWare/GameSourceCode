@@ -18,7 +18,7 @@ public class SoilWaveSpells extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("土浪术+");
         this.setDamage(25);
         this.upgraded = true;

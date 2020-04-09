@@ -171,7 +171,7 @@ public class EnemyState extends BaseAppState {
             }
         } else {
             if (targetID != -1) {
-                System.out.println(targetID);
+
                 hpHints.get(targetID).removeFromParent();
                 BitmapText hpHint = new BitmapText(fnt, false);
                 hpHint.setBox(new Rectangle(hpPositions.get(2 * targetID), hpPositions.get(2 * targetID + 1), 6, 3));
@@ -333,7 +333,7 @@ public class EnemyState extends BaseAppState {
                 if (guiResults.size() > 0) {
                     // 获得离射线原点最近的交点所在的图片
                     Geometry res = guiResults.getClosestCollision().getGeometry();
-                    System.out.println(res.getName());
+
                 } else {
                     chosen = null;
                     target = null;

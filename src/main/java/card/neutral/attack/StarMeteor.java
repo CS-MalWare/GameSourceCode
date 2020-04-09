@@ -22,7 +22,7 @@ public class StarMeteor extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("星陨+");
         this.setDamage(28);
         this.upgraded = true;

@@ -18,7 +18,7 @@ public class DoubleBladeChop extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("双刀斩+");
         this.setDamage(12);
         this.upgraded = true;

@@ -23,7 +23,7 @@ public class Whirlpool extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("旋涡+");
         this.setDamage(12);
         this.upgraded = true;

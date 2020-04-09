@@ -17,7 +17,7 @@ public class KickDown extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("下段踢+");
         this.setDamage(9);
         this.upgraded = true;

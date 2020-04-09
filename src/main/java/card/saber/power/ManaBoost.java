@@ -19,7 +19,7 @@ public class ManaBoost extends PowerCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("魔力激发+");
         this.upgraded = true;
         this.setDescription("gain 99 excite, innate");

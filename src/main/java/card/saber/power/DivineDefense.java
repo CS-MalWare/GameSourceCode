@@ -20,7 +20,7 @@ public class DivineDefense extends PowerCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("神御格挡+");
         this.upgraded = true;
         this.setDescription("gain 8 blocks, 20% chance get 1 dodge before take damage each time, exhaust, innate");

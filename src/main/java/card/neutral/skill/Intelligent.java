@@ -6,11 +6,11 @@ import character.Role;
 
 public class Intelligent extends SkillCard {
     public Intelligent() {
-        super(OCCUPATION.NEUTRAL, "机制", 4, RARITY.COMMON, "draw 2 cards");
+        super(OCCUPATION.NEUTRAL, "机制", 0, RARITY.COMMON, "draw 2 cards");
     }
 
     public Intelligent(boolean upgraded) {
-        super(OCCUPATION.NEUTRAL, "机制+", 4, RARITY.COMMON, "draw 3 cards");
+        super(OCCUPATION.NEUTRAL, "机制+", 0, RARITY.COMMON, "draw 3 cards");
         this.upgraded = true;
     }
 

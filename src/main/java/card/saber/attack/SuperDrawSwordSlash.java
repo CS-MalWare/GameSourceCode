@@ -21,7 +21,7 @@ public class SuperDrawSwordSlash extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("破空拔刀斩+");
         this.setDamage(25);
         this.upgraded = true;

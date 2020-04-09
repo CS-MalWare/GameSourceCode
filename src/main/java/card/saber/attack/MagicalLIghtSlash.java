@@ -17,7 +17,7 @@ public class MagicalLIghtSlash extends AttackCard {
 
     @Override
     public boolean upgrade() {
-        if (upgraded = true) return false;
+        if (upgraded) return false;
         this.setCardName("魔光斩+");
         this.setDamage(28);
         this.upgraded = true;
