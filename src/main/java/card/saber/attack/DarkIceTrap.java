@@ -1,6 +1,7 @@
 package card.saber.attack;
 
 import card.AttackCard;
+import character.Enemy;
 import character.MainRole;
 import character.Role;
 
@@ -34,7 +35,7 @@ public class DarkIceTrap extends AttackCard {
         if (!super.use(target)) {
             return false;
         }
-        // TODO 改变敌人行动
+        ((Enemy) target).setNextActionIndex((int) (Math.random() * ((Enemy) target).getNextActionSet().length));
         return true;
     }
 
@@ -43,7 +44,8 @@ public class DarkIceTrap extends AttackCard {
         if (!super.use(targets)) {
             return false;
         }
-        // TODO 改变敌人行动
+        for (Role target : targets)
+            ((Enemy) target).setNextActionIndex((int) (Math.random() * ((Enemy) target).getNextActionSet().length));
 
         return true;
     }

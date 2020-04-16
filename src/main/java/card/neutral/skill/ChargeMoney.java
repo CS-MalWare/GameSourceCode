@@ -15,6 +15,7 @@ public class ChargeMoney extends SkillCard {
 
 
     @Override
+
     public boolean upgrade() {
         if (this.upgraded) {
             return false;
@@ -31,6 +32,7 @@ public class ChargeMoney extends SkillCard {
     @Override
     public boolean use(Role target) {
         // TODO 这个得之后实现一下
+        // 放弃了
         return true;
     }
 

@@ -1,6 +1,7 @@
 package card.saber.power;
 
 import card.PowerCard;
+import character.MainRole;
 import character.Role;
 
 public class HideTheSword extends PowerCard {
@@ -9,7 +10,7 @@ public class HideTheSword extends PowerCard {
     }
 
     public HideTheSword(boolean upgraded) {
-        super(OCCUPATION.SABER, "藏剑", 0, RARITY.EPIC, "The next attack gets 3^n ATK(n is the round)");
+        super(OCCUPATION.SABER, "藏剑+", 0, RARITY.EPIC, "The next attack gets 3^n ATK(n is the round)");
     }
 
 
@@ -24,8 +25,10 @@ public class HideTheSword extends PowerCard {
 
 
     public boolean use(Role target) {
-
-        //TODO
+        if (!upgraded)
+            MainRole.getInstance().cardEffectsMap.put(this.getCardName(), 2);
+        if (upgraded)
+            MainRole.getInstance().cardEffectsMap.put(this.getCardName(), 3);
 
         return true;
     }

@@ -23,7 +23,7 @@ public class Intelligent extends SkillCard {
 
             this.setCardName("机制+");
             this.setDescription("draw 3 cards");
-            //TODO
+
         }
         return true;
     }

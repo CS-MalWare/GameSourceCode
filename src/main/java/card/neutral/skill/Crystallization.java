@@ -22,17 +22,21 @@ public class Crystallization extends SkillCard {
             this.upgraded = true;
             this.setCardName("晶化+");
             this.setDescription("next 8 attacks become gold property, draw 8 more cards in the next round");
-            //TODO
+
         }
         return true;
     }
 
     @Override
     public boolean use(Role target) {
-        // TODO 这个得之后实现一下
+
         if (!upgraded) {
-            // TODO 加金属性
-            // TODO 抽牌
+            MainRole.getInstance().addCardEffect(this.getCardName());
+            MainRole.getInstance().cardEffectsMap.put(this.getCardName(), 5);
+
+        } else {
+            MainRole.getInstance().addCardEffect(this.getCardName());
+            MainRole.getInstance().cardEffectsMap.put(this.getCardName(), 8);
 
         }
         return true;

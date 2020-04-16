@@ -25,7 +25,7 @@ public class PickAndTease extends SkillCard {
 
             this.setCardName("挑谑+");
             this.setDescription("gain 2 dexterity");
-            //TODO
+
         }
         return true;
     }

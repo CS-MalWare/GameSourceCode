@@ -3,6 +3,7 @@ package card.neutral.skill;
 import card.SkillCard;
 import character.MainRole;
 import character.Role;
+import org.codehaus.groovy.tools.shell.Main;
 
 public class Twice extends SkillCard {
 
@@ -31,7 +32,7 @@ public class Twice extends SkillCard {
 
     @Override
     public boolean use(Role target) {
-        // TODO 这个得之后实现一下
+        MainRole.getInstance().addCardEffect("分身");
 
         if (!upgraded) {
             MainRole.getInstance().setStrength(MainRole.getInstance().getStrength() - 1);

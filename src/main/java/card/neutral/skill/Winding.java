@@ -30,7 +30,7 @@ public class Winding extends SkillCard {
             this.upgraded = true;
             this.setCardName("神化+");
             this.setDescription("upgrade all attack cards in this battle, heal me for 10 HP, exhaust");
-            //TODO
+
         }
         return true;
     }

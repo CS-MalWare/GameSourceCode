@@ -5,6 +5,8 @@ import character.MainRole;
 import character.Role;
 import utils.buffs.limitBuffs.Excite;
 
+import java.rmi.MarshalException;
+
 public class CounterStrikeGesture extends PowerCard {
     public CounterStrikeGesture() {
         super(OCCUPATION.SABER, "逆转反击", 2, RARITY.EPIC, "every time get attacked, deal 30% of damage to the attacker");
@@ -27,8 +29,7 @@ public class CounterStrikeGesture extends PowerCard {
 
 
     public boolean use(Role target) {
-
-        // TODO 反伤
+        MainRole.getInstance().addCardEffect(this.getCardName());
 
         return true;
     }

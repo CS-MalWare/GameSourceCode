@@ -60,6 +60,8 @@ public class HandCardsState extends BaseAppState {
 
     private ArrayList<Card> handCards;
 
+    private int cardUsedCount;
+
     private MyRawInputListener cardListener;
 
     private Card chosen;
@@ -125,6 +127,7 @@ public class HandCardsState extends BaseAppState {
         return instance;
     }
 
+
     @Override
     protected void initialize(Application app) {
         this.app = (SimpleApplication) getApplication();
@@ -164,6 +167,7 @@ public class HandCardsState extends BaseAppState {
             rootNode.attachChild(card);
             i++;
         }
+        cardUsedCount = 0;
         instance = this;
 
     }
@@ -286,7 +290,7 @@ public class HandCardsState extends BaseAppState {
                         app.getStateManager().getState(DecksState.class).addToDrop(card);
                     app.getStateManager().getState(EnemyState.class).updateHints(true);
                     app.getStateManager().getState(LeadingActorState.class).updateHints();
-
+                    cardUsedCount++;
                 }
             } else {
                 int size0 = handCards.size();
@@ -302,7 +306,7 @@ public class HandCardsState extends BaseAppState {
                         app.getStateManager().getState(DecksState.class).addToDrop(card);
                     app.getStateManager().getState(EnemyState.class).updateHints(false);
                     app.getStateManager().getState(LeadingActorState.class).updateHints();
-
+                    cardUsedCount++;
 
                 }
             }
@@ -311,6 +315,13 @@ public class HandCardsState extends BaseAppState {
 
     }
 
+    public int getCardUsedCount() {
+        return cardUsedCount;
+    }
+
+    public void setCardUsedCount(int cardUsedCount) {
+        this.cardUsedCount = cardUsedCount;
+    }
 
     private CollisionResults getGuiCollision(MouseMotionEvent evt) {
         int x = evt.getX();//得到鼠标的横坐标
@@ -455,6 +466,10 @@ public class HandCardsState extends BaseAppState {
         rootNode.attachChild(arrow);
     }
 
+
+    public Node getRootNode() {
+        return rootNode;
+    }
 
     class MyRawInputListener implements RawInputListener {
         Card last = CreateCard.createCard("null", Card.TYPE.ATTACK);//上次划过的图片

@@ -114,6 +114,18 @@ public abstract class Enemy extends Role {
     //敌人获得强大效果
     protected abstract void getBlessing();
 
+    public int getNextActionIndex() {
+        return nextActionIndex;
+    }
+
+    public void setNextActionIndex(int nextActionIndex) {
+        this.nextActionIndex = nextActionIndex;
+    }
+
+    public String[] getNextActionSet() {
+        return nextActionSet;
+    }
+
     //适用于吸血效果或者治疗效果
     public void treat(int number) {
         if (this.getHP() + number >= this.getTotalHP()) {

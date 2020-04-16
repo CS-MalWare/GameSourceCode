@@ -471,6 +471,8 @@ public class DecksState extends BaseAppState {
                             }
                             // 敌人行动完后,主角可以行动
                             MainRole.getInstance().startTurn();
+                            // 将本回合内中已打出的牌清0
+                            app.getStateManager().getState(HandCardsState.class).setCardUsedCount(0);
                             app.getStateManager().getState(LeadingActorState.class).updateHints();
                             break;
                         default:

@@ -3,6 +3,7 @@ package card.saber.skill;
 import card.SkillCard;
 import character.MainRole;
 import character.Role;
+import org.codehaus.groovy.tools.shell.Main;
 import utils.buffs.foreverBuffs.Dodge;
 
 public class CanyingShadow extends SkillCard {
@@ -32,14 +33,13 @@ public class CanyingShadow extends SkillCard {
 
     @Override
     public boolean use(Role target) {
-        // TODO 讲卡组中所有普通卡都替换成嗜血斩击
         if (!upgraded) {
             MainRole.getInstance().gainBlock(30);
         } else {
             MainRole.getInstance().gainBlock(45);
         }
 
-        // TODO 格挡在当前下个回合开始时不会消失
+        MainRole.getInstance().addCardEffect(this.getCardName());
         return true;
     }
 

@@ -35,8 +35,7 @@ public class DivineDefense extends PowerCard {
         } else {
             MainRole.getInstance().gainBlock(8);
         }
-
-        // TODO 20% 闪避几率
+        MainRole.getInstance().addCardEffect(this.getCardName());
 
         return true;
     }

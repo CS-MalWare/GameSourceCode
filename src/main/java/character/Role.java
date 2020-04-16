@@ -124,6 +124,7 @@ public class Role {
             return 0;
         } else {
             this.HP -= damage - block;
+            this.block = 0;
             if (this.bleeding.getDuration() > 0) {
                 this.bleeding.triggerFunc();
             }
@@ -144,7 +145,7 @@ public class Role {
         this.stun.triggerFunc();
         this.excite.triggerFunc();
         this.erode.triggerFunc();
-        this.block = 0;
+
 
     }
 
@@ -202,7 +203,7 @@ public class Role {
 
     // 获取护甲, 记得与 computeBlock 一起搭配
     public void gainBlock(int num) {
-        this.block += num;
+        this.block += computeBlock(num);
     }
 
     // 计算经过buff后的,应该造成的伤害值

@@ -30,7 +30,7 @@ public class Enchantment extends SkillCard {
             this.upgraded = true;
             this.setCardName("魔化+");
             this.setDescription("upgrade all skill cards in this battle, gain 3 MP, exhaust");
-            //TODO
+
         }
         return true;
     }

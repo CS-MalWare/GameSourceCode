@@ -1,11 +1,13 @@
 package card.neutral.skill;
 
 import card.SkillCard;
+import character.MainRole;
 import character.Role;
 
 public class Bomb extends SkillCard {
     public Bomb() {
         super(OCCUPATION.NEUTRAL, "炸弹", 2, RARITY.EPIC, "deal 35 damage to all enemies after 3 rounds,exhaust");
+        this.exhaust = true;
     }
 
     public Bomb(boolean upgraded) {
@@ -20,9 +22,9 @@ public class Bomb extends SkillCard {
             return false;
         } else {
             this.upgraded = true;
+            this.exhaust = false;
             this.setCardName("炸弹+");
             this.setDescription("deal 40 damage to all enemies after 3 rounds");
-            //TODO
         }
         return true;
     }
@@ -30,7 +32,7 @@ public class Bomb extends SkillCard {
 
     @Override
     public boolean use(Role target) {
-        // TODO 这个得之后实现一下
+        MainRole.getInstance().cardEffectsMap.put(this.getCardName(), 3);
         return true;
     }
 

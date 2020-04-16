@@ -1,5 +1,6 @@
 package card.saber.attack;
 
+import appState.HandCardsState;
 import card.AttackCard;
 import character.Role;
 
@@ -29,11 +30,12 @@ public class InstantSlash extends AttackCard {
 
     @Override
     public boolean use(Role target) {
+        this.setTimes(HandCardsState.getInstance().getCardUsedCount());
         if (!super.use(target)) {
+            this.setTimes(0);
             return false;
         }
-
-        // TODO 统计本回合内已经使用过的卡牌数量
+        this.setTimes(0);
         return true;
     }
 

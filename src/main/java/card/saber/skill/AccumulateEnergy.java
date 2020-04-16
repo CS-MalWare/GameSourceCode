@@ -3,6 +3,7 @@ package card.saber.skill;
 import card.SkillCard;
 import character.MainRole;
 import character.Role;
+import org.codehaus.groovy.tools.shell.Main;
 
 public class AccumulateEnergy extends SkillCard {
     public AccumulateEnergy() {
@@ -36,7 +37,7 @@ public class AccumulateEnergy extends SkillCard {
         else
             MainRole.getInstance().setStrength(MainRole.getInstance().getStrength() + 3);
 
-        // TODO 回合结束时候减去相应的力量
+        MainRole.getInstance().cardEffects.add(this.getCardName());
 
         return true;
     }

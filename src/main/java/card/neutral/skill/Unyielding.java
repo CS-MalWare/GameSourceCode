@@ -7,10 +7,12 @@ import character.Role;
 public class Unyielding extends SkillCard {
     public Unyielding() {
         super(OCCUPATION.NEUTRAL, "不屈", 1, RARITY.RARE, "after using this card, prevent a death and keep 1 HP, exhaust");
+        this.exhaust = true;
     }
 
     public Unyielding(boolean upgraded) {
         super(OCCUPATION.NEUTRAL, "不屈+", 1, RARITY.RARE, "after using this card, prevent a death and keep current HP, exhaust");
+        this.exhaust = true;
         this.upgraded = true;
     }
 
@@ -29,7 +31,7 @@ public class Unyielding extends SkillCard {
 
     @Override
     public boolean use(Role target) {
-        // TODO 这个得之后实现一下
+        MainRole.getInstance().cardEffects.add(this.getCardName());
         return true;
     }
 

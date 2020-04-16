@@ -24,7 +24,7 @@ public class ShieldWall extends SkillCard {
             this.upgraded = true;
             this.setCardName("盾墙+");
             this.setDescription("gain 8 blocks, if my strength is greater than 2, get another 8 blocks");
-            //TODO
+
         }
         return true;
     }

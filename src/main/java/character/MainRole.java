@@ -1,7 +1,9 @@
 package character;
 
 import appState.DecksState;
+import appState.EnemyState;
 import appState.HandCardsState;
+import card.AttackCard;
 import card.Card;
 import card.neutral.attack.HookBoxing;
 import card.neutral.attack.KickDown;
@@ -18,10 +20,12 @@ import card.saber.skill.IceMagicShield;
 import card.saber.skill.RaiseShield;
 import card.saber.skill.WhirlingShield;
 import org.codehaus.groovy.tools.shell.Main;
+import utils.buffs.foreverBuffs.Dodge;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 
 
 public class MainRole extends Role {
@@ -48,6 +52,11 @@ public class MainRole extends Role {
     public ArrayList<Card> deck;// 战斗中卡组（无序排列）
 
 
+    public ArrayList<String> cardEffects;
+    public ArrayList<String> equipmentEffects;
+
+    public HashMap<String, Integer> cardEffectsMap;
+
     public static MainRole getInstance() {
         if (instance == null) {
             System.out.println("初始化主角类");
@@ -66,6 +75,9 @@ public class MainRole extends Role {
         this.potionBag = 3;
         this.gold = 0;
         this.deck = new ArrayList<Card>();
+        this.cardEffects = new ArrayList<String>();
+        this.equipmentEffects = new ArrayList<String>();
+        this.cardEffectsMap = new HashMap<>();
         this.MP_max = 6;
         this.MP_current = 6;
 
@@ -108,10 +120,55 @@ public class MainRole extends Role {
 
     //每回合开始时候的抽牌
     public void startTurn() {
+        if (!(this.cardEffects.contains("残影") || this.cardEffects.contains("残影+"))) {
+            this.block = 0;
+        }
         if (this.stun.getDuration() > 0) {
             this.endTurn();
             return;
         }
+        if (cardEffects.contains("晶化")) {
+            this.drawCards(5);
+            this.cardEffects.remove("晶化");
+        }
+        if (cardEffects.contains("晶化+")) {
+            this.drawCards(8);
+            this.cardEffects.remove("晶化+");
+        }
+
+        if (cardEffectsMap.containsKey("藏剑")) {
+            int num = cardEffectsMap.get("藏剑");
+            cardEffectsMap.put("藏剑", num + 2);
+        }
+        if (cardEffectsMap.containsKey("藏剑+")) {
+            int num = cardEffectsMap.get("藏剑+");
+            cardEffectsMap.put("藏剑+", num + 3);
+        }
+
+        if (cardEffectsMap.containsKey("炸弹")) {
+            int duration = cardEffectsMap.get("炸弹");
+            if (duration == 0) {
+                for (Enemy enemy : EnemyState.getInstance().getEnemies()) {
+                    enemy.getDamage(35);
+                }
+                cardEffectsMap.remove("炸弹");
+            } else {
+                cardEffectsMap.put("炸弹", duration - 1);
+            }
+        }
+
+        if (cardEffectsMap.containsKey("炸弹+")) {
+            int duration = cardEffectsMap.get("炸弹+");
+            if (duration == 0) {
+                for (Enemy enemy : EnemyState.getInstance().getEnemies()) {
+                    enemy.getDamage(40);
+                }
+                cardEffectsMap.remove("炸弹+");
+            } else {
+                cardEffectsMap.put("炸弹+", duration - 1);
+            }
+        }
+
         this.keepCard = false;
         if (this.excite.getDuration() > 0) {
             this.drawCards(1 + this.draw, true);
@@ -123,7 +180,12 @@ public class MainRole extends Role {
     }
 
 
+    public void endBattle() {
+        this.cardEffectsMap.clear();
+        this.cardEffects.clear();
+        this.deck.clear();
 
+    }
 
 
     public int getMP_current() {
@@ -147,10 +209,133 @@ public class MainRole extends Role {
         }
     }
 
+    public int computeDamage(int num, AttackCard.PROPERTY property) {
+        if (this.cardEffects.contains("分身")) {
+            num = num * 2;
+            cardEffects.remove("分身");
+        }
+
+        if (this.cardEffectsMap.containsKey("藏剑")) {
+            num += this.cardEffectsMap.get("藏剑");
+            cardEffectsMap.remove("藏剑");
+        }
+
+        if (this.cardEffectsMap.containsKey("藏剑+")) {
+            num += this.cardEffectsMap.get("藏剑+");
+            cardEffectsMap.remove("藏剑+");
+        }
+
+        if (this.cardEffectsMap.containsKey("晶化")) {
+            int layer = this.cardEffectsMap.get("晶化");
+            if (layer == 0) cardEffectsMap.remove("晶化");
+            else {
+                this.cardEffectsMap.put("晶化", layer - 1);
+                return super.computeDamage(num, AttackCard.PROPERTY.GOLD);
+            }
+        }
+
+        if (this.cardEffectsMap.containsKey("晶化+")) {
+            int layer = this.cardEffectsMap.get("晶化+");
+            if (layer == 0) cardEffectsMap.remove("晶化+");
+            else {
+                this.cardEffectsMap.put("晶化+", layer - 1);
+                return super.computeDamage(num, AttackCard.PROPERTY.GOLD);
+            }
+        }
+
+
+        return super.computeDamage(num, property);
+    }
+
+    @Override
+    public int getDamage(int damage) {
+        if (cardEffects.contains("神御格挡") || cardEffects.contains("神御格挡+")) {
+            if (Math.random() * 5 <= 1) {
+                this.getBuff(new Dodge(this, 1));
+            }
+        }
+
+        if (this.dodge.getTimes() > 0) {
+            this.dodge.decTimes();
+            if (this.block >= 1) {
+                this.block -= 1;
+            } else {
+                this.HP -= 1;
+                if (this.bleeding.getDuration() > 0)
+                    this.bleeding.triggerFunc();
+            }
+            return 1;
+        }
+
+        if (this.vulnerable.getDuration() > 0) {
+            damage = (int) (damage * 1.5);
+        }
+
+        if (this.intangible.getDuration() > 0) {
+            damage = (int) (damage * 0.5);
+        }
+        damage = (int) (damage * this.getMultiplyingGetDamage());
+        if (this.cardEffects.contains("逆转反击"))
+            for (Enemy enemy : EnemyState.getInstance().getEnemies()) {
+                enemy.getDamage((int) (damage * 0.3));
+            }
+
+        if (this.cardEffects.contains("逆转反击+"))
+            for (Enemy enemy : EnemyState.getInstance().getEnemies()) {
+                enemy.getDamage((int) (damage * 0.4));
+            }
+
+        if (this.block >= damage) {
+            this.block -= damage;
+            return 0;
+        } else {
+            this.block = 0;
+            if (this.HP > damage - block + this.bleeding.getDuration()) {
+                this.HP -= damage - block;
+                if (this.bleeding.getDuration() > 0) {
+                    this.bleeding.triggerFunc();
+                }
+                return damage - block;
+            } else {
+                if (this.cardEffects.contains("不屈")) {
+                    int oldHP = this.HP;
+                    this.HP = 1;
+                    return oldHP - 1;
+                }
+                if (this.cardEffects.contains("不屈+")) return 0;
+
+                this.HP -= damage - block;
+                if (this.bleeding.getDuration() > 0) {
+                    this.bleeding.triggerFunc();
+                }
+                return damage - block;
+            }
+
+        }
+    }
 
     @Override
     public void endTurn() {
-        super.endTurn();
+        this.sheild.triggerFunc();
+        this.posion.triggerFunc();
+        this.bleeding.triggerFunc();
+        this.vulnerable.triggerFunc();
+        this.intangible.triggerFunc();
+        this.disarm.triggerFunc();
+        this.silence.triggerFunc();
+        this.stun.triggerFunc();
+        this.excite.triggerFunc();
+        this.erode.triggerFunc();
+
+
+        if (this.cardEffects.contains("蓄势")) {
+            this.strength -= 2;
+        }
+        if (this.cardEffects.contains("蓄势+")) {
+            this.strength -= 3;
+        }
+
+
         if (this.keepCard) {
             return;
         } else {
@@ -187,5 +372,14 @@ public class MainRole extends Role {
 
     public void setKeepCard(boolean keepCard) {
         this.keepCard = keepCard;
+    }
+
+
+    public void addCardEffect(String cardName) {
+        this.cardEffects.add(cardName);
+    }
+
+    public void addEquipmentEffect(String cardName) {
+        this.equipmentEffects.add(cardName);
     }
 }
