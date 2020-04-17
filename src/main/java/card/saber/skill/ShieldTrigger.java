@@ -47,7 +47,7 @@ public class ShieldTrigger extends SkillCard {
             }
         }
         if (flag) {
-            // TODO 下回合开始获得8格挡
+            MainRole.getInstance().addCardEffect(this.getCardName());
         }
 
         return true;

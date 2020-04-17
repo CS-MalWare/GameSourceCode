@@ -37,8 +37,13 @@ public class LifeSwordEnchanting extends SkillCard {
 
     @Override
     public boolean use(Role target) {
-        // TODO 改属性,下回合抽卡
+        if (!upgraded) {
+            MainRole.getInstance().cardEffectsMap.put(this.getCardName(), 5);
+        } else {
+            MainRole.getInstance().cardEffectsMap.put(this.getCardName(), 7);
+        }
 
+        MainRole.getInstance().addCardEffect(this.getCardName());
         return true;
     }
 

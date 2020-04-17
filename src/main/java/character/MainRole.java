@@ -136,6 +136,17 @@ public class MainRole extends Role {
             this.cardEffects.remove("晶化+");
         }
 
+        if (cardEffects.contains("生命剑术")) {
+            this.drawCards(3);
+            this.cardEffects.remove("生命剑术");
+        }
+
+        if (cardEffects.contains("生命剑术+")) {
+            this.drawCards(3);
+            this.cardEffects.remove("生命剑术+");
+        }
+
+
         if (cardEffectsMap.containsKey("藏剑")) {
             int num = cardEffectsMap.get("藏剑");
             cardEffectsMap.put("藏剑", num + 2);
@@ -167,6 +178,17 @@ public class MainRole extends Role {
             } else {
                 cardEffectsMap.put("炸弹+", duration - 1);
             }
+        }
+
+        if (cardEffects.contains("盾牌激发")) {
+            this.block += 8;
+            cardEffects.remove("盾牌激发");
+        }
+
+
+        if (cardEffects.contains("盾牌激发+")) {
+            this.block += 8;
+            cardEffects.remove("盾牌激发");
         }
 
         this.keepCard = false;
@@ -244,6 +266,24 @@ public class MainRole extends Role {
         }
 
 
+        if (this.cardEffectsMap.containsKey("生命剑术")) {
+            int layer = this.cardEffectsMap.get("生命剑术");
+            if (layer == 0) cardEffectsMap.remove("生命剑术");
+            else {
+                this.cardEffectsMap.put("生命剑术", layer - 1);
+                return super.computeDamage(num, AttackCard.PROPERTY.WOOD);
+            }
+        }
+
+        if (this.cardEffectsMap.containsKey("生命剑术+")) {
+            int layer = this.cardEffectsMap.get("生命剑术+");
+            if (layer == 0) cardEffectsMap.remove("生命剑术+");
+            else {
+                this.cardEffectsMap.put("生命剑术+", layer - 1);
+                return super.computeDamage(num, AttackCard.PROPERTY.WOOD);
+            }
+        }
+
         return super.computeDamage(num, property);
     }
 
@@ -274,6 +314,13 @@ public class MainRole extends Role {
         if (this.intangible.getDuration() > 0) {
             damage = (int) (damage * 0.5);
         }
+
+        if (cardEffects.contains("魔法盾") || cardEffects.contains("魔法盾+")) {
+            damage = (int) (damage * 0.5);
+            cardEffects.remove("魔法盾");
+            cardEffects.remove("魔法盾+");
+        }
+
         damage = (int) (damage * this.getMultiplyingGetDamage());
         if (this.cardEffects.contains("逆转反击"))
             for (Enemy enemy : EnemyState.getInstance().getEnemies()) {

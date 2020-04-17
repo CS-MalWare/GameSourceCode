@@ -32,7 +32,7 @@ public class Charge extends SkillCard {
 
     @Override
     public boolean use(Role target) {
-        // TODO 将一下次攻击施加脆弱
+        // TODO 将一下次攻击施加脆弱(放弃)
 
         return true;
     }

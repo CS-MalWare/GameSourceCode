@@ -6,7 +6,7 @@ import character.MainRole;
 import java.util.ArrayList;
 
 public abstract class Equipment {
-    public static enum EquipmentDegree {NORMAL, SENIOR, RARE, LEGEND}
+    public static enum EquipmentDegree {COMMON, RARE, EPIC, LEGENDARY}
     //装备触发的时机，分为以下几个时机
     //：
     // 1. 战斗结束时触发
@@ -21,19 +21,37 @@ public abstract class Equipment {
     public static enum Opportunity {ENDB, ENDT, STARTB, GET, USE, GETD, DEAD}
 
     protected String name;
+    protected String picName;
     protected String description;//装备效果的描述
     protected String imgSrc;//装备图片的路径
     protected ArrayList<Enemy> enemies;//当前对局的敌人链表
     protected MainRole mainRole;//装备着这个装备的角色
     protected EquipmentDegree degree;
     protected Opportunity op;
-    public Equipment(String name, String description, String imgSrc, MainRole mainRole, EquipmentDegree degree,Opportunity op) {
+
+    public Equipment(String name, String picName, String description, EquipmentDegree degree, Opportunity op) {
+        this.imgSrc = "Equipments";
         this.name = name;
         this.description = description;
-        this.imgSrc = imgSrc;
-        this.mainRole = mainRole;
+
         this.degree = degree;
         this.op = op;
+        switch (degree) {
+            case COMMON:
+                this.imgSrc += "/common";
+                break;
+            case RARE:
+                this.imgSrc += "/rare";
+                break;
+            case EPIC:
+                this.imgSrc += "/epic";
+                break;
+            case LEGENDARY:
+                this.imgSrc += "/legendary";
+                break;
+        }
+        this.picName = picName;
+        this.imgSrc += "/" + picName + ".png";
     }
 
     public String getDescription() {

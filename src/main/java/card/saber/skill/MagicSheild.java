@@ -36,7 +36,7 @@ public class MagicSheild extends SkillCard {
         } else {
             MainRole.getInstance().gainBlock(10);
         }
-        //TODO 使下次受到伤害减半
+        MainRole.getInstance().addCardEffect(this.getCardName());
         return true;
     }
 
