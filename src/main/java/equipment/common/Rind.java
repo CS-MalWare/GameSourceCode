@@ -11,6 +11,6 @@ public class Rind extends Equipment {
 
     @Override
     public void fun() {
-        this.mainRole.treat(2);
+        MainRole.getInstance().treat(2);
     }
 }
