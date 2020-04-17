@@ -30,6 +30,10 @@ public class ForeverBuff extends Buff {
         this.times -= 1;
     }
 
+    public void setTimes(int times) {
+        this.times = times;
+    }
+
     //不知道王一润巨佬的实现思路，暂时注释掉
 //    //用于多次重复使用同一buff叠加或者增加数值（类似增加力量）
 //    public void addTimes(int times) {

@@ -33,7 +33,7 @@ public class SealingSpell extends SkillCard {
 
     @Override
     public boolean use(Role target) {
-        // TODO 待实现
+        // TODO 放弃
         return true;
     }
 

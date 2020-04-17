@@ -3,7 +3,7 @@ package card.neutral.attack;
 import card.AttackCard;
 import character.MainRole;
 import character.Role;
-import utils.buffs.limitBuffs.Posion;
+import utils.buffs.limitBuffs.Poison;
 
 public class WindingByWoodSpirit extends AttackCard {
     public WindingByWoodSpirit() {
@@ -37,10 +37,10 @@ public class WindingByWoodSpirit extends AttackCard {
         if (!super.use(targets)) return false;
         if (upgraded) {
             for (Role target : targets)
-                target.getBuff(new Posion(target, 5));
+                target.getBuff(new Poison(target, 5));
         } else {
             for (Role target : targets)
-                target.getBuff(new Posion(target, 6));
+                target.getBuff(new Poison(target, 6));
         }
         return true;
     }
@@ -50,9 +50,9 @@ public class WindingByWoodSpirit extends AttackCard {
     public boolean use(Role target) {
         if (!super.use(target)) return false;
         if (!upgraded) {
-            target.getBuff(new Posion(target, 5));
+            target.getBuff(new Poison(target, 5));
         } else {
-            target.getBuff(new Posion(target, 6));
+            target.getBuff(new Poison(target, 6));
         }
         return true;
     }

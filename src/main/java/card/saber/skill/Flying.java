@@ -43,7 +43,7 @@ public class Flying extends SkillCard {
         if (MainRole.getInstance().getBleeding().getDuration() > 0) return true;
         if (MainRole.getInstance().getDisarm().getDuration() > 0) return true;
         if (MainRole.getInstance().getErode().getDuration() > 0) return true;
-        if (MainRole.getInstance().getPosion().getDuration() > 0) return true;
+        if (MainRole.getInstance().getPoison().getDuration() > 0) return true;
         if (MainRole.getInstance().getSilence().getDuration() > 0) return true;
         if (MainRole.getInstance().getStun().getDuration() > 0) return true;
         if (MainRole.getInstance().getVulnerable().getDuration() > 0) return true;

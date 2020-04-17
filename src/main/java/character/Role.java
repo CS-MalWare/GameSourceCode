@@ -38,8 +38,8 @@ public class Role {
     protected Weak weak;
     protected Stun stun;
     protected Silence silence;
-    protected Sheild sheild;
-    protected Posion posion;
+    protected Sheild shield;
+    protected Poison poison;
     protected Intangible intangible;
     protected Excite excite;
     protected Erode erode;
@@ -59,8 +59,8 @@ public class Role {
         weak = new Weak(this, 0);
         stun = new Stun(this, 0);
         silence = new Silence(this, 0);
-        sheild = new Sheild(this, 0);
-        posion = new Posion(this, 0);
+        shield = new Sheild(this, 0);
+        poison = new Poison(this, 0);
         intangible = new Intangible(this, 0);
         excite = new Excite(this, 0);
         erode = new Erode(this, 0);
@@ -135,8 +135,8 @@ public class Role {
 
     // 回合结束,计算各个buff效果,以及清空护甲
     public void endTurn() {
-        this.sheild.triggerFunc();
-        this.posion.triggerFunc();
+        this.shield.triggerFunc();
+        this.poison.triggerFunc();
         this.bleeding.triggerFunc();
         this.vulnerable.triggerFunc();
         this.intangible.triggerFunc();
@@ -160,7 +160,7 @@ public class Role {
         for (Buff buff : buffs) {
 
             if (buff instanceof Sheild) {
-                this.sheild.incDuration(((Sheild) buff).getDuration());
+                this.shield.incDuration(((Sheild) buff).getDuration());
                 return;
             } else if (buff instanceof Excite) {
                 this.excite.incDuration(((Excite) buff).getDuration());
@@ -185,8 +185,8 @@ public class Role {
                     this.stun.incDuration(((Stun) buff).getDuration());
                 } else if (buff instanceof Silence) {
                     this.silence.incDuration(((Silence) buff).getDuration());
-                } else if (buff instanceof Posion) {
-                    this.posion.incDuration(((Posion) buff).getDuration());
+                } else if (buff instanceof Poison) {
+                    this.poison.incDuration(((Poison) buff).getDuration());
                 } else if (buff instanceof Intangible) {
                     this.intangible.incDuration(((Intangible) buff).getDuration());
                 } else if (buff instanceof Erode) {
@@ -356,11 +356,11 @@ public class Role {
     }
 
     public Sheild getSheild() {
-        return sheild;
+        return shield;
     }
 
-    public Posion getPosion() {
-        return posion;
+    public Poison getPoison() {
+        return poison;
     }
 
     public Intangible getIntangible() {

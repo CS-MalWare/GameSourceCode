@@ -5,12 +5,13 @@ import com.jme3.ui.Picture;
 import utils.buffs.BuffFunction;
 import utils.buffs.LimitBuff;
 
-public class Posion extends LimitBuff implements BuffFunction {
+public class Poison extends LimitBuff implements BuffFunction {
 
 
-    public Posion(Role role, int duration) {
-        super("posion", "get x damage at the end of turn", new Picture(), role, duration);
+    public Poison(Role role, int duration) {
+        super("poison", "get x damage at the end of turn", new Picture(), role, duration);
     }
+
 
     @Override
     public void getFunc() {

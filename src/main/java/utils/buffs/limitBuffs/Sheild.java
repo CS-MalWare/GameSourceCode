@@ -8,7 +8,7 @@ import utils.buffs.LimitBuff;
 public class Sheild extends LimitBuff implements BuffFunction {
 
     public Sheild(Role role, int duration) {
-        super("sheild", "get x blocks at the end of turn", new Picture(), role, duration);
+        super("shield", "get x blocks at the end of turn", new Picture(), role, duration);
     }
 
     @Override

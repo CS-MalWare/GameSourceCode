@@ -31,8 +31,8 @@ public class ChargeMoney extends SkillCard {
 
     @Override
     public boolean use(Role target) {
-        // TODO 这个得之后实现一下
-        // 放弃了
+        // TODO 这个得之后实现一下 放弃
+
         return true;
     }
 

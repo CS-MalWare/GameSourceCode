@@ -299,8 +299,8 @@ public class EnemyState extends BaseAppState {
                         txtB += String.format("      Erode: %d       \n", targetEnemy.getErode().getDuration());
                         txtB += String.format("     Excite: %d      ", targetEnemy.getExcite().getDuration());
                         txtB += String.format(" Intangible: %d      ", targetEnemy.getIntangible().getDuration());
-                        txtB += String.format("     Posion: %d       \n", targetEnemy.getPosion().getDuration());
-                        txtB += String.format("     Sheild: %d      ", targetEnemy.getSheild().getDuration());
+                        txtB += String.format("     Poison: %d       \n", targetEnemy.getPoison().getDuration());
+                        txtB += String.format("     Shield: %d      ", targetEnemy.getSheild().getDuration());
                         txtB += String.format("    Silence: %d      ", targetEnemy.getSilence().getDuration());
                         txtB += String.format("       Stun: %d       \n", targetEnemy.getStun().getDuration());
                         txtB += String.format("Vunlnerable: %d      ", targetEnemy.getVulnerable().getDuration());

@@ -180,13 +180,13 @@ public class MainRole extends Role {
             }
         }
 
-        if (cardEffects.contains("盾牌激发")) {
+        while (cardEffects.contains("盾牌激发")) {
             this.block += 8;
             cardEffects.remove("盾牌激发");
         }
 
 
-        if (cardEffects.contains("盾牌激发+")) {
+        while (cardEffects.contains("盾牌激发+")) {
             this.block += 8;
             cardEffects.remove("盾牌激发");
         }
@@ -363,8 +363,8 @@ public class MainRole extends Role {
 
     @Override
     public void endTurn() {
-        this.sheild.triggerFunc();
-        this.posion.triggerFunc();
+        this.shield.triggerFunc();
+        this.poison.triggerFunc();
         this.bleeding.triggerFunc();
         this.vulnerable.triggerFunc();
         this.intangible.triggerFunc();
@@ -392,6 +392,14 @@ public class MainRole extends Role {
             handCardsState.getHandCards().clear();
         }
 
+    }
+
+    public ArrayList<Card> getDeck_() {
+        return deck_;
+    }
+
+    public void setDeck_(ArrayList<Card> deck_) {
+        this.deck_ = deck_;
     }
 
 

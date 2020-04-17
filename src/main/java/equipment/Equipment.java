@@ -2,23 +2,28 @@ package equipment;
 
 import character.Enemy;
 import character.MainRole;
+import com.jme3.asset.AssetManager;
+import com.jme3.ui.Picture;
 
 import java.util.ArrayList;
 
-public abstract class Equipment {
+public abstract class Equipment extends Picture {
     public static enum EquipmentDegree {COMMON, RARE, EPIC, LEGENDARY}
     //装备触发的时机，分为以下几个时机
     //：
     // 1. 战斗结束时触发
     // 2. 回合结束时触发（包括 每几个回合 触发）
     // 3. 战斗开始时触发
-    // 4. 拾取时触发
-    // 5. 打出牌时触发（包含 各种类型 牌）
-    // 6. 受到伤害时触发
-    // 7. 死亡时触发
+    // 4. 回合开始时触发
+    // 5. 拾取时触发
+    // 6. 打出牌时触发（包含 各种类型 牌）
+    // 7. 造成伤害时触发
+    // 8. 受到伤害时触发
+    // 9. 治疗时候触发
+    // 10. 死亡时触发
 
     // 实现思路： 将角色所有装备作为一个装备数组添加到主角类中。每次进行动作，遍历装备数组，找到对应触发时机的装备触发。
-    public static enum Opportunity {ENDB, ENDT, STARTB, GET, USE, GETD, DEAD}
+    public static enum Opportunity {ENDB, ENDT, STARTB, STARTT, GET, USE, ATTACK, GETD, TREAT, DEAD}
 
     protected String name;
     protected String picName;
@@ -30,6 +35,7 @@ public abstract class Equipment {
     protected Opportunity op;
 
     public Equipment(String name, String picName, String description, EquipmentDegree degree, Opportunity op) {
+        super(picName);
         this.imgSrc = "Equipments";
         this.name = name;
         this.description = description;
@@ -52,6 +58,13 @@ public abstract class Equipment {
         }
         this.picName = picName;
         this.imgSrc += "/" + picName + ".png";
+    }
+
+    public void setImage(AssetManager assetManager) {
+
+        super.setImage(assetManager, this.imgSrc, true);
+        this.setHeight(80);
+        this.setWidth(80);
     }
 
     public String getDescription() {

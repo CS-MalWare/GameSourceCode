@@ -183,6 +183,21 @@ public class Card extends Picture {
         return (Card) super.clone();
     }
 
+    public void setExhaust(boolean exhaust) {
+        this.exhaust = exhaust;
+    }
+
+    public void setEthereal(boolean ethereal) {
+        this.ethereal = ethereal;
+    }
+
+    public void setIntrinsic(boolean intrinsic) {
+        this.intrinsic = intrinsic;
+    }
+
+    public void setAOE(boolean AOE) {
+        this.AOE = AOE;
+    }
 
     public boolean isAOE() {
         return this.AOE;

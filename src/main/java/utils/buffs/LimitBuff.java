@@ -22,6 +22,9 @@ public class LimitBuff extends Buff {
             this.duration--;
     }
 
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 
     public void incDuration(int layer) {
         this.duration += layer;

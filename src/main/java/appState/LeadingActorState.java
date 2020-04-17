@@ -259,7 +259,7 @@ public class LeadingActorState extends BaseAppState {
                     txtB += String.format("      Erode: %d       \n", target.getErode().getDuration());
                     txtB += String.format("     Excite: %d      ", target.getExcite().getDuration());
                     txtB += String.format(" Intangible: %d      ", target.getIntangible().getDuration());
-                    txtB += String.format("     Posion: %d       \n", target.getPosion().getDuration());
+                    txtB += String.format("     Poison: %d       \n", target.getPoison().getDuration());
                     txtB += String.format("     Sheild: %d      ", target.getSheild().getDuration());
                     txtB += String.format("    Silence: %d      ", target.getSilence().getDuration());
                     txtB += String.format("       Stun: %d       \n", target.getStun().getDuration());

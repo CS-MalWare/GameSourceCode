@@ -83,7 +83,7 @@ public class Tuxnet extends Enemy {
         int random = (int)(4*Math.random());
         switch (random){
             case 0:
-                this.target.getBuff(new Posion(this.target,2));
+                this.target.getBuff(new Poison(this.target, 2));
                 break;
             case 1:
                 this.target.getBuff(new Bleeding(this.target,2));

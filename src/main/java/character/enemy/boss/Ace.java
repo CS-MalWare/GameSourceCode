@@ -3,15 +3,17 @@ package character.enemy.boss;
 import character.Enemy;
 import utils.buffs.foreverBuffs.Dodge;
 import utils.buffs.limitBuffs.Intangible;
-import utils.buffs.limitBuffs.Posion;
+import utils.buffs.limitBuffs.Poison;
+
 
 public class Ace extends Enemy {
 
     private int turnCount = 1;//用于计算战斗回合数，触发每3回合给玩家2层中毒
+
     public Ace(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
 
-        this.nextActionSet =  new String[]
+        this.nextActionSet = new String[]
                 {
                         "this enemy will deal 25 damages to you",
                         "this enemy will gain some buff",
@@ -46,7 +48,7 @@ public class Ace extends Enemy {
     public void newTurn() {
         super.newTurn();
         if(turnCount%3==0){
-            this.target.getBuff(new Posion(this.target,2));
+            this.target.getBuff(new Poison(this.target, 2));
         }
     }
 
@@ -54,7 +56,7 @@ public class Ace extends Enemy {
     @Override
     public int getDamage(int damage) {
         if(Math.random()*3<1 && this.getHP()*5<this.getTotalHP()) {
-            this.target.getBuff(new Posion(this.target,1));
+            this.target.getBuff(new Poison(this.target, 1));
             return super.getDamage(1);
         }
         else {
@@ -98,7 +100,7 @@ public class Ace extends Enemy {
     @Override
     protected void attack() {
         this.target.getDamage(computeDamage(25));
-        this.target.getBuff(new Posion(this.target,1));
+        this.target.getBuff(new Poison(this.target, 1));
 
     }
 
@@ -107,12 +109,12 @@ public class Ace extends Enemy {
             this.target.getDamage(computeDamage(4));
         }
 
-        this.target.getBuff(new Posion(this.target,2));
+        this.target.getBuff(new Poison(this.target, 2));
     }
 
     @Override
     protected void releaseDebuff() {
-        this.target.getBuff(new Posion(this.target,5));
+        this.target.getBuff(new Poison(this.target, 5));
 
     }
 
@@ -131,8 +133,8 @@ public class Ace extends Enemy {
     @Override
     protected void getBlockAndAttack() {
         this.target.getDamage(computeDamage(10));
-        this.setBlock(this.getBlock()+computeBlock(10));
-        this.target.getBuff(new Posion(this.target,1));
+        this.setBlock(this.getBlock() + computeBlock(10));
+        this.target.getBuff(new Poison(this.target, 1));
     }
 
     @Override
