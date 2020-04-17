@@ -6,12 +6,12 @@ import equipment.Equipment;
 public class ArmstrongGun extends Equipment {
 
     public ArmstrongGun() {
-        super("Armstrong Gun", "阿姆斯特朗回旋炮", "When playing an attack card, you have a 25% chance to give the target a layer of vulnerable first", EquipmentDegree.EPIC, Opportunity.ATTACK);
+        super("Armstrong Gun", "阿姆斯特朗回旋炮", "Gain 2 strength forever", EquipmentDegree.EPIC, Opportunity.GET);
 
     }
 
     @Override
     public void fun() {
-        //TODO
+        MainRole.getInstance().setStrengthForever(MainRole.getInstance().getStrengthForever() + 2);
     }
 }

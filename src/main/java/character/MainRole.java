@@ -48,6 +48,9 @@ public class MainRole extends Role {
     private int potionBag;
     private int gold;
 
+    private boolean untreatable; // 无法治疗
+    private boolean freeCard; // 卡牌的费用为0, 为梅林法杖准备的变量
+
     private ArrayList<Card> deck_ = new ArrayList<Card>();// 原卡组（有序排列）
     public ArrayList<Card> deck;// 战斗中卡组（无序排列）
 
@@ -80,7 +83,8 @@ public class MainRole extends Role {
         this.cardEffectsMap = new HashMap<>();
         this.MP_max = 6;
         this.MP_current = 6;
-
+        this.untreatable = false;
+        this.freeCard = false;
         this.deck_.add(new FireSlash());
         this.deck_.add(new Intelligent());
         this.deck_.add(new IceSlash());
@@ -112,6 +116,8 @@ public class MainRole extends Role {
         app.getStateManager().getState(DecksState.class).addToDraw(this.deck);
         this.draw = this.draw_;
         this.MP_current = this.MP_max;
+        this.strength = this.strength_;
+        this.dexterity = this.dexterity_;
     }
 
     public void getCard(Card... cards) {
@@ -223,6 +229,10 @@ public class MainRole extends Role {
     }
 
     public boolean decMP(int num) {
+        if (freeCard) {
+            freeCard = false;
+            return true;
+        }
         if (num > MP_current) {
             return false;
         } else {
@@ -436,5 +446,54 @@ public class MainRole extends Role {
 
     public void addEquipmentEffect(String cardName) {
         this.equipmentEffects.add(cardName);
+    }
+
+
+    public void setMP_max(int MP_max) {
+        this.MP_max = MP_max;
+    }
+
+    @Override
+    public void treat(int number) {
+        if (this.untreatable)
+            number = 1;
+        super.treat(number);
+    }
+
+    public boolean isUntreatable() {
+        return untreatable;
+    }
+
+    public void setUntreatable(boolean untreatable) {
+        this.untreatable = untreatable;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+
+    public int getStrengthForever() {
+        return strength_;
+    }
+
+    public void setStrengthForever(int strength_) {
+        this.strength_ = strength_;
+    }
+
+    public int getDexterityForever() {
+        return dexterity_;
+    }
+
+    public void setDexterityForever(int dexterity_) {
+        this.dexterity_ = dexterity_;
+    }
+
+    public boolean isFreeCard() {
+        return freeCard;
+    }
+
+    public void setFreeCard(boolean freeCard) {
+        this.freeCard = freeCard;
     }
 }

@@ -30,7 +30,6 @@ public abstract class Equipment extends Picture {
     protected String description;//装备效果的描述
     protected String imgSrc;//装备图片的路径
     protected ArrayList<Enemy> enemies;//当前对局的敌人链表
-    protected MainRole mainRole;//装备着这个装备的角色
     protected EquipmentDegree degree;
     protected Opportunity op;
 
@@ -95,13 +94,7 @@ public abstract class Equipment extends Picture {
         this.enemies = enemies;
     }
 
-    public MainRole getMainRole() {
-        return mainRole;
-    }
 
-    public void setMainRole(MainRole mainRole) {
-        this.mainRole = mainRole;
-    }
 
     public String getName() {
         return name;
