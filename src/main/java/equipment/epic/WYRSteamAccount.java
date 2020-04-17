@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class WYRSteamAccount extends Equipment {
 
     public WYRSteamAccount() {
-        super(" WYR's Steam account", "王逸润的steam账号", "WYR's Steam account: Upgrade the attack cards every time you gain them", EquipmentDegree.EPIC, Opportunity.GET);
+        super(" WYR's Steam account", "王逸润的steam账号", "WYR's Steam account: Upgrade the attack cards every time you gain them", EquipmentDegree.EPIC, Opportunity.GETCARD);
+
 
     }
 

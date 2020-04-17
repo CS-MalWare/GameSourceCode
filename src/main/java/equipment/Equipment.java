@@ -11,19 +11,19 @@ public abstract class Equipment extends Picture {
     public static enum EquipmentDegree {COMMON, RARE, EPIC, LEGENDARY}
     //装备触发的时机，分为以下几个时机
     //：
-    // 1. 战斗结束时触发
+    // 1. 战斗结束时触发 (回血,获得金币)
     // 2. 回合结束时触发（包括 每几个回合 触发）
-    // 3. 战斗开始时触发
+    // 3. 战斗开始时触发 (为敌人加力量)
     // 4. 回合开始时触发
-    // 5. 拾取时触发
+    // 5. 拾取该装备时触发 (加血等等)
     // 6. 打出牌时触发（包含 各种类型 牌）
     // 7. 造成伤害时触发
     // 8. 受到伤害时触发
-    // 9. 治疗时候触发
-    // 10. 死亡时触发
+    // 9. 死亡时触发 (陈钰炫的女装)
+    // 10. 获取卡片时候触发(例如将获得之后获得的卡都升级)
 
     // 实现思路： 将角色所有装备作为一个装备数组添加到主角类中。每次进行动作，遍历装备数组，找到对应触发时机的装备触发。
-    public static enum Opportunity {ENDB, ENDT, STARTB, STARTT, GET, USE, ATTACK, GETD, TREAT, DEAD}
+    public static enum Opportunity {ENDB, ENDT, STARTB, STARTT, GET, USE, ATTACK, GETD, DEAD, GETCARD}
 
     protected String name;
     protected String picName;

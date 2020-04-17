@@ -19,6 +19,7 @@ import card.saber.skill.GrindingSword;
 import card.saber.skill.IceMagicShield;
 import card.saber.skill.RaiseShield;
 import card.saber.skill.WhirlingShield;
+import equipment.Equipment;
 import org.codehaus.groovy.tools.shell.Main;
 import utils.buffs.foreverBuffs.Dodge;
 
@@ -54,9 +55,10 @@ public class MainRole extends Role {
     private ArrayList<Card> deck_ = new ArrayList<Card>();// 原卡组（有序排列）
     public ArrayList<Card> deck;// 战斗中卡组（无序排列）
 
+    public ArrayList<Equipment> equipments;
 
     public ArrayList<String> cardEffects;
-    public ArrayList<String> equipmentEffects;
+
 
     public HashMap<String, Integer> cardEffectsMap;
 
@@ -79,12 +81,13 @@ public class MainRole extends Role {
         this.gold = 0;
         this.deck = new ArrayList<Card>();
         this.cardEffects = new ArrayList<String>();
-        this.equipmentEffects = new ArrayList<String>();
+
         this.cardEffectsMap = new HashMap<>();
         this.MP_max = 6;
         this.MP_current = 6;
         this.untreatable = false;
         this.freeCard = false;
+        this.equipments = new ArrayList<Equipment>();
         this.deck_.add(new FireSlash());
         this.deck_.add(new Intelligent());
         this.deck_.add(new IceSlash());
@@ -102,7 +105,12 @@ public class MainRole extends Role {
     }
 
 
+
     public void startBattle() {
+        for (Equipment equipment : equipments) {
+            if (equipment.getOpportunity() == Equipment.Opportunity.STARTB)
+                equipment.fun();
+        }
 
         this.setStrength(this.strength_);
 
@@ -122,10 +130,33 @@ public class MainRole extends Role {
 
     public void getCard(Card... cards) {
         deck_.addAll(Arrays.asList(cards));
+        for (Equipment equipment : equipments) {
+            if (equipment.getOpportunity() == Equipment.Opportunity.GETCARD)
+                equipment.fun();
+        }
+    }
+
+    public Boolean getEquipment(Equipment equipment) {
+        // 先查看是否已经有这件装备
+        for (Equipment e : equipments) {
+            if (e.getName().equals(equipment.getName()))
+                return false;
+        }
+        equipment.setImage(app.getAssetManager());
+        this.equipments.add(equipment);
+        if (equipment.getOpportunity() == Equipment.Opportunity.GET) {
+            equipment.fun();
+        }
+        return true;
     }
 
     //每回合开始时候的抽牌
     public void startTurn() {
+        for (Equipment equipment : equipments) {
+            if (equipment.getOpportunity() == Equipment.Opportunity.STARTT)
+                equipment.fun();
+        }
+
         if (!(this.cardEffects.contains("残影") || this.cardEffects.contains("残影+"))) {
             this.block = 0;
         }
@@ -209,6 +240,10 @@ public class MainRole extends Role {
 
 
     public void endBattle() {
+        for (Equipment equipment : equipments) {
+            if (equipment.getOpportunity() == Equipment.Opportunity.ENDB)
+                equipment.fun();
+        }
         this.cardEffectsMap.clear();
         this.cardEffects.clear();
         this.deck.clear();
@@ -242,6 +277,10 @@ public class MainRole extends Role {
     }
 
     public int computeDamage(int num, AttackCard.PROPERTY property) {
+        for (Equipment equipment : equipments) {
+            if (equipment.getOpportunity() == Equipment.Opportunity.ATTACK)
+                equipment.fun();
+        }
         if (this.cardEffects.contains("分身")) {
             num = num * 2;
             cardEffects.remove("分身");
@@ -299,6 +338,10 @@ public class MainRole extends Role {
 
     @Override
     public int getDamage(int damage) {
+        for (Equipment equipment : equipments) {
+            if (equipment.getOpportunity() == Equipment.Opportunity.GETD)
+                equipment.fun();
+        }
         if (cardEffects.contains("神御格挡") || cardEffects.contains("神御格挡+")) {
             if (Math.random() * 5 <= 1) {
                 this.getBuff(new Dodge(this, 1));
@@ -373,6 +416,10 @@ public class MainRole extends Role {
 
     @Override
     public void endTurn() {
+        for (Equipment equipment : equipments) {
+            if (equipment.getOpportunity() == Equipment.Opportunity.ENDT)
+                equipment.fun();
+        }
         this.shield.triggerFunc();
         this.poison.triggerFunc();
         this.bleeding.triggerFunc();
@@ -444,9 +491,6 @@ public class MainRole extends Role {
         this.cardEffects.add(cardName);
     }
 
-    public void addEquipmentEffect(String cardName) {
-        this.equipmentEffects.add(cardName);
-    }
 
 
     public void setMP_max(int MP_max) {
