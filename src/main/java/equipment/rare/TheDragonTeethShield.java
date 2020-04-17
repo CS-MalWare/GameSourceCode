@@ -1,5 +1,6 @@
 package equipment.rare;
 
+import character.MainRole;
 import equipment.Equipment;
 
 public class TheDragonTeethShield extends Equipment {
@@ -9,6 +10,6 @@ public class TheDragonTeethShield extends Equipment {
 
     @Override
     public void fun() {
-        this.mainRole.setBlock(this.mainRole.getBlock() + this.mainRole.computeBlock(3));
+        MainRole.getInstance().setBlock(MainRole.getInstance().getBlock() + MainRole.getInstance().computeBlock(3));
     }
 }

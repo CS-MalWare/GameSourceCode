@@ -20,6 +20,8 @@ import card.saber.skill.IceMagicShield;
 import card.saber.skill.RaiseShield;
 import card.saber.skill.WhirlingShield;
 import equipment.Equipment;
+import equipment.legendary.BalancedLibra;
+import equipment.legendary.MerlinGown;
 import org.codehaus.groovy.tools.shell.Main;
 import utils.buffs.foreverBuffs.Dodge;
 
@@ -102,6 +104,8 @@ public class MainRole extends Role {
         this.deck_.add(new Winding());
         this.deck_.add(new Crouch());
         this.deck_.add(new HookBoxing());
+
+
     }
 
 
@@ -539,5 +543,9 @@ public class MainRole extends Role {
 
     public void setFreeCard(boolean freeCard) {
         this.freeCard = freeCard;
+    }
+
+    public ArrayList<Equipment> getEquipments() {
+        return equipments;
     }
 }

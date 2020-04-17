@@ -14,6 +14,9 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.collision.CollisionResults;
+import com.jme3.font.BitmapFont;
+import com.jme3.font.BitmapText;
+import com.jme3.font.Rectangle;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.*;
 import com.jme3.light.AmbientLight;
@@ -23,10 +26,12 @@ import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.ui.Picture;
+import equipment.Equipment;
 import truetypefont.TrueTypeFont;
 import truetypefont.TrueTypeKey;
 import truetypefont.TrueTypeLoader;
@@ -48,7 +53,7 @@ public class DecksState extends BaseAppState {
     private int drawNum = 10;
     private int dropNum = 10;
     private int exhaustNum = 1;
-
+    private BitmapText equipmentText;
     private Geometry drawText;
     private Geometry dropText;
     private Geometry exhaustText;
@@ -75,6 +80,8 @@ public class DecksState extends BaseAppState {
     public final static String CLICK = "CLICK";
 
     private Picture endTurn;
+
+    BitmapFont fnt;
 
     public static DecksState getInstance() {
         return instance;
@@ -113,6 +120,7 @@ public class DecksState extends BaseAppState {
         rootNode.attachChild(exhaustDeckPic);
         rootNode.attachChild(endTurn);
 
+        fnt = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
 
         this.app.getAssetManager().registerLoader(TrueTypeLoader.class, "ttf");
 
@@ -179,6 +187,14 @@ public class DecksState extends BaseAppState {
         app.getGuiNode().attachChild(this.rootNode);
         app.getInputManager().addRawInputListener(myActionListener);
         MainRole.getInstance().startBattle();
+        int count = 0;
+        for (Equipment equipment : MainRole.getInstance().getEquipments()) {
+            int x = count % 20;
+            int y = count / 20;
+            equipment.setPosition(70 + x * 70, 830 - y * 100);
+            rootNode.attachChild(equipment);
+            count++;
+        }
         this.setImages(app);
         MainRole.getInstance().startTurn();
     }
@@ -186,6 +202,10 @@ public class DecksState extends BaseAppState {
     @Override
     protected void onDisable() {
         this.rootNode.removeFromParent();
+
+        for (Equipment equipment : MainRole.getInstance().getEquipments()) {
+            equipment.removeFromParent();
+        }
         app.getInputManager().removeRawInputListener(myActionListener);
     }
 
@@ -386,6 +406,30 @@ public class DecksState extends BaseAppState {
         return results;
     }
 
+
+    private CollisionResults getGuiCollision(MouseMotionEvent evt) {
+        int x = evt.getX();//得到鼠标的横坐标
+        int y = evt.getY();//得到鼠标的纵坐标
+        Camera cam = app.getCamera();//获得摄像机引用
+        Vector2f screenCoord = new Vector2f(x, y);
+        Vector3f worldCoord = cam.getWorldCoordinates(screenCoord, 1f);
+        Vector3f worldCoord2 = cam.getWorldCoordinates(screenCoord, 0f);
+        //通过得到鼠标位置，生成一个二维向量，然后通过设定不同的竖坐标，获得应该的视线方向
+// 然后计算视线方向
+        Vector3f dir = worldCoord.subtract(worldCoord2);
+        dir.normalizeLocal();//获得该方向单位向量
+
+// 生成射线
+//        Node guiNode = app.getGuiNode();//GUInode 包含了所有图形对象
+
+        Ray ray = new Ray(new Vector3f(x, y, 10), dir);
+        CollisionResults results = new CollisionResults();
+        rootNode.collideWith(ray, results);//检测guinode 中所有图形对象 和 ray 的碰撞
+
+        return results;
+    }
+
+
     class MyInputListener implements RawInputListener {
         private Boolean isDrawDeckShow = false;
         private Boolean isDropDeckShow = false;
@@ -413,7 +457,16 @@ public class DecksState extends BaseAppState {
 
         @Override
         public void onMouseMotionEvent(MouseMotionEvent evt) {
-
+            CollisionResults guiResults = getGuiCollision(evt);
+            if (guiResults.size() > 0) {
+                Geometry res = guiResults.getClosestCollision().getGeometry();
+                if (res instanceof Equipment) {
+                    // TODO 加上提示信息
+                }
+            } else {
+                if (equipmentText != null)
+                    equipmentText.removeFromParent();
+            }
         }
 
         @Override

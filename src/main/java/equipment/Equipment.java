@@ -62,8 +62,8 @@ public abstract class Equipment extends Picture {
     public void setImage(AssetManager assetManager) {
 
         super.setImage(assetManager, this.imgSrc, true);
-        this.setHeight(80);
-        this.setWidth(80);
+        this.setHeight(60);
+        this.setWidth(60);
     }
 
     public String getDescription() {
