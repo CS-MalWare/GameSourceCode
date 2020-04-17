@@ -15,4 +15,9 @@ public class SharpenedPencil extends Equipment {
         }
         attCount++;
     }
+
+    @Override
+    public void resetBuff() {
+        attCount = 0;
+    }
 }

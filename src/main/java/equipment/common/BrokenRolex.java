@@ -1,5 +1,6 @@
 package equipment.common;
 
+import character.MainRole;
 import equipment.Equipment;
 
 public class BrokenRolex extends Equipment {
@@ -9,6 +10,6 @@ public class BrokenRolex extends Equipment {
 
     @Override
     public void fun() {
-        //TODO 失去15金币
+        MainRole.getInstance().setGold(MainRole.getInstance().getGold()-15);
     }
 }

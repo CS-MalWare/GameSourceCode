@@ -11,7 +11,7 @@ public class MetroCard extends Equipment {
     @Override
     public void fun() {
         if(3*Math.random()<1){
-            //TODO 得到15金币
+            MainRole.getInstance().setGold(MainRole.getInstance().getGold()+15);
         }
     }
 }

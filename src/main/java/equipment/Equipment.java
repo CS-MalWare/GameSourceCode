@@ -21,9 +21,10 @@ public abstract class Equipment extends Picture {
     // 8. 受到伤害时触发
     // 9. 死亡时触发 (陈钰炫的女装)
     // 10. 获取卡片时候触发(例如将获得之后获得的卡都升级)
+    // 11. 进入商店触发
 
     // 实现思路： 将角色所有装备作为一个装备数组添加到主角类中。每次进行动作，遍历装备数组，找到对应触发时机的装备触发。
-    public static enum Opportunity {ENDB, ENDT, STARTB, STARTT, GET, USE, ATTACK, GETD, DEAD, GETCARD}
+    public static enum Opportunity {ENDB, ENDT, STARTB, STARTT, GET, USE, ATTACK, GETD, DEAD, GETCARD, SHOP}
 
     protected String name;
     protected String picName;
@@ -123,4 +124,7 @@ public abstract class Equipment extends Picture {
 
     // 在这里写装备的功能
     public abstract void fun();
+
+    // 某些buff,比如每次战斗中第一次等，使用了变量控制，需要重置它的状态
+    public void resetBuff(){};
 }

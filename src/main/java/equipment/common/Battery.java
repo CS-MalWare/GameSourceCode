@@ -17,4 +17,9 @@ public class Battery extends Equipment {
         }
         turnCount++;
     }
+
+    @Override
+    public void resetBuff() {
+        turnCount = 1;
+    }
 }

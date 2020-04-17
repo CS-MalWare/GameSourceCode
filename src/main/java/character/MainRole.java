@@ -517,7 +517,7 @@ public class MainRole extends Role {
     }
 
     public void setGold(int gold) {
-        this.gold = gold;
+        this.gold = gold>=0?gold:0;
     }
 
 
