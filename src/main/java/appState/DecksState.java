@@ -1,35 +1,21 @@
 package appState;
 
 import card.Card;
-import card.neutral.attack.ConeFlame;
-import card.neutral.attack.ConeGold;
-import card.neutral.attack.TheKissOfDeath;
-import card.neutral.attack.Whirlpool;
-import card.saber.attack.LightSlash;
-import card.saber.attack.Slash;
-import card.saber.attack.SoilSlash;
 import character.Enemy;
 import character.MainRole;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.collision.CollisionResults;
-import com.jme3.font.BitmapFont;
-import com.jme3.font.BitmapText;
-import com.jme3.font.Rectangle;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.*;
-import com.jme3.light.AmbientLight;
-import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.ui.Picture;
 import equipment.Equipment;
 import truetypefont.TrueTypeFont;
@@ -53,7 +39,6 @@ public class DecksState extends BaseAppState {
     private int drawNum = 10;
     private int dropNum = 10;
     private int exhaustNum = 1;
-    private BitmapText equipmentText;
     private Geometry drawText;
     private Geometry dropText;
     private Geometry exhaustText;
@@ -81,7 +66,7 @@ public class DecksState extends BaseAppState {
 
     private Picture endTurn;
 
-    BitmapFont fnt;
+//    BitmapFont fnt;
 
     public static DecksState getInstance() {
         return instance;
@@ -120,7 +105,7 @@ public class DecksState extends BaseAppState {
         rootNode.attachChild(exhaustDeckPic);
         rootNode.attachChild(endTurn);
 
-        fnt = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+//        fnt = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
 
         this.app.getAssetManager().registerLoader(TrueTypeLoader.class, "ttf");
 
@@ -435,6 +420,13 @@ public class DecksState extends BaseAppState {
         private Boolean isDropDeckShow = false;
         private Boolean isExhuastDeckShow = false;
 
+        TrueTypeKey ttk = new TrueTypeKey("Util/font.ttf", // 字体
+                PLAIN, // 字形：0 普通、1 粗体、2 斜体
+                FONT_SIZE);// 字号
+        TrueTypeFont font = (TrueTypeFont) app.getAssetManager().loadAsset(ttk);
+
+        private Geometry text;
+
         @Override
         public void beginInput() {
 
@@ -462,10 +454,16 @@ public class DecksState extends BaseAppState {
                 Geometry res = guiResults.getClosestCollision().getGeometry();
                 if (res instanceof Equipment) {
                     // TODO 加上提示信息
+                    // 创建文字
+                    text = font.getBitmapGeom(String.format("%s", ((Equipment) res).getDescription()), 0, ColorRGBA.White);
+                    text.setLocalTranslation(1000, 850, 1);
+                    rootNode.attachChild(text);
+
                 }
             } else {
-                if (equipmentText != null)
-                    equipmentText.removeFromParent();
+                System.out.println(text);
+                if (text != null)
+                    text.removeFromParent();
             }
         }
 
@@ -478,14 +476,14 @@ public class DecksState extends BaseAppState {
 
                     switch (res.getName()) {
                         case "抽牌堆":
-                            if(!isDrawDeckShow)showCards(drawDeck);
+                            if (!isDrawDeckShow) showCards(drawDeck);
                             else hideCards();
                             isDrawDeckShow = !isDrawDeckShow;
                             isDropDeckShow = false;
                             isExhuastDeckShow = false;
                             break;
                         case "弃牌堆":
-                            if(!isDropDeckShow)showCards(dropDeck);
+                            if (!isDropDeckShow) showCards(dropDeck);
                             else hideCards();
                             isDropDeckShow = !isDropDeckShow;
                             isDrawDeckShow = false;
