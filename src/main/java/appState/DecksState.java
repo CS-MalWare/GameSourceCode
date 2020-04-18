@@ -453,15 +453,15 @@ public class DecksState extends BaseAppState {
             if (guiResults.size() > 0) {
                 Geometry res = guiResults.getClosestCollision().getGeometry();
                 if (res instanceof Equipment) {
-                    // TODO 加上提示信息
-                    // 创建文字
-                    text = font.getBitmapGeom(String.format("%s", ((Equipment) res).getDescription()), 0, ColorRGBA.White);
-                    text.setLocalTranslation(1000, 850, 1);
+                    if (text != null) {
+                        text.removeFromParent();
+                    }
+                    text = font.getBitmapGeom(String.format("%s", ((Equipment) res).getDescription()), 0, ColorRGBA.Red);
+                    text.setLocalTranslation(50, 800, 1);
                     rootNode.attachChild(text);
 
                 }
             } else {
-                System.out.println(text);
                 if (text != null)
                     text.removeFromParent();
             }
