@@ -1,18 +1,16 @@
 package appState;
 
+import card.AttackCard;
 import card.Card;
 import card.CreateCard;
-import card.neutral.skill.Intelligent;
-import card.saber.attack.Slash;
-import card.saber.power.ManaBoost;
-import card.saber.skill.Defense;
-import card.saber.skill.Heal;
+import card.SkillCard;
 import character.Enemy;
 import character.MainRole;
-import character.Role;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
+import com.jme3.audio.AudioData;
+import com.jme3.audio.AudioNode;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.KeyInput;
 import com.jme3.input.RawInputListener;
@@ -27,7 +25,6 @@ import com.jme3.scene.shape.Curve;
 import com.jme3.ui.Picture;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import control.CardMotionControl;
 
@@ -71,6 +68,14 @@ public class HandCardsState extends BaseAppState {
     private Vector3f startPoint;
 
     private Spline spline;
+
+    AudioNode audioAttack1;
+    AudioNode audioAttack2;
+    AudioNode audioAttack3;
+    AudioNode audioAttack4;
+    AudioNode audioSkill1;
+
+    AudioNode audioSkill2;
 
     // 事先计算每张牌的位置
     protected double[][] computePosition(int num) {
@@ -169,7 +174,48 @@ public class HandCardsState extends BaseAppState {
         }
         cardUsedCount = 0;
         instance = this;
+        audioAttack1 = new AudioNode(app.getAssetManager(), "Sound/Attack/主角攻击1.wav", AudioData.DataType.Buffer);
+        audioAttack1.setLooping(false);// 禁用循环播放
+        audioAttack1.setPositional(false);// 设置为非定位音源，玩家无法通过耳机辨别音源的位置。常用于背景音乐。
+        audioAttack1.setVolume(2);
+        // 将音源添加到场景中
+        rootNode.attachChild(audioAttack1);
 
+        audioAttack2 = new AudioNode(app.getAssetManager(), "Sound/Attack/主角攻击2.wav", AudioData.DataType.Buffer);
+        audioAttack2.setLooping(false);// 禁用循环播放
+        audioAttack2.setPositional(false);// 设置为非定位音源，玩家无法通过耳机辨别音源的位置。常用于背景音乐。
+        audioAttack2.setVolume(2);
+        // 将音源添加到场景中
+        rootNode.attachChild(audioAttack2);
+
+
+        audioAttack3 = new AudioNode(app.getAssetManager(), "Sound/Attack/主角攻击3.wav", AudioData.DataType.Buffer);
+        audioAttack3.setLooping(false);// 禁用循环播放
+        audioAttack3.setPositional(false);// 设置为非定位音源，玩家无法通过耳机辨别音源的位置。常用于背景音乐。
+        audioAttack3.setVolume(2);
+        // 将音源添加到场景中
+        rootNode.attachChild(audioAttack3);
+
+        audioAttack4 = new AudioNode(app.getAssetManager(), "Sound/Attack/主角攻击4.wav", AudioData.DataType.Buffer);
+        audioAttack4.setLooping(false);// 禁用循环播放
+        audioAttack4.setPositional(false);// 设置为非定位音源，玩家无法通过耳机辨别音源的位置。常用于背景音乐。
+        audioAttack4.setVolume(2);
+        // 将音源添加到场景中
+        rootNode.attachChild(audioAttack4);
+
+        audioSkill1 = new AudioNode(app.getAssetManager(), "Sound/Skill/主角技能1.wav", AudioData.DataType.Buffer);
+        audioSkill1.setLooping(false);// 禁用循环播放
+        audioSkill1.setPositional(false);// 设置为非定位音源，玩家无法通过耳机辨别音源的位置。常用于背景音乐。
+        audioSkill1.setVolume(2);
+        // 将音源添加到场景中
+        rootNode.attachChild(audioSkill1);
+
+        audioSkill2 = new AudioNode(app.getAssetManager(), "Sound/Skill/主角技能2.wav", AudioData.DataType.Buffer);
+        audioSkill2.setLooping(false);// 禁用循环播放
+        audioSkill2.setPositional(false);// 设置为非定位音源，玩家无法通过耳机辨别音源的位置。常用于背景音乐。
+        audioSkill2.setVolume(2);
+        // 将音源添加到场景中
+        rootNode.attachChild(audioSkill2);
     }
 
     @Override
@@ -279,6 +325,12 @@ public class HandCardsState extends BaseAppState {
                 int size0 = handCards.size();
 
                 if (card.use(enermies)) {
+                    if (card.getType() == Card.TYPE.ATTACK) {
+                        audioAttack4.playInstance();
+                    } else if (card.getType() == Card.TYPE.SKILL) {
+                        audioAttack4.playInstance();
+
+                    }
                     handCards.remove(card);
 //        rootNode.detachChild(card);
                     card.removeFromParent();
@@ -295,6 +347,23 @@ public class HandCardsState extends BaseAppState {
             } else {
                 int size0 = handCards.size();
                 if (card.use(app.getStateManager().getState(EnemyState.class).getTarget())) {
+                    if (card.getType() == Card.TYPE.ATTACK) {
+                        int damage = ((AttackCard) card).getDamage();
+                        if (damage < 10) {
+                            audioAttack1.playInstance();
+                        } else if (damage < 20) {
+                            audioAttack2.playInstance();
+                        } else {
+                            audioAttack3.playInstance();
+                        }
+                    } else if (card.getType() == Card.TYPE.SKILL) {
+                        int cost = ((SkillCard) card).getCost();
+                        if (cost < 2) {
+                            audioSkill1.playInstance();
+                        } else {
+                            audioSkill2.playInstance();
+                        }
+                    }
                     handCards.remove(card);
                     card.removeFromParent();
 //        rootNode.detachChild(card);

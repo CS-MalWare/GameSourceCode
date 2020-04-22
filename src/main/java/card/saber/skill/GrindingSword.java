@@ -35,10 +35,10 @@ public class GrindingSword extends SkillCard {
     @Override
     public boolean use(Role target) {
         if (!upgraded) {
-            MainRole.getInstance().getTrueDamage(5);
+            MainRole.getInstance().getDamage(5);
             MainRole.getInstance().setStrength(MainRole.getInstance().getStrength() + 3);
         } else {
-            MainRole.getInstance().getTrueDamage(4);
+            MainRole.getInstance().getDamage(4);
             MainRole.getInstance().setStrength(MainRole.getInstance().getStrength() + 4);
         }
         return true;
