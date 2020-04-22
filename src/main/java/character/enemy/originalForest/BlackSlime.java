@@ -68,19 +68,19 @@ public class BlackSlime extends Enemy {
 
     //敌人行动
     @Override
-    public void enemyAction(){
+    public String enemyAction(){
         switch (this.nextActionIndex){
             case 0:
                 attack();
-                break;
+                return "slime attack";
             case 1:
                 releaseDebuff();
-                break;
+                return "slime skill";
             case 2:
                 releaseBuff();
-                break;
+                return "slime skill";
             default:
-                return;
+                return "";
         }
     }
 

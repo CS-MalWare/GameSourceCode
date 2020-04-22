@@ -32,19 +32,19 @@ public class Robot extends Enemy {
     }
 
     @Override
-    public void enemyAction() {
+    public String enemyAction() {
         switch (this.nextActionIndex){
             case 0:
                 releaseBuff();
-                break;
+                return "robot skill";
             case 1:
                 getBlockAndAttack();
-                break;
+                return "robot attack";
             case 2:
                 getBlocks();
-                break;
+                return "robot skill";
             default:
-                break;
+                return "";
         }
     }
 

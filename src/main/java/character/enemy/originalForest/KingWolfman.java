@@ -101,28 +101,28 @@ public class KingWolfman extends Enemy {
 
     //敌人行动
     @Override
-    public void enemyAction(){
+    public String enemyAction(){
         switch (this.nextActionIndex){
             case 0:
                 getBlockAndAttack();
-                break;
+                return "wolfman attack";
             case 1:
                 releaseDebuff();
-                break;
+                return "wolfman skill";
             case 2:
                 attack();
-                break;
+                return "wolfman attack";
             case 3:
                 releaseCurses();
-                break;
+                return "wolfman skill";
             case 4:
                 releaseBuff();
-                break;
+                return "wolfman skill";
             case 5:
                 getBlocks();
-                break;
+                return "wolfman skill";
             default:
-                return;
+                return "";
         }
     }
 

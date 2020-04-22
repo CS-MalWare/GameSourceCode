@@ -55,28 +55,28 @@ public class EliteRobot extends Enemy {
 
 
     @Override
-    public void enemyAction() {
+    public String enemyAction() {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
-                break;
+                return "robot attack";
             case 1:
                 this.releaseCurses();
-                break;
+                return "robot skill";
             case 2:
                 this.getBlocks();
-                break;
+                return "robot skill";
             case 3:
                 this.releaseBuff();
-                break;
+                return "robot skill";
             case 4:
                 this.attack2();
-                break;
+                return "robot attack";
             case 5:
                 this.$();
-                break;
+                return "robot attack";
             default:
-                break;
+                return "";
         }
 
     }

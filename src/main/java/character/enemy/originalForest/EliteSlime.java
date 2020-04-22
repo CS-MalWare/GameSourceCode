@@ -40,19 +40,19 @@ public class EliteSlime extends Enemy {
     }
 
     @Override
-    public void enemyAction() {
+    public String enemyAction() {
         switch (this.nextActionIndex){
             case 0:
                 attack();
-                break;
+                return "slime attack";
             case 1:
                 releaseDebuff();
-                break;
+                return "slime skill";
             case 2:
                 getBlockAndAttack();
-                break;
+                return "slime attack";
             default:
-                return;
+                return "";
         }
     }
 

@@ -31,19 +31,19 @@ public class StrongRobot extends Enemy {
     }
 
     @Override
-    public void enemyAction() {
+    public String enemyAction() {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
-                break;
+                return "robot attack";
             case 1:
                 this.getBlessing();
-                break;
+                return "robot skill";
             case 2:
                 this.getBlocks();
-                break;
+                return "robot skill";
             default:
-                break;
+                return "";
         }
     }
 

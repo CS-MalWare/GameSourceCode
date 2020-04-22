@@ -38,28 +38,28 @@ public class Faker extends Enemy {
     }
 
     @Override
-    public void enemyAction() {
+    public String enemyAction() {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
-                break;
+                return "boss attack";
             case 1:
                 this.getBlockAndAttack();
-                break;
+                return "boss attack";
             case 2:
                 this.attack2();
-                break;
+                return "boss attack";
             case 3:
                 this.releaseDebuff();
-                break;
+                return "boss skill";
             case 4:
                 this.attack3();
-                break;
+                return "boss attack";
             case 5:
                 this.$();
-                break;
+                return "boss skill";
             default:
-                break;
+                return "";
 
         }
     }

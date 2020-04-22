@@ -6,6 +6,8 @@ import character.MainRole;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
+import com.jme3.audio.AudioData;
+import com.jme3.audio.AudioNode;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.*;
@@ -36,6 +38,7 @@ public class DecksState extends BaseAppState {
     private SimpleApplication app;
     private Node rootNode;
 
+    private ArrayList<AudioNode> audioNodes;
     private int drawNum = 10;
     private int dropNum = 10;
     private int exhaustNum = 1;
@@ -143,6 +146,29 @@ public class DecksState extends BaseAppState {
 
         myActionListener = new MyInputListener();
         instance = this;
+
+        // 设置音效
+        audioNodes = new ArrayList<AudioNode>() {{
+            add(new AudioNode(app.getAssetManager(), "Sound/Attack/史莱姆攻击.wav", AudioData.DataType.Buffer));
+            add(new AudioNode(app.getAssetManager(), "Sound/Skill/史莱姆技能.wav", AudioData.DataType.Buffer));
+            add(new AudioNode(app.getAssetManager(), "Sound/Dead/史莱姆死亡.wav", AudioData.DataType.Buffer));
+            add(new AudioNode(app.getAssetManager(), "Sound/Attack/狼人攻击.wav", AudioData.DataType.Buffer));
+            add(new AudioNode(app.getAssetManager(), "Sound/Skill/狼人技能.wav", AudioData.DataType.Buffer));
+            add(new AudioNode(app.getAssetManager(), "Sound/Dead/狼人死亡.wav", AudioData.DataType.Buffer));
+            add(new AudioNode(app.getAssetManager(), "Sound/Attack/机器人攻击.wav", AudioData.DataType.Buffer));
+            add(new AudioNode(app.getAssetManager(), "Sound/Skill/机器人技能.wav", AudioData.DataType.Buffer));
+            add(new AudioNode(app.getAssetManager(), "Sound/Dead/机器人死亡.wav", AudioData.DataType.Buffer));
+            add(new AudioNode(app.getAssetManager(), "Sound/Attack/龙攻击.wav", AudioData.DataType.Buffer));
+            add(new AudioNode(app.getAssetManager(), "Sound/Skill/龙技能.wav", AudioData.DataType.Buffer));
+            add(new AudioNode(app.getAssetManager(), "Sound/Dead/龙死亡.wav", AudioData.DataType.Buffer));
+        }};
+        System.out.println(audioNodes.size());
+        for (AudioNode an : audioNodes) {
+            an.setLooping(false);
+            an.setPositional(false);
+            an.setVolume(2);
+            rootNode.attachChild(an);
+        }
     }
 
     public void setImages(SimpleApplication app) {
@@ -419,7 +445,7 @@ public class DecksState extends BaseAppState {
         private Boolean isDrawDeckShow = false;
         private Boolean isDropDeckShow = false;
         private Boolean isExhuastDeckShow = false;
-
+        private String enemyActionAudio = "";
         TrueTypeKey ttk = new TrueTypeKey("Util/font.ttf", // 字体
                 PLAIN, // 字形：0 普通、1 粗体、2 斜体
                 FONT_SIZE);// 字号
@@ -505,7 +531,29 @@ public class DecksState extends BaseAppState {
                             // 所有敌人开始行动
                             for (Enemy enemy : enemies) {
                                 enemy.startTurn();
-                                enemy.enemyAction();
+                                enemyActionAudio = enemy.enemyAction();
+                                switch (enemyActionAudio){
+                                    case "slime attack":
+                                        audioNodes.get(0).playInstance();
+                                        break;
+                                    case "slime skill":
+                                        audioNodes.get(1).playInstance();
+                                        break;
+                                    case "wolfman attack":
+                                        audioNodes.get(3).playInstance();
+                                        break;
+                                    case "wolfman skill":
+                                        audioNodes.get(4).playInstance();
+                                        break;
+                                    case "dragon attack":
+                                        audioNodes.get(9).playInstance();
+                                        break;
+                                    case "dragon skill":
+                                        audioNodes.get(10).playInstance();
+                                        break;
+                                    default:
+                                        break;
+                                }
                                 app.getStateManager().getState(EnemyState.class).updateHints(true);
                                 app.getStateManager().getState(LeadingActorState.class).updateHints();
                                 try {

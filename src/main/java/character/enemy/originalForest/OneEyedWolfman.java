@@ -70,16 +70,16 @@ public class OneEyedWolfman extends Enemy {
 
     //敌人行动
     @Override
-    public void enemyAction(){
+    public String enemyAction(){
         switch (this.nextActionIndex){
             case 0:
                 attack();
-                break;
+                return "wolfman attack";
             case 1:
                 releaseBuff();
-                break;
+                return "wolfman skill";
             default:
-                return;
+                return "";
         }
     }
 

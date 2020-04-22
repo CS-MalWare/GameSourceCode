@@ -41,24 +41,25 @@ public class KingDarkDragon extends Enemy {
     }
 
     @Override
-    public void enemyAction() {
+    public String enemyAction() {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
-                break;
+                return "dragon attack";
             case 1:
                 this.releaseDebuff();
-                break;
+                return "dragon skill";
             case 2:
                 this.getBlocks();
-                break;
+                return "dragon skill";
             case 3:
                 this.attack2();
-                break;
+                return "dragon attack";
             case 4:
                 this.getBlockAndAttack();
+                return "dragon attack";
             default:
-                break;
+                return "";
         }
     }
 

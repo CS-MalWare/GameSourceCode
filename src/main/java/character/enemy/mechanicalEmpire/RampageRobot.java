@@ -36,19 +36,19 @@ public class RampageRobot extends Enemy {
         newTurn();
     }
     @Override
-    public void enemyAction() {
+    public String enemyAction() {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
-                break;
+                return "robot attack";
             case 1:
                 this.releaseDebuff();
-                break;
+                return "robot skill";
             case 2:
                 this.getBlockAndAttack();
-                break;
+                return "robot attack";
             default:
-                break;
+                return "";
         }
     }
 

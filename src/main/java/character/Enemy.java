@@ -90,7 +90,7 @@ public abstract class Enemy extends Role {
     }
 
     //敌人行动
-    public abstract void enemyAction();
+    public abstract String enemyAction();
 
     //敌人攻击
     protected abstract void attack();

@@ -47,34 +47,34 @@ public class SteamRobot extends Enemy {
     }
 
     @Override
-    public void enemyAction() {
+    public String enemyAction() {
         switch (this.nextActionIndex){
             case 0:
                 this.getBlocks();
-                break;
+                return "robot skill";
             case 1:
                 this.releaseDebuff();
-                break;
+                return "robot skill";
             case 2:
                 this.releaseBuff();
-                break;
+                return "robot skill";
             case 3:
                 this.attack();
-                break;
+                return "robot attack";
             case 4:
                 this.releaseCurses();
-                break;
+                return "robot skill";
             case 5:
                 this.getBlockAndAttack();
-                break;
+                return "robot attack";
             case 6:
                 this.attack2();
-                break;
+                return "robot attack";
             case 7:
                 this.attack3();
-                break;
+                return "robot attack";
             default:
-                break;
+                return "";
         }
     }
 

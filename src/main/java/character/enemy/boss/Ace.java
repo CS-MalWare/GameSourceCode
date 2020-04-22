@@ -67,31 +67,31 @@ public class Ace extends Enemy {
     }
 
     @Override
-    public void enemyAction() {
+    public String enemyAction() {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
-                break;
+                return "boss attack";
             case 1:
                 this.releaseBuff();
-                break;
+                return "boss skill";
             case 2:
                 this.releaseDebuff();
-                break;
+                return "boss skill";
             case 3:
                 this.getBlocks();
-                break;
+                return "boss skill";
             case 4:
                 this.getBlessing();
-                break;
+                return "boss skill";
             case 5:
                 this.attack2();
-                break;
+                return "boss attack";
             case 6:
                 this.getBlockAndAttack();
-                break;
+                return "boss attack";
             default:
-                break;
+                return "";
 
 
         }

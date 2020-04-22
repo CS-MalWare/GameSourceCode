@@ -104,25 +104,25 @@ public class EliteWolfman extends Enemy {
 
     //敌人行动
     @Override
-    public void enemyAction(){
+    public String enemyAction(){
         switch (this.nextActionIndex){
             case 0:
                 attack();
-                break;
+                return "wolfman attack";
             case 1:
                 getBlockAndAttack();
-                break;
+                return "wolfman attack";
             case 2:
                 getBlocks();
-                break;
+                return "wolfman skill";
             case 3:
                 releaseDebuff();
-                break;
+                return "wolfman skill";
             case 4:
                 releaseCurses();
-                break;
+                return "wolfman skill";
             default:
-                return;
+                return "";
         }
     }
 

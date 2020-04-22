@@ -64,28 +64,28 @@ public class Zac extends Enemy {
 
 
     @Override
-    public void enemyAction() {
+    public String enemyAction() {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
-                break;
+                return "boss attack";
             case 1:
                 this.attack2();
-                break;
+                return "boss attack";
             case 2:
                 this.releaseDebuff();
-                break;
+                return "boss skill";
             case 3:
                 this.getBlocks();
-                break;
+                return "boss skill";
             case 4:
                 this.releaseCurses();
-                break;
+                return "boss skill";
             case 5:
                 this.releaseBuff();
-                break;
+                return "boss skill";
             default:
-                break;
+                return "";
         }
     }
 

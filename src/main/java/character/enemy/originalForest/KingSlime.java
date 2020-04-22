@@ -39,19 +39,19 @@ public class KingSlime extends Enemy {
 
 
     @Override
-    public void enemyAction() {
+    public String enemyAction() {
         switch (this.nextActionIndex){
             case 0:
                 attack();
-                break;
+                return "slime attack";
             case 1:
                 releaseDebuff();
-                break;
+                return "slime skill";
             case 2:
                 releaseCurses();
-                break;
+                return "slime skill";
             default:
-                return;
+                return "";
         }
     }
 
