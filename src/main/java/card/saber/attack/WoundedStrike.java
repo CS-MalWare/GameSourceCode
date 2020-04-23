@@ -4,14 +4,14 @@ import card.AttackCard;
 import character.MainRole;
 import character.Role;
 
-public class WoudedStrike extends AttackCard {
-    public WoudedStrike() {
+public class WoundedStrike extends AttackCard {
+    public WoundedStrike() {
         super(OCCUPATION.SABER, "负伤打击", 4, RARITY.COMMON, "deal 10 damage plus 50% of lost HP", 10, 1);
 
     }
 
 
-    public WoudedStrike(boolean upgraded) {
+    public WoundedStrike(boolean upgraded) {
         super(OCCUPATION.SABER, "负伤打击+", 4, RARITY.COMMON, "deal 18 damage plus 50% of lost HP", 18, 1);
         this.upgraded = true;
     }
