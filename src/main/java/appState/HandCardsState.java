@@ -74,8 +74,8 @@ public class HandCardsState extends BaseAppState {
     AudioNode audioAttack3;
     AudioNode audioAttack4;
     AudioNode audioSkill1;
-
     AudioNode audioSkill2;
+    AudioNode audioPower;
 
     // 事先计算每张牌的位置
     protected double[][] computePosition(int num) {
@@ -216,6 +216,12 @@ public class HandCardsState extends BaseAppState {
         audioSkill2.setVolume(2);
         // 将音源添加到场景中
         rootNode.attachChild(audioSkill2);
+
+        audioPower = new AudioNode(app.getAssetManager(),"Sound/Power/主角能力1.wav",AudioData.DataType.Buffer);
+        audioPower.setVolume(2);
+        audioPower.setPositional(false);
+        audioPower.setLooping(false);
+        rootNode.attachChild(audioPower);
     }
 
     @Override
@@ -326,10 +332,11 @@ public class HandCardsState extends BaseAppState {
 
                 if (card.use(enermies)) {
                     if (card.getType() == Card.TYPE.ATTACK) {
+                        LeadingActorState.attack(true);
                         audioAttack4.playInstance();
                     } else if (card.getType() == Card.TYPE.SKILL) {
                         audioAttack4.playInstance();
-
+                        LeadingActorState.releaseSkill();
                     }
                     handCards.remove(card);
 //        rootNode.detachChild(card);
@@ -348,6 +355,7 @@ public class HandCardsState extends BaseAppState {
                 int size0 = handCards.size();
                 if (card.use(app.getStateManager().getState(EnemyState.class).getTarget())) {
                     if (card.getType() == Card.TYPE.ATTACK) {
+                        LeadingActorState.attack(false);
                         int damage = ((AttackCard) card).getDamage();
                         if (damage < 10) {
                             audioAttack1.playInstance();
@@ -357,12 +365,16 @@ public class HandCardsState extends BaseAppState {
                             audioAttack3.playInstance();
                         }
                     } else if (card.getType() == Card.TYPE.SKILL) {
+                        LeadingActorState.releaseSkill();
                         int cost = ((SkillCard) card).getCost();
                         if (cost < 2) {
                             audioSkill1.playInstance();
                         } else {
                             audioSkill2.playInstance();
                         }
+                    } else {
+                        audioPower.playInstance();
+                        LeadingActorState.releaseSkill();
                     }
                     handCards.remove(card);
                     card.removeFromParent();

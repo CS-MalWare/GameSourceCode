@@ -3,6 +3,7 @@ package character;
 import appState.DecksState;
 import appState.EnemyState;
 import appState.HandCardsState;
+import appState.LeadingActorState;
 import card.AttackCard;
 import card.Card;
 import card.neutral.attack.HookBoxing;
@@ -20,9 +21,6 @@ import card.saber.skill.IceMagicShield;
 import card.saber.skill.RaiseShield;
 import card.saber.skill.WhirlingShield;
 import equipment.Equipment;
-import equipment.legendary.BalancedLibra;
-import equipment.legendary.MerlinGown;
-import org.codehaus.groovy.tools.shell.Main;
 import utils.buffs.foreverBuffs.Dodge;
 
 import java.util.ArrayList;
@@ -342,6 +340,7 @@ public class MainRole extends Role {
 
     @Override
     public int getDamage(int damage) {
+        LeadingActorState.getDamage(damage);
         for (Equipment equipment : equipments) {
             if (equipment.getOpportunity() == Equipment.Opportunity.GETD)
                 equipment.fun();

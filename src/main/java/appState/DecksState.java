@@ -545,6 +545,12 @@ public class DecksState extends BaseAppState {
                                     case "wolfman skill":
                                         audioNodes.get(4).playInstance();
                                         break;
+                                    case "robot attack":
+                                        audioNodes.get(6).playInstance();
+                                        break;
+                                    case "robot skill":
+                                        audioNodes.get(7).playInstance();
+                                        break;
                                     case "dragon attack":
                                         audioNodes.get(9).playInstance();
                                         break;
@@ -562,7 +568,7 @@ public class DecksState extends BaseAppState {
                                     e.printStackTrace();
                                 }
                             }
-                            // 停顿一下,假装在加载
+                            // 停顿一下,假装在加载（逸润巨佬还是高明）
                             try {
                                 Thread.sleep(300);
                             } catch (InterruptedException e) {

@@ -4,6 +4,7 @@ import character.Enemy;
 import character.MainRole;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
+import com.jme3.animation.LoopMode;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 
 public class LeadingActorState extends BaseAppState {
     private AnimControl animControl;
-    private AnimChannel animChannel;
+    private static AnimChannel animChannel;
     private SimpleApplication app;
     private Node rootNode = new Node("LeadingActorState");
     private Node guiNode = new Node("MP");
@@ -83,9 +84,12 @@ public class LeadingActorState extends BaseAppState {
 
         System.out.println(animControl.getAnimationNames() + "zzzzzzz");
 
-        animChannel = animControl.createChannel();
-
+        animChannel = animControl.createChannel();//创建动画通道
+        // 调整人物站位
         animChannel.setAnim("walk");
+        animChannel.setLoopMode(LoopMode.DontLoop);
+
+
         System.out.println(model1.getName());
         model1.setName("LeadingActor/leader.j3o");
         model1.scale(0.03f);// 按比例缩小
@@ -169,6 +173,34 @@ public class LeadingActorState extends BaseAppState {
         MpText.setLocalTranslation(250, 270, 1);
         guiNode.attachChild(MpText);
 
+    }
+
+    public static void attack(Boolean isAOE) {
+        if (isAOE) {
+            animChannel.setAnim("attack2");
+        } else {
+            animChannel.setAnim("attack");
+        }
+        animChannel.setLoopMode(LoopMode.DontLoop);
+    }
+
+    public static void getDamage(int damage) {
+        if (damage > 20) {
+            animChannel.setAnim("takeDamage2");
+        } else {
+            animChannel.setAnim("takeDamage");
+        }
+        animChannel.setLoopMode(LoopMode.DontLoop);
+    }
+
+    public static void releaseSkill() {
+        animChannel.setAnim("jump");
+        animChannel.setLoopMode(LoopMode.DontLoop);
+    }
+
+    public static void getDeBuff() {
+        animChannel.setAnim("stunned");
+        animChannel.setLoopMode(LoopMode.DontLoop);
     }
 
     public void addActor(MainRole... actors) {
@@ -333,7 +365,7 @@ public class LeadingActorState extends BaseAppState {
             BitmapText word = new BitmapText(fnt, false);//显示的文字
             word.setText("Game Over");
             word.setSize(1);
-            word.setLocalTranslation(-2.5f,0.5f,0);
+            word.setLocalTranslation(-2.5f, 0.5f, 0);
 
             Material mat = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
             mat.setColor("Color", new ColorRGBA(1f, 1f, 1f, 0.01f));// 镜面反射时，高光的颜色。
