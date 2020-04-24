@@ -34,19 +34,19 @@ public class HandCardsState extends BaseAppState {
 //    private double width = app.getCamera().getWidth();
 
     private static HandCardsState instance = null;
-    private double height = 900; //屏幕高度
-    private double width = 1600;  // 屏幕宽度
+    public static double height = 900; //屏幕高度
+    public static double width = 1600;  // 屏幕宽度
 
 
-    private float ratio = (float) (width / 1600.0);  //缩放比例
+    private static float ratio = (float) (width / 1600.0);  //缩放比例
 
     private double top = -20 * ratio;  //第一张牌距离屏幕高度
     private double verticalDiff_left = 22 * ratio;  //竖向位移
     private double verticalDiff_right = 15 * ratio;
     private double horizontalDiff = 120 * ratio; //横向位移
 
-    public double cardWidth = 200 * ratio;  //卡片宽度
-    public double cardHeight = 260 * ratio;  //卡片高度
+    public static double cardWidth = 200 * ratio;  //卡片宽度
+    public static double cardHeight = 260 * ratio;  //卡片高度
 
     private float rotateRate_left = FastMath.PI / 180 * 3;   //旋转速率
     private float rotateRate_right = -FastMath.PI / 180 * 4;
@@ -140,21 +140,6 @@ public class HandCardsState extends BaseAppState {
         for (int i = 0; i < 20; i++) this.positions[i] = this.computePosition(i);
 
         handCards = new ArrayList<Card>();
-//        cards.add(newCard("Cards/caster/attack/星陨.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-//        cards.add(newCard("Cards/caster/attack/充钱.png"));
-
-//        handCards.add(new Slash());
-//
-//        handCards.add(new Defense());
-//        handCards.add(new Heal());
-//        handCards.add(new Intelligent(true));
-//        handCards.add(newCard("Cards/caster/attack/无限真空刃(+).png"));
-//        handCards.add(newCard("Cards/caster/attack/爆破(+).png"));
-//        handCards.add(newCard("Cards/caster/skill/恶魔契约(+).png"));
         int i = 0;
         int length = handCards.size();
         for (Card card : handCards) {
@@ -165,10 +150,6 @@ public class HandCardsState extends BaseAppState {
             card.setPosition((float) x, (float) y);
             card.rotate(0, 0, (float) angle);
 
-//            System.out.println(angle);
-//            card.rotateUpTo(new Vector3f(0, 0, (float) angle));
-//            Quaternion rotate = card.getLocalRotation();
-//            System.out.printf("z: %f \n",rotate.getZ());
             rootNode.attachChild(card);
             i++;
         }

@@ -13,13 +13,13 @@ import utils.buffs.limitBuffs.Sheild;
 public class CreateCard {
 
     // 获得普通卡的概率为55%
-    private final float getCommonCard = 0.55f;
+    private static final double getCommonCard = 1f;
     // 获得稀有卡的概率为20%
-    private final float getRareCard = 0.20f;
+    private static final double getRareCard = 0.45f;
     // 获得史诗卡的概率为15%
-    private final float getEpicCard = 0.15f;
+    private static final double getEpicCard = 0.25f;
     // 获得传说卡的概率为10%
-    private final float getLegendaryCard = 0.1f;
+    private static final double getLegendaryCard = 0.1f;
 
     //传入卡牌名称和卡牌类型
     public static Card createCard(String cardName, Card.TYPE type) {
@@ -29,19 +29,21 @@ public class CreateCard {
 
     public static Card getRandomCard(Card.OCCUPATION occupation) {
         double random = Math.random();
-        if (random < 0.55) {
-            return getRandomCommonCard(occupation);
-        } else if (random < 0.75) {
-            return getRandomRareCard(occupation);
-        } else if (random < 0.9) {
-            return getRandomEpicCard(occupation);
-        } else {
+        if (random < getLegendaryCard) {
             return getRandomLegendaryCard(occupation);
         }
+        if (random > getLegendaryCard && random < getEpicCard) {
+            return getRandomEpicCard(occupation);
+        }
+        if (random > getEpicCard && random < getRareCard) {
+            return getRandomRareCard(occupation);
+        }
+        return getRandomCommonCard(occupation);
+
 
     }
 
-    public static Card getRandomCommonCard(Card.OCCUPATION occupation) {
+    private static Card getRandomCommonCard(Card.OCCUPATION occupation) {
         if (occupation == Card.OCCUPATION.NEUTRAL) {
             int cardID = (int) (Math.random() * 15) + 1;
             switch (cardID) {
@@ -153,7 +155,7 @@ public class CreateCard {
         }
     }
 
-    public static Card getRandomRareCard(Card.OCCUPATION occupation) {
+    private static Card getRandomRareCard(Card.OCCUPATION occupation) {
         if (occupation == Card.OCCUPATION.NEUTRAL) {
             int cardID = (int) (Math.random() * 6) + 1;
             switch (cardID) {
@@ -217,7 +219,7 @@ public class CreateCard {
         }
     }
 
-    public static Card getRandomEpicCard(Card.OCCUPATION occupation) {
+    private static Card getRandomEpicCard(Card.OCCUPATION occupation) {
         if (occupation == Card.OCCUPATION.NEUTRAL) {
             int cardID = (int) (Math.random() * 2) + 1;
             switch (cardID) {
@@ -268,7 +270,7 @@ public class CreateCard {
         }
     }
 
-    public static Card getRandomLegendaryCard(Card.OCCUPATION occupation) {
+    private static Card getRandomLegendaryCard(Card.OCCUPATION occupation) {
         if (occupation == Card.OCCUPATION.NEUTRAL) {
             int cardID = (int) (Math.random() * 2) + 1;
             switch (cardID) {
