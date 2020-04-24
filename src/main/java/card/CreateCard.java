@@ -8,6 +8,7 @@ import card.saber.power.DivineDefense;
 import card.saber.power.HideTheSword;
 import card.saber.power.ManaBoost;
 import card.saber.skill.*;
+import utils.buffs.limitBuffs.Sheild;
 
 public class CreateCard {
 
@@ -229,7 +230,7 @@ public class CreateCard {
 
             }
         } else if (occupation == Card.OCCUPATION.SABER) {
-            int cardID = (int) (Math.random() * 10) + 1;
+            int cardID = (int) (Math.random() * 11) + 1;
             switch (cardID) {
                 case 1:
                     return new DarkIceTrap();
@@ -251,6 +252,8 @@ public class CreateCard {
                     return new CounterStrikeGesture();
                 case 10:
                     return new HideTheSword();
+                case 11:
+                    return new ShieldBash();
                 default:
                     return null;
 

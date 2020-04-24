@@ -27,6 +27,7 @@ public class SecretPower extends SkillCard {
             return false;
         } else {
             this.upgraded = true;
+            this.exhaust = false;
             this.setCardName("秘密力量+");
             this.setDescription("draw a power card");
 

@@ -28,6 +28,7 @@ public class SecretSkill extends SkillCard {
             return false;
         } else {
             this.upgraded = true;
+            this.exhaust = false;
             this.setCardName("秘密技能+");
             this.setDescription("draw a skill card");
 

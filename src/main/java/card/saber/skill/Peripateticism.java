@@ -23,6 +23,7 @@ public class Peripateticism extends SkillCard {
             return false;
         } else {
             this.upgraded = true;
+            this.exhaust = false;
             this.setCardName("逍遥游+");
             this.setDescription("Earn 2 dodge");
         }

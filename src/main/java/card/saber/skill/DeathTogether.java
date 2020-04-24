@@ -26,6 +26,7 @@ public class DeathTogether extends SkillCard {
             return false;
         } else {
             this.upgraded = true;
+            this.exhaust = false;
             this.setCardName("同生共死+");
             this.setDescription("Reduces your health to 1 and deals equal damage to enemies");
         }

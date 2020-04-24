@@ -21,6 +21,7 @@ public class Crouch extends SkillCard {
         if (this.upgraded) {
             return false;
         } else {
+            this.exhaust = false;
             this.upgraded = true;
             this.setCardName("蹲伏+");
             this.setDescription("gain 13 blocks");

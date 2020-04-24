@@ -22,6 +22,7 @@ public class StaggeringBlow extends AttackCard {
         if (upgraded) return false;
         this.setCardName("当头一击+");
         this.setDamage(9);
+        this.exhaust = false;
         this.upgraded = true;
         this.setDescription("deal 9 damage");
         return true;

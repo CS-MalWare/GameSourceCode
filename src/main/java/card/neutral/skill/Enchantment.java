@@ -19,6 +19,7 @@ public class Enchantment extends SkillCard {
     public Enchantment(boolean upgraded) {
         super(OCCUPATION.NEUTRAL, "魔化+", 3, RARITY.LEGENDARY, "upgrade all skill cards in this battle, gain 3 MP, exhaust");
         this.exhaust = true;
+        this.upgraded = true;
     }
 
 

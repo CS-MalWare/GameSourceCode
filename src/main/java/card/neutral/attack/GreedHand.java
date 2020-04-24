@@ -23,6 +23,7 @@ public class GreedHand extends AttackCard {
         if (upgraded) return false;
         this.setCardName("贪婪之手+");
         this.setDamage(14);
+        this.exhaust = false;
         this.upgraded = true;
         this.setDescription("deal 14 damage, if kill the target, gain extra 15 coin after battle finish");
         return true;
