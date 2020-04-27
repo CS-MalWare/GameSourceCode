@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class LampOfAladdin extends Equipment {
     public LampOfAladdin() {
-        super("Lamp of Aladdin", "阿拉丁的神灯", "Each round, randomly upgrade a card, and then give the card exhaust effect", EquipmentDegree.EPIC, Opportunity.STARTT);
+        super("Lamp of Aladdin", "阿拉丁神灯", "Each round, randomly upgrade a card, and then give the card exhaust effect", EquipmentDegree.EPIC, Opportunity.STARTT);
     }
 
     @Override

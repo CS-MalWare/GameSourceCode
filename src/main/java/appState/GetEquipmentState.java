@@ -26,13 +26,15 @@ import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
+import equipment.CreateEquipment;
+import equipment.Equipment;
 
 import java.util.ArrayList;
 
 import static card.Card.OCCUPATION.NEUTRAL;
 import static card.Card.OCCUPATION.SABER;
 
-public class GetCardState extends BaseAppState {
+public class GetEquipmentState extends BaseAppState {
     private SimpleApplication app;
     private Node rootNode = new Node("GetCardState");
     private AssetManager assetManager;
@@ -40,7 +42,7 @@ public class GetCardState extends BaseAppState {
     private InputManager inputManager;
     private ViewPort viewPort;
     private Camera camera;
-    private ArrayList<Card> card;
+    private ArrayList<Equipment> equipments;
     private MyRawInputListener mril;
 
     @Override
@@ -52,14 +54,14 @@ public class GetCardState extends BaseAppState {
         this.viewPort = app.getViewPort();
         this.camera = app.getCamera();
         mril = new MyRawInputListener();
-        this.card = new ArrayList<Card>() {{
-            add(CreateCard.getRandomCard(Math.random()<0.7?SABER:NEUTRAL));
-            add(CreateCard.getRandomCard(Math.random()<0.7?SABER:NEUTRAL));
-            add(CreateCard.getRandomCard(Math.random()<0.7?SABER:NEUTRAL));
+        this.equipments = new ArrayList<Equipment>() {{
+            add(CreateEquipment.getRandomEquipment());
+            add(CreateEquipment.getRandomEquipment());
+            add(CreateEquipment.getRandomEquipment());
         }};
         BitmapFont fnt = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
         BitmapText word = new BitmapText(fnt, false);//显示的文字
-        word.setText("Please choose one card. You can use the card in continue battles");
+        word.setText("Please choose one equipment. You can use the equipment in continue battles");
         word.setSize(0.2f);
 //        word.setColor(ColorRGBA.Black);
         word.setLocalTranslation(-2.5f, -2.5f, 0);
@@ -79,17 +81,14 @@ public class GetCardState extends BaseAppState {
         try {// 因为懒惰的逸润巨佬卡牌没有做完会爆错，所以这里有个TRY-CATCH
 
             int count = 0;
-            for (Card card : card) {
-                // 每个卡都有0.1的概率直接获得升级版本
-                if(Math.random()<0.1)
-                    card.upgrade();
-                card.setImage(app.getAssetManager(), card.getPath(), true);//将卡牌添加进Assetmanager
-                card.setLocalTranslation(400 + (count++) * 300f, (float) (HandCardsState.height - HandCardsState.cardHeight) / 2, 1);
-                rootNode.attachChild(card);
+            for (Equipment equipment : equipments) {
+                equipment.setImage(app.getAssetManager());//将装备添加进Assetmanager
+                equipment.setLocalTranslation(500 + (count++) * 300f, (float) (HandCardsState.height - 50) / 2, 1);
+                rootNode.attachChild(equipment);
 
             }
         } catch (AssetNotFoundException e) {
-            System.out.println("逸润巨佬快加上这个卡：" + e.getMessage());
+            System.out.println( "缺少："+e.getMessage());
         }
         rootNode.attachChild(word);
 
@@ -120,24 +119,24 @@ public class GetCardState extends BaseAppState {
         return results;
     }
 
-    private void enlargeCard(Card img, Card closest) {
-        closest.setWidth((float) (HandCardsState.cardWidth * 1.25));
-        closest.setHeight((float) (HandCardsState.cardHeight * 1.25));
+    private void enlargeEquipment(Equipment img, Equipment closest) {
+        closest.setWidth((float) (100));
+        closest.setHeight((float) (100));
         Vector3f location = closest.getLocalTranslation();
         closest.setLocalTranslation(location.x, location.y, 1);//通过竖坐标增加来使得图片在前显示
         //放大这个离鼠标最近的图片
 
         if (img != null) {
-            img.setWidth((float) HandCardsState.cardWidth);
-            img.setHeight((float) HandCardsState.cardHeight);
+            img.setWidth((float) 50);
+            img.setHeight((float) 50);
             location = img.getLocalTranslation();
             img.setLocalTranslation(location.x, location.y, 0);//图片还原
         }
     }
 
-    private void recoverCard(Card img) {
-        img.setWidth((float) HandCardsState.cardWidth);
-        img.setHeight((float) HandCardsState.cardHeight);
+    private void recoverEquipment(Equipment img) {
+        img.setWidth((float) 50);
+        img.setHeight((float) 50);
         Vector3f location = img.getLocalTranslation();
         img.setLocalTranslation(location.x, location.y, 0);
     }
@@ -163,8 +162,10 @@ public class GetCardState extends BaseAppState {
     }
 
     class MyRawInputListener implements RawInputListener {
-        Card last = CreateCard.createCard("null", Card.TYPE.ATTACK);//上次划过的图片
-        Card center = CreateCard.createCard("null", Card.TYPE.ATTACK);//屏幕中心的图片
+        Equipment last = null;
+        BitmapFont fnt = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+        BitmapText des = new BitmapText(fnt, false);//显示的文字
+        BitmapText title = new BitmapText(fnt, false);//显示的文字
 
         /**
          * 键盘输入事件
@@ -183,23 +184,34 @@ public class GetCardState extends BaseAppState {
             if (results.size() > 0) {
                 // 获得离射线原点最近的交点所在的图片
                 Geometry res = results.getClosestCollision().getGeometry();
-                Card closest;
+                Equipment closest;
 
-                if (res instanceof Card) {
-                    closest = (Card) res;
+                if (res instanceof Equipment) {
+                    closest = (Equipment) res;
                 } else {
                     return;
                 }
 
                 if (last != closest) {
-                    enlargeCard(last, closest);//放大选中图片
+                    enlargeEquipment(last, closest);//放大选中图片
                     last = closest;
+                    des.setText(last.getDescription());
+                    des.setSize(0.2f);
+//        word.setColor(ColorRGBA.Black);
+                    des.setLocalTranslation(-2.5f, 1.5f, 0);
+                    title.setText(last.getName());
+                    title.setSize(0.3f);
+                    title.setLocalTranslation(-2.5f,2f,0);
+                    rootNode.attachChild(title);
+                    rootNode.attachChild(des);
                 }
             } else {
                 // 使卡牌恢复原状
                 if (last != null) {
-                    recoverCard(last);
-                    last = CreateCard.createCard("null", Card.TYPE.ATTACK);
+                    recoverEquipment(last);
+                    last = null;
+                    des.removeFromParent();
+                    title.removeFromParent();
                 }
             }
 
@@ -217,7 +229,7 @@ public class GetCardState extends BaseAppState {
                     // 获得离射线原点最近的交点所在的图片
                     Geometry res = guiResults.getClosestCollision().getGeometry();
 
-                    if (res instanceof Card) {
+                    if (res instanceof Equipment) {
 //                        System.out.println((Card)res);
                         // TODO 将卡牌放入卡堆中，等待逸润巨佬加上卡堆
                         res.removeFromParent();

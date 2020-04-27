@@ -7,7 +7,7 @@ public class WomenClothesOfCYX extends Equipment {
     boolean work;
 
     public WomenClothesOfCYX() {
-        super("Women clothes of CYX", "陈钰煊的女装", "When receiving fatal damage, restore HP to 20% and discard this equipment", EquipmentDegree.EPIC, Opportunity.DEAD);
+        super("Women clothes of CYX", "陈宇轩的女装", "When receiving fatal damage, restore HP to 20% and discard this equipment", EquipmentDegree.EPIC, Opportunity.DEAD);
         work = true;
     }
 

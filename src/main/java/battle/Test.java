@@ -39,7 +39,8 @@ public class Test extends SimpleApplication {
 //                , new DecksState()
 //                , new LeadingActorState()
 //                , new BattleBackGroundState()
-                 new GetCardState()
+//                , new GetCardState()
+                new GetEquipmentState()
         );
     }
 

@@ -5,7 +5,7 @@ import utils.buffs.limitBuffs.Stun;
 
 public class CYXArtificialHair extends Equipment {
     public CYXArtificialHair() {
-        super("CYX's artificial hair", "陈钰炫的假发", "When I get damage, there is 10% of stunning a random enemy", EquipmentDegree.RARE, Opportunity.GETD);
+        super("CYX's artificial hair", "陈宇轩的假发", "When I get damage, there is 10% of stunning a random enemy", EquipmentDegree.RARE, Opportunity.GETD);
     }
 
     @Override
