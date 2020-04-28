@@ -31,9 +31,9 @@ public class CreateEquipment {
 
     }
 
-    private static Equipment getRandomCommonEquipment() {
-        int equipmentId = (int)(Math.random()*19);
-        switch (equipmentId){
+    public static Equipment getRandomCommonEquipment() {
+        int equipmentId = (int) (Math.random() * 19);
+        switch (equipmentId) {
             case 1:
                 return new Battery();
             case 2:
@@ -75,13 +75,13 @@ public class CreateEquipment {
         }
     }
 
-    private static Equipment getRandomRareEquipment() {
-        int equipmentId = (int)(Math.random()*17);
-        switch (equipmentId){
+    public static Equipment getRandomRareEquipment() {
+        int equipmentId = (int) (Math.random() * 17);
+        switch (equipmentId) {
             case 1:
                 return new AlienwareOfWGL();
             case 2:
-                return  new BlueTramcer();
+                return new BlueTramcer();
             case 3:
                 return new ComboStar();
             case 4:
@@ -115,9 +115,9 @@ public class CreateEquipment {
         }
     }
 
-    private static Equipment getRandomEpicEquipment() {
-        int equipmentId = (int)(Math.random()*11);
-        switch (equipmentId){
+    public static Equipment getRandomEpicEquipment() {
+        int equipmentId = (int) (Math.random() * 11);
+        switch (equipmentId) {
             case 1:
                 return new ArmstrongGun();
             case 2:
@@ -143,9 +143,9 @@ public class CreateEquipment {
         }
     }
 
-    private static Equipment getRandomLegendaryEquipment() {
-        int equipmentId = (int)(Math.random()*11);
-        switch (equipmentId){
+    public static Equipment getRandomLegendaryEquipment() {
+        int equipmentId = (int) (Math.random() * 11);
+        switch (equipmentId) {
             case 1:
                 return new BalancedLibra();
             case 2:
