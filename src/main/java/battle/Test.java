@@ -20,6 +20,7 @@ import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.AppSettings;
 import com.jme3.ui.Picture;
+import equipment.CreateEquipment;
 import equipment.epic.ArmstrongGun;
 import equipment.legendary.BalancedLibra;
 import equipment.legendary.MerlinGown;
@@ -52,7 +53,7 @@ public class Test extends SimpleApplication {
         mainRole.getEquipment(new MerlinGown());
         mainRole.getEquipment(new MerlinWand());
         mainRole.getEquipment(new ArmstrongGun());
-
+        mainRole.getEquipment(CreateEquipment.getRandomEquipment());
         addLight();
     }
 

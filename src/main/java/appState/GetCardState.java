@@ -2,6 +2,7 @@ package appState;
 
 import card.Card;
 import card.CreateCard;
+import character.MainRole;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
@@ -83,7 +84,7 @@ public class GetCardState extends BaseAppState {
                 // 每个卡都有0.1的概率直接获得升级版本
                 if(Math.random()<0.1)
                     card.upgrade();
-                card.setImage(app.getAssetManager(), card.getPath(), true);//将卡牌添加进Assetmanager
+                card.setImage(app.getAssetManager());//将卡牌添加进Assetmanager
                 card.setLocalTranslation(400 + (count++) * 300f, (float) (HandCardsState.height - HandCardsState.cardHeight) / 2, 1);
                 rootNode.attachChild(card);
 
@@ -219,7 +220,7 @@ public class GetCardState extends BaseAppState {
 
                     if (res instanceof Card) {
 //                        System.out.println((Card)res);
-                        // TODO 将卡牌放入卡堆中，等待逸润巨佬加上卡堆
+                        MainRole.getInstance().getCard((Card) res);
                         res.removeFromParent();
                         // 完成操作，删除这个 state
                         finish();

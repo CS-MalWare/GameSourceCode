@@ -2,6 +2,7 @@ package appState;
 
 import card.Card;
 import card.CreateCard;
+import character.MainRole;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
@@ -54,11 +55,31 @@ public class GetEquipmentState extends BaseAppState {
         this.viewPort = app.getViewPort();
         this.camera = app.getCamera();
         mril = new MyRawInputListener();
-        this.equipments = new ArrayList<Equipment>() {{
-            add(CreateEquipment.getRandomEquipment());
-            add(CreateEquipment.getRandomEquipment());
-            add(CreateEquipment.getRandomEquipment());
-        }};
+
+        ArrayList<Equipment> alreadyHave = MainRole.getInstance().getEquipments();
+        this.equipments = new ArrayList<Equipment>();
+        int t = 0;
+        while (t < 3) {
+            Equipment random = CreateEquipment.getRandomEquipment();
+            boolean flag = true;
+            for (Equipment equipment : alreadyHave) {
+                if (equipment.getName().equals(random.getName())) {
+                    flag = false;
+                    break;
+                }
+            }
+
+            for (Equipment equipment : equipments) {
+                if (equipment.getName().equals(random.getName())) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                t++;
+                equipments.add(random);
+            }
+        }
         BitmapFont fnt = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
         BitmapText word = new BitmapText(fnt, false);//显示的文字
         word.setText("Please choose one equipment. You can use the equipment in continue battles");
@@ -88,7 +109,7 @@ public class GetEquipmentState extends BaseAppState {
 
             }
         } catch (AssetNotFoundException e) {
-            System.out.println( "缺少："+e.getMessage());
+            System.out.println("缺少：" + e.getMessage());
         }
         rootNode.attachChild(word);
 
@@ -201,7 +222,7 @@ public class GetEquipmentState extends BaseAppState {
                     des.setLocalTranslation(-2.5f, 1.5f, 0);
                     title.setText(last.getName());
                     title.setSize(0.3f);
-                    title.setLocalTranslation(-2.5f,2f,0);
+                    title.setLocalTranslation(-2.5f, 2f, 0);
                     rootNode.attachChild(title);
                     rootNode.attachChild(des);
                 }
@@ -231,7 +252,8 @@ public class GetEquipmentState extends BaseAppState {
 
                     if (res instanceof Equipment) {
 //                        System.out.println((Card)res);
-                        // TODO 将卡牌放入卡堆中，等待逸润巨佬加上卡堆
+                        // 将装备加入到玩家手中
+                        MainRole.getInstance().getEquipment((Equipment) res);
                         res.removeFromParent();
                         // 完成操作，删除这个 state
                         finish();
