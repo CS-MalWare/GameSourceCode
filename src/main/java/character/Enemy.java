@@ -84,8 +84,8 @@ public abstract class Enemy extends Role {
     }
 
 
-    //新回合，重随下回合随机事件
-    public void newTurn() {
+    //每次行动完调用，重随下回合随机事件
+    public void newAction() {
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 

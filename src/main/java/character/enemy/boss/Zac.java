@@ -9,15 +9,15 @@ public class Zac extends Enemy {
     private boolean canImprove = true;//是否能够触发生命值在50%下增加能力
     public Zac(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
-        this.nextActionSet =  new String[]
-                {
-                        "this enemy will deal 25 damages to you",
-                        "this enemy will deal 4*8 damages to you",
-                        "this enemy will inflict debuffs on you",
-                        "this enemy will gain 50 blocks",
-                        "this enemy will inflict strong curses on you",
-                        "this enemy will gain some buff",
-                };
+
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(25)),
+                String.format(hints[7],computeDamage(4),8),
+                hints[1],
+                String.format(hints[3], computeBlock(50)),
+                hints[2],
+                hints[5],
+        };
         this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
         this.getBuff(new Intangible(this,1));
     }
@@ -28,22 +28,7 @@ public class Zac extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(25)),
-                String.format(hints[7],computeDamage(4),8),
-                hints[1],
-                String.format(hints[3], computeBlock(50)),
-                hints[2],
-                hints[5],
-        };
-        newTurn();
-    }
 
-    @Override
-    public void newTurn() {
-        super.newTurn();
-
-        //每回合开始重置受伤倍数
         this.setMultiplyingGetDamage(1.0);
 
         //当生命值小于50%增加能力
@@ -53,6 +38,7 @@ public class Zac extends Enemy {
             this.setDexterity(this.getDexterity()+5);
         }
     }
+
 
     //重写获得伤害的方法，用于每次受伤增加下次收到伤害
     @Override
@@ -68,21 +54,27 @@ public class Zac extends Enemy {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
+                this.newAction();
                 return "boss attack";
             case 1:
                 this.attack2();
+                this.newAction();
                 return "boss attack";
             case 2:
                 this.releaseDebuff();
+                this.newAction();
                 return "boss skill";
             case 3:
                 this.getBlocks();
+                this.newAction();
                 return "boss skill";
             case 4:
                 this.releaseCurses();
+                this.newAction();
                 return "boss skill";
             case 5:
                 this.releaseBuff();
+                this.newAction();
                 return "boss skill";
             default:
                 return "";

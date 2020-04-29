@@ -13,25 +13,7 @@ public class Ace extends Enemy {
     public Ace(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
 
-        this.nextActionSet = new String[]
-                {
-                        "this enemy will deal 25 damages to you",
-                        "this enemy will gain some buff",
-                        "this enemy will inflict debuffs on you",
-                        "this enemy will gain 20 blocks",
-                        "this enemy will exert strong blessing on itself",
-                        "this enemy will deal 4*4 damages to you",
-                        "this enemy will deal 10 damages to you and gain 10 blocks"
-                };
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
-    }
 
-    @Override
-    public void startTurn() {
-        super.startTurn();
-        if (stun.getDuration() > 0) {
-            return;
-        }
         this.nextActionSet = new String[]{
                 String.format(hints[0], computeDamage(25)),
                 hints[5],
@@ -41,16 +23,20 @@ public class Ace extends Enemy {
                 String.format(hints[7],computeDamage(4),4),
                 String.format(hints[4],computeDamage(10),computeBlock(10)),
         };
-        newTurn();
+        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
     }
 
     @Override
-    public void newTurn() {
-        super.newTurn();
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
         if(turnCount%3==0){
             this.target.getBuff(new Poison(this.target, 2));
         }
     }
+
 
     //重写受伤事件，因为有一定几率闪避, 受伤会增加格挡数
     @Override
@@ -71,24 +57,31 @@ public class Ace extends Enemy {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
+                this.newAction();
                 return "boss attack";
             case 1:
                 this.releaseBuff();
+                this.newAction();
                 return "boss skill";
             case 2:
                 this.releaseDebuff();
+                this.newAction();
                 return "boss skill";
             case 3:
                 this.getBlocks();
+                this.newAction();
                 return "boss skill";
             case 4:
                 this.getBlessing();
+                this.newAction();
                 return "boss skill";
             case 5:
                 this.attack2();
+                this.newAction();
                 return "boss attack";
             case 6:
                 this.getBlockAndAttack();
+                this.newAction();
                 return "boss attack";
             default:
                 return "";

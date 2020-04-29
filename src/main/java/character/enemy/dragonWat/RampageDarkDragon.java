@@ -9,10 +9,10 @@ public class RampageDarkDragon extends Enemy {
     public RampageDarkDragon(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
         this.nextActionSet = new String[]{
-                "this enemy will deal 30 damages to you",
-                "this enemy will inflict debuffs on you",
-                "this enemy will gain 20 blocks",
-                "this enemy will deal 5*4 damages to you",
+                String.format(hints[0], computeDamage(30)),
+                hints[1],
+                String.format(hints[3], computeBlock(20)),
+                String.format(hints[7],computeDamage(5),4),
         };
         this.nextActionIndex = (int)(Math.random()*(this.nextActionSet.length));
     }
@@ -23,13 +23,7 @@ public class RampageDarkDragon extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(30)),
-                hints[1],
-                String.format(hints[3], computeBlock(20)),
-                String.format(hints[7],computeDamage(5),4),
-        };
-        newTurn();
+
     }
 
     @Override
@@ -37,15 +31,19 @@ public class RampageDarkDragon extends Enemy {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
+                this.newAction();
                 return "dragon attack";
             case 1:
                 this.releaseDebuff();
+                this.newAction();
                 return "dragon skill";
             case 2:
                 this.getBlocks();
+                this.newAction();
                 return "dragon skill";
             case 3:
                 this.attack2();
+                this.newAction();
                 return "dragon attack";
             default:
                 return "";

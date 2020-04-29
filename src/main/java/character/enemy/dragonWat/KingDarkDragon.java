@@ -7,22 +7,7 @@ public class KingDarkDragon extends Enemy {
     public KingDarkDragon(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
 
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
-        this.nextActionSet = new String[]{
-                "this enemy will deal 20 damages to you",
-                "this enemy will inflict debuffs on you",
-                "this enemy will gain 25 blocks",
-                "this enemy will deal 4*4 damages to you",
-                "this enemy will deal 10 damages to you and gain 20 blocks"
-        };
-        this.nextActionIndex = (int)(Math.random()*(this.nextActionSet.length));
-    }
 
-    @Override
-    public void startTurn() {
-        super.startTurn();
-        if (stun.getDuration() > 0) {
-            return;
-        }
         this.nextActionSet = new String[]{
                 String.format(hints[0], computeDamage(20)),
                 hints[1],
@@ -30,33 +15,42 @@ public class KingDarkDragon extends Enemy {
                 String.format(hints[7],computeDamage(4),4),
                 String.format(hints[4],computeDamage(10),computeBlock(20))
         };
-        newTurn();
+        this.nextActionIndex = (int)(Math.random()*(this.nextActionSet.length));
     }
 
     @Override
-    public void newTurn() {
-        super.newTurn();
+    public void startTurn() {
+        super.startTurn();
         this.target.getTrueDamage(1);
         this.treat(2);
+        if (stun.getDuration() > 0) {
+            return;
+        }
     }
+
 
     @Override
     public String enemyAction() {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
+                this.newAction();
                 return "dragon attack";
             case 1:
                 this.releaseDebuff();
+                this.newAction();
                 return "dragon skill";
             case 2:
                 this.getBlocks();
+                this.newAction();
                 return "dragon skill";
             case 3:
                 this.attack2();
+                this.newAction();
                 return "dragon attack";
             case 4:
                 this.getBlockAndAttack();
+                this.newAction();
                 return "dragon attack";
             default:
                 return "";

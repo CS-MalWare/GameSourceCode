@@ -9,15 +9,15 @@ public class EliteRobot extends Enemy {
     public EliteRobot(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
 
-        this.nextActionSet = new String[]
-                {
-                        "this enemy will deal 20 damages to you",
-                        "this enemy will inflict strong curses on you",
-                        "this enemy will gain 25 blocks",
-                        "this enemy will gain some buff",
-                        "this enemy will deal 15*2 damages to you",
-                        "???"//这里是恢复15%已损失生命值，造成等量伤害（hp处于50%以下的时候可能使用）
-                };
+
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(20)),
+                hints[2],
+                String.format(hints[3], computeBlock(25)),
+                hints[5],
+                String.format(hints[7],computeDamage(15),2),
+                "???"
+        };
         this.nextActionIndex = (int)(Math.random()*(this.nextActionSet.length-1));//第一回合不可能随机到最后一个事件
     }
 
@@ -27,21 +27,6 @@ public class EliteRobot extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(20)),
-                hints[2],
-                String.format(hints[3], computeBlock(25)),
-                hints[5],
-                String.format(hints[7],computeDamage(15),2),
-                "???"
-        };
-        newTurn();
-    }
-
-    @Override
-    public void newTurn() {
-        super.newTurn();
-
         // 确保50%以下血量才能触发最后一个事件
         while(this.nextActionIndex==this.nextActionSet.length-1){
             if(this.getHP()<0.5*this.getTotalHP()){
@@ -54,26 +39,33 @@ public class EliteRobot extends Enemy {
     }
 
 
+
     @Override
     public String enemyAction() {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
+                this.newAction();
                 return "robot attack";
             case 1:
                 this.releaseCurses();
+                this.newAction();
                 return "robot skill";
             case 2:
                 this.getBlocks();
+                this.newAction();
                 return "robot skill";
             case 3:
                 this.releaseBuff();
+                this.newAction();
                 return "robot skill";
             case 4:
                 this.attack2();
+                this.newAction();
                 return "robot attack";
             case 5:
                 this.$();
+                this.newAction();
                 return "robot attack";
             default:
                 return "";

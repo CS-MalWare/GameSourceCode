@@ -288,7 +288,7 @@ public class EnemyState extends BaseAppState {
                     buffDisplayBoard.setQueueBucket(RenderQueue.Bucket.Transparent);
                     buffDisplayBoard.setMaterial(mt);
                     rootNode.attachChild(buffDisplayBoard);
-                    String txtB = "This character's buff:\n";
+                    String txtB = String.format("%s\n",targetEnemy.getNextActionDescription());
                     if (targetEnemy != null) {
                         txtB += String.format("   Strength: %d      ", targetEnemy.getStrength());
                         txtB += String.format("  Dexterity: %d       \n", targetEnemy.getDexterity());

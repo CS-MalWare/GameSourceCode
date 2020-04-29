@@ -8,12 +8,11 @@ public class Robot extends Enemy {
     //TODO 固化HP和SRC等属性
     public Robot(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
-        this.nextActionSet = new String[]
-                {
-                        "this enemy will gain some buff",
-                        "this enemy will deal 10 damages to you and gain 10 blocks",
-                        "this enemy will gain 14 blocks",
-                };
+        this.nextActionSet = new String[]{
+                hints[5],
+                String.format(hints[0], computeDamage(10)),
+                String.format(hints[3],computeBlock(14)),
+        };
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
@@ -23,12 +22,7 @@ public class Robot extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-        this.nextActionSet = new String[]{
-                hints[5],
-                String.format(hints[0], computeDamage(10)),
-                String.format(hints[3],computeBlock(14)),
-        };
-        newTurn();
+
     }
 
     @Override
@@ -36,12 +30,15 @@ public class Robot extends Enemy {
         switch (this.nextActionIndex){
             case 0:
                 releaseBuff();
+                this.newAction();
                 return "robot skill";
             case 1:
                 getBlockAndAttack();
+                this.newAction();
                 return "robot attack";
             case 2:
                 getBlocks();
+                this.newAction();
                 return "robot skill";
             default:
                 return "";

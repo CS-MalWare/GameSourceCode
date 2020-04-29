@@ -10,12 +10,12 @@ public class RedSilme extends Enemy {
     //TODO 固化HP和src等属性
     public RedSilme(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
-        this.nextActionSet = new String[]
-                {
-                        "this enemy will deal 9 damages to you",
-                        "this enemy will inflict debuffs on you",
-                        "this enemy will deal 5 damages to you and gain 7 block",
-                };
+
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(9)),
+                hints[1],
+                String.format(hints[4], computeDamage(5), computeBlock(7)),
+        };
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
@@ -25,12 +25,6 @@ public class RedSilme extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(9)),
-                hints[1],
-                String.format(hints[4], computeDamage(5), computeBlock(7)),
-        };
-        newTurn();
     }
 
     @Override
@@ -79,12 +73,15 @@ public class RedSilme extends Enemy {
         switch (this.nextActionIndex){
             case 0:
                 attack();
+                this.newAction();
                 return "slime attack";
             case 1:
                 releaseDebuff();
+                this.newAction();
                 return "slime skill";
             case 2:
                 getBlockAndAttack();
+                this.newAction();
                 return "slime attack";
             default:
                 return "";

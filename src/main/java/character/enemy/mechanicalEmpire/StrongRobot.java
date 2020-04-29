@@ -7,12 +7,11 @@ public class StrongRobot extends Enemy {
     //TODO 固化HP和SRC等属性
     public StrongRobot(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
-        this.nextActionSet = new String[]
-                {
-                        "this enemy will deal 20 damages to you",
-                        "this enemy will exert strong blessing on itself",
-                        "this enemy will gain 15 block"
-                };
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(20)),
+                hints[6],
+                String.format(hints[3],computeBlock(15)),
+        };
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
@@ -22,12 +21,7 @@ public class StrongRobot extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(20)),
-                hints[6],
-                String.format(hints[3],computeBlock(15)),
-        };
-        newTurn();
+
     }
 
     @Override
@@ -35,12 +29,15 @@ public class StrongRobot extends Enemy {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
+                this.newAction();
                 return "robot attack";
             case 1:
                 this.getBlessing();
+                this.newAction();
                 return "robot skill";
             case 2:
                 this.getBlocks();
+                this.newAction();
                 return "robot skill";
             default:
                 return "";

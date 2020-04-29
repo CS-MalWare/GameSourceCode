@@ -13,26 +13,7 @@ public class SteamRobot extends Enemy {
     public SteamRobot(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
 
-        this.nextActionSet = new String[]
-                {
-                        "this enemy will gain 20 blocks",
-                        "this enemy will inflict debuffs on you",
-                        "this enemy will gain some buff",
-                        "this enemy will deal 45 damages to you",
-                        "this enemy will inflict strong curses on you",
-                        "this enemy will deal 15 damages to you and gain 15 blocks",
-                        "this enemy will deal 10*3 damages to you",
-                        "this enemy will deal 15 damages to you"
-                };
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
-    }
 
-    @Override
-    public void startTurn() {
-        super.startTurn();
-        if (stun.getDuration() > 0) {
-            return;
-        }
         this.nextActionSet = new String[]{
                 String.format(hints[3], computeBlock(20)),
                 hints[1],
@@ -43,7 +24,15 @@ public class SteamRobot extends Enemy {
                 String.format(hints[7],computeBlock(10),3),
                 String.format(hints[0],computeDamage(15)),
         };
-        newTurn();
+        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
+    }
+
+    @Override
+    public void startTurn() {
+        super.startTurn();
+        if (stun.getDuration() > 0) {
+            return;
+        }
     }
 
     @Override
@@ -51,27 +40,35 @@ public class SteamRobot extends Enemy {
         switch (this.nextActionIndex){
             case 0:
                 this.getBlocks();
+                this.newAction();
                 return "robot skill";
             case 1:
                 this.releaseDebuff();
+                this.newAction();
                 return "robot skill";
             case 2:
                 this.releaseBuff();
+                this.newAction();
                 return "robot skill";
             case 3:
                 this.attack();
+                this.newAction();
                 return "robot attack";
             case 4:
                 this.releaseCurses();
+                this.newAction();
                 return "robot skill";
             case 5:
                 this.getBlockAndAttack();
+                this.newAction();
                 return "robot attack";
             case 6:
                 this.attack2();
+                this.newAction();
                 return "robot attack";
             case 7:
                 this.attack3();
+                this.newAction();
                 return "robot attack";
             default:
                 return "";

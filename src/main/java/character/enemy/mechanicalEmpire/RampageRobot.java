@@ -11,13 +11,11 @@ public class RampageRobot extends Enemy {
     //TODO 固化HP和SRC等属性
     public RampageRobot(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
-        this.nextActionSet = new String[]
-                {
-                        "this enemy will deal 20 damages to you",
-                        "this enemy will inflict debuffs on you",
-                        "this enemy will deal 10 damage to you and gain 10 blocks"
-
-                };
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(20)),
+                hints[1],
+                String.format(hints[4], computeDamage(10), computeBlock(10)),
+        };
         this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
         this.getBuff(new Intangible(this,2));
     }
@@ -28,24 +26,22 @@ public class RampageRobot extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(20)),
-                hints[1],
-                String.format(hints[4], computeDamage(10), computeBlock(10)),
-        };
-        newTurn();
+
     }
     @Override
     public String enemyAction() {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
+                this.newAction();
                 return "robot attack";
             case 1:
                 this.releaseDebuff();
+                this.newAction();
                 return "robot skill";
             case 2:
                 this.getBlockAndAttack();
+                this.newAction();
                 return "robot attack";
             default:
                 return "";

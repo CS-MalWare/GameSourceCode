@@ -8,15 +8,15 @@ public class Faker extends Enemy {
     private int lastDamageSum = 1;
     public Faker(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
-        this.nextActionSet =  new String[]
-                {
-                        "this enemy will deal 40 damages to you",
-                        "this enemy will deal 10 damages to you and gain 20 blocks",
-                        "this enemy will deal ? damages to you",
-                        "this enemy will inflict debuffs on you",
-                        "this enemy will deal 5*5 damages to you",
-                        "???"
-                };
+
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(40)),
+                String.format(hints[4],computeDamage(10),computeBlock(20)),
+                String.format(hints[0],computeDamage(lastDamageSum)),
+                hints[1],
+                String.format(hints[7],computeDamage(5),5),
+                "???"
+        };
         this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
     }
 
@@ -26,15 +26,7 @@ public class Faker extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(40)),
-                String.format(hints[4],computeDamage(10),computeBlock(20)),
-                String.format(hints[0],computeDamage(lastDamageSum)),
-                hints[1],
-                String.format(hints[7],computeDamage(5),5),
-                "???"
-        };
-        newTurn();
+        this.target.decMP(1);
     }
 
     @Override
@@ -42,21 +34,27 @@ public class Faker extends Enemy {
         switch (this.nextActionIndex){
             case 0:
                 this.attack();
+                this.newAction();
                 return "boss attack";
             case 1:
                 this.getBlockAndAttack();
+                this.newAction();
                 return "boss attack";
             case 2:
                 this.attack2();
+                this.newAction();
                 return "boss attack";
             case 3:
                 this.releaseDebuff();
+                this.newAction();
                 return "boss skill";
             case 4:
                 this.attack3();
+                this.newAction();
                 return "boss attack";
             case 5:
                 this.$();
+                this.newAction();
                 return "boss skill";
             default:
                 return "";
@@ -64,11 +62,6 @@ public class Faker extends Enemy {
         }
     }
 
-    @Override
-    public void newTurn() {
-        super.newTurn();
-        this.target.decMP(1);
-    }
 
     //当faker受到一次减少10点以上hp的伤害时候,会对玩家造成5点伤害
     //玩家对该BOSS造成伤害时候,BOSS会改变行动

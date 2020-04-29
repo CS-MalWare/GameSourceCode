@@ -8,15 +8,15 @@ public class Tuxnet extends Enemy {
     private int lastDamageSum = 15;
     public Tuxnet(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
-        this.nextActionSet =  new String[]
-                {
-                        "this enemy will deal ? damages to you",
-                        "this enemy will deal 1*8 damages to you",
-                        "this enemy will gain 4*4 blocks",
-                        "this enemy will deal 30 damages to you and gain 15 blocks",
-                        "this enemy will gain some buff",
-                        "this enemy will inflict strong curses on you"
-                };
+
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(lastDamageSum)),
+                String.format(hints[7],computeDamage(1),8),
+                "this enemy will gain some blocks",
+                String.format(hints[4],computeDamage(30),computeBlock(15)),
+                hints[5],
+                hints[2]
+        };
         this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
     }
 
@@ -26,46 +26,6 @@ public class Tuxnet extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(lastDamageSum)),
-                String.format(hints[7],computeDamage(1),8),
-                "this enemy will gain some blocks",
-                String.format(hints[4],computeDamage(30),computeBlock(15)),
-                hints[5],
-                hints[2]
-        };
-        newTurn();
-    }
-
-    @Override
-    public String enemyAction() {
-        switch (this.nextActionIndex){
-            case 0:
-                this.attack();
-                return "boss attack";
-            case 1:
-                this.attack2();
-                return "boss attack";
-            case 2:
-                this.getBlocks();
-                return "boss skill";
-            case 3:
-                this.getBlockAndAttack();
-                return "boss attack";
-            case 4:
-                this.releaseBuff();
-                return "boss skill";
-            case 5:
-                this.releaseCurses();
-                return "boss skill";
-            default:
-                return "";
-        }
-    }
-
-    @Override
-    public void newTurn() {
-        super.newTurn();
         if(this.getHP()<100){
             this.target.decMP(1);
         }
@@ -96,6 +56,39 @@ public class Tuxnet extends Enemy {
                 break;
             default:
                 break;
+        }
+
+    }
+
+    @Override
+    public String enemyAction() {
+        switch (this.nextActionIndex){
+            case 0:
+                this.attack();
+                this.newAction();
+                return "boss attack";
+            case 1:
+                this.attack2();
+                this.newAction();
+                return "boss attack";
+            case 2:
+                this.getBlocks();
+                this.newAction();
+                return "boss skill";
+            case 3:
+                this.getBlockAndAttack();
+                this.newAction();
+                return "boss attack";
+            case 4:
+                this.releaseBuff();
+                this.newAction();
+                return "boss skill";
+            case 5:
+                this.releaseCurses();
+                this.newAction();
+                return "boss skill";
+            default:
+                return "";
         }
     }
 
