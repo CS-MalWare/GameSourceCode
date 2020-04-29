@@ -29,7 +29,11 @@ public class KingSlime extends Enemy {
             return;
         }
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
-
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(35)),
+                hints[1],
+                hints[2]
+        };
     }
 
 

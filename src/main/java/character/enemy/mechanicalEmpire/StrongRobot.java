@@ -21,7 +21,11 @@ public class StrongRobot extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(20)),
+                hints[6],
+                String.format(hints[3],computeBlock(15)),
+        };
     }
 
     @Override

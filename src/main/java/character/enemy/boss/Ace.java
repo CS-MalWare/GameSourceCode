@@ -20,10 +20,10 @@ public class Ace extends Enemy {
                 hints[1],
                 String.format(hints[3], computeBlock(20)),
                 hints[6],
-                String.format(hints[7],computeDamage(4),4),
-                String.format(hints[4],computeDamage(10),computeBlock(10)),
+                String.format(hints[7], computeDamage(4), 4),
+                String.format(hints[4], computeDamage(10), computeBlock(10)),
         };
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
     @Override
@@ -32,29 +32,37 @@ public class Ace extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-        if(turnCount%3==0){
+        if (turnCount % 3 == 0) {
             this.target.getBuff(new Poison(this.target, 2));
         }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(25)),
+                hints[5],
+                hints[1],
+                String.format(hints[3], computeBlock(20)),
+                hints[6],
+                String.format(hints[7], computeDamage(4), 4),
+                String.format(hints[4], computeDamage(10), computeBlock(10)),
+        };
     }
 
 
     //重写受伤事件，因为有一定几率闪避, 受伤会增加格挡数
     @Override
     public int getDamage(int damage) {
-        if(Math.random()*3<1 && this.getHP()*5<this.getTotalHP()) {
+        if (Math.random() * 3 < 1 && this.getHP() * 5 < this.getTotalHP()) {
             this.target.getBuff(new Poison(this.target, 1));
             return super.getDamage(1);
-        }
-        else {
-            int tempDamage =  super.getDamage(damage);
-            this.setBlock(this.getBlock()+(int)(tempDamage*0.5));
+        } else {
+            int tempDamage = super.getDamage(damage);
+            this.setBlock(this.getBlock() + (int) (tempDamage * 0.5));
             return tempDamage;
         }
     }
 
     @Override
     public String enemyAction() {
-        switch (this.nextActionIndex){
+        switch (this.nextActionIndex) {
             case 0:
                 this.attack();
                 this.newAction();
@@ -97,8 +105,8 @@ public class Ace extends Enemy {
 
     }
 
-    protected void attack2(){
-        for(int i = 0;i<4;i++){
+    protected void attack2() {
+        for (int i = 0; i < 4; i++) {
             this.target.getDamage(computeDamage(4));
         }
 
@@ -118,8 +126,8 @@ public class Ace extends Enemy {
 
     @Override
     protected void getBlocks() {
-        this.setBlock(this.getBlock()+computeBlock(20));
-        this.getBuff(new Intangible(this,1));
+        this.setBlock(this.getBlock() + computeBlock(20));
+        this.getBuff(new Intangible(this, 1));
 
     }
 
@@ -132,12 +140,12 @@ public class Ace extends Enemy {
 
     @Override
     protected void releaseBuff() {
-        this.getBuff(new Dodge(this,1));
+        this.getBuff(new Dodge(this, 1));
     }
 
     @Override
     protected void getBlessing() {
-        this.setStrength(this.getStrength()+3);
-        this.getBuff(new Dodge(this,1));
+        this.setStrength(this.getStrength() + 3);
+        this.getBuff(new Dodge(this, 1));
     }
 }

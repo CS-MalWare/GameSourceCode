@@ -25,7 +25,13 @@ public class KingDarkDragon extends Enemy {
         this.treat(2);
         if (stun.getDuration() > 0) {
             return;
-        }
+        }this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(20)),
+                hints[1],
+                String.format(hints[3],computeBlock(25)),
+                String.format(hints[7],computeDamage(4),4),
+                String.format(hints[4],computeDamage(10),computeBlock(20))
+        };
     }
 
 

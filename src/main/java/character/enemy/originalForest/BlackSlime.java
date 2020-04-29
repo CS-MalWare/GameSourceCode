@@ -23,7 +23,11 @@ public class BlackSlime extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(7)),
+                hints[1],
+                hints[6]
+        };
     }
 
     @Override

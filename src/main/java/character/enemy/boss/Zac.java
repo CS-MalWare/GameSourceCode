@@ -37,6 +37,14 @@ public class Zac extends Enemy {
             this.setStrength(this.getStrength()+5);
             this.setDexterity(this.getDexterity()+5);
         }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(25)),
+                String.format(hints[7],computeDamage(4),8),
+                hints[1],
+                String.format(hints[3], computeBlock(50)),
+                hints[2],
+                hints[5],
+        };
     }
 
 

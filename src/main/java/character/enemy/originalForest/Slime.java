@@ -24,7 +24,11 @@ class Slime extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(5)),
+                hints[1],
+                String.format(hints[3], computeBlock(5)),
+        };
     }
 
     @Override

@@ -22,6 +22,10 @@ public class OneEyedWolfman extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(5)),
+                hints[5],
+        };
     }
 
     @Override

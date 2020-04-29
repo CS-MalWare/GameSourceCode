@@ -57,7 +57,14 @@ public class Tuxnet extends Enemy {
             default:
                 break;
         }
-
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(lastDamageSum)),
+                String.format(hints[7],computeDamage(1),8),
+                "this enemy will gain some blocks",
+                String.format(hints[4],computeDamage(30),computeBlock(15)),
+                hints[5],
+                hints[2]
+        };
     }
 
     @Override

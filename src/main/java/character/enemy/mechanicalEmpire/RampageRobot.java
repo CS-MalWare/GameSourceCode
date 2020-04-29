@@ -26,7 +26,11 @@ public class RampageRobot extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(20)),
+                hints[1],
+                String.format(hints[4], computeDamage(10), computeBlock(10)),
+        };
     }
     @Override
     public String enemyAction() {

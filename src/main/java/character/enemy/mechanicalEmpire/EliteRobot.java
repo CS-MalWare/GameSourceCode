@@ -36,6 +36,14 @@ public class EliteRobot extends Enemy {
                 this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
             }
         }
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(20)),
+                hints[2],
+                String.format(hints[3], computeBlock(25)),
+                hints[5],
+                String.format(hints[7],computeDamage(15),2),
+                "???"
+        };
     }
 
 

@@ -25,6 +25,11 @@ public class EliteSlime extends Enemy {
             return;
         }
         this.treat(5);//每回合开始回复5点血量
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(20)),
+                hints[1],
+                String.format(hints[4], computeDamage(5), computeBlock(10)),
+        };
     }
 
 

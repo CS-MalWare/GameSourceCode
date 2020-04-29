@@ -22,7 +22,11 @@ public class Robot extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-
+        this.nextActionSet = new String[]{
+                hints[5],
+                String.format(hints[0], computeDamage(10)),
+                String.format(hints[3],computeBlock(14)),
+        };
     }
 
     @Override

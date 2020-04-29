@@ -32,7 +32,16 @@ public class SteamRobot extends Enemy {
         super.startTurn();
         if (stun.getDuration() > 0) {
             return;
-        }
+        }this.nextActionSet = new String[]{
+                String.format(hints[3], computeBlock(20)),
+                hints[1],
+                hints[5],
+                String.format(hints[0], computeDamage(45)),
+                hints[2],
+                String.format(hints[4],computeDamage(15),computeBlock(15)),
+                String.format(hints[7],computeBlock(10),3),
+                String.format(hints[0],computeDamage(15)),
+        };
     }
 
     @Override
