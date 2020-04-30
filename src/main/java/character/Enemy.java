@@ -114,6 +114,8 @@ public abstract class Enemy extends Role {
     //敌人获得强大效果
     protected abstract void getBlessing();
 
+    public abstract void updateHints();
+
     public int getNextActionIndex() {
         return nextActionIndex;
     }

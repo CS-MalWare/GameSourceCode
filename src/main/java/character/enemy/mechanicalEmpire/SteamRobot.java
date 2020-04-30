@@ -14,17 +14,9 @@ public class SteamRobot extends Enemy {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
 
 
-        this.nextActionSet = new String[]{
-                String.format(hints[3], computeBlock(20)),
-                hints[1],
-                hints[5],
-                String.format(hints[0], computeDamage(45)),
-                hints[2],
-                String.format(hints[4],computeDamage(15),computeBlock(15)),
-                String.format(hints[7],computeBlock(10),3),
-                String.format(hints[0],computeDamage(15)),
-        };
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
+        this.updateHints();
+
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
     @Override
@@ -32,21 +24,27 @@ public class SteamRobot extends Enemy {
         super.startTurn();
         if (stun.getDuration() > 0) {
             return;
-        }this.nextActionSet = new String[]{
+        }
+        this.updateHints();
+    }
+
+    @Override
+    public void updateHints() {
+        this.nextActionSet = new String[]{
                 String.format(hints[3], computeBlock(20)),
                 hints[1],
                 hints[5],
                 String.format(hints[0], computeDamage(45)),
                 hints[2],
-                String.format(hints[4],computeDamage(15),computeBlock(15)),
-                String.format(hints[7],computeBlock(10),3),
-                String.format(hints[0],computeDamage(15)),
+                String.format(hints[4], computeDamage(15), computeBlock(15)),
+                String.format(hints[7], computeBlock(10), 3),
+                String.format(hints[0], computeDamage(15)),
         };
     }
 
     @Override
     public String enemyAction() {
-        switch (this.nextActionIndex){
+        switch (this.nextActionIndex) {
             case 0:
                 this.getBlocks();
                 this.newAction();
@@ -87,44 +85,44 @@ public class SteamRobot extends Enemy {
     @Override
     protected void attack() {
         this.target.getDamage(computeDamage(45));
-        this.getBuff(new Stun(this,1));
+        this.getBuff(new Stun(this, 1));
     }
 
-    protected void attack2(){
-        for(int i = 0;i<3;i++)
+    protected void attack2() {
+        for (int i = 0; i < 3; i++)
             this.target.getDamage(computeDamage(15));
     }
 
-    protected void attack3(){
+    protected void attack3() {
         this.target.getDamage(computeDamage(15));
-        this.target.getBuff(new Silence(this.target,2));
+        this.target.getBuff(new Silence(this.target, 2));
     }
 
     @Override
     protected void releaseDebuff() {
-        this.target.getBuff(new Weak(this.target,2),new Vulnerable(this.target,2));
+        this.target.getBuff(new Weak(this.target, 2), new Vulnerable(this.target, 2));
 
     }
 
     @Override
     protected void releaseCurses() {
-        this.target.getBuff(new Weak(this.target,5),new Vulnerable(this.target,5));
+        this.target.getBuff(new Weak(this.target, 5), new Vulnerable(this.target, 5));
     }
 
     @Override
     protected void getBlocks() {
-        this.setBlock(this.getBlock()+computeDamage(20));
+        this.setBlock(this.getBlock() + computeDamage(20));
     }
 
     @Override
     protected void getBlockAndAttack() {
         this.target.getDamage(computeDamage(15));
-        this.setBlock(this.getBlock()+computeBlock(15));
+        this.setBlock(this.getBlock() + computeBlock(15));
     }
 
     @Override
     protected void releaseBuff() {
-        this.getBuff(new Dodge(this,1));
+        this.getBuff(new Dodge(this, 1));
     }
 
     @Override

@@ -8,11 +8,7 @@ public class BlackSlime extends Enemy {
     //TODO 固化HP和src等属性
     public BlackSlime(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(7)),
-                hints[1],
-                hints[6]
-        };
+        this.updateHints();
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
@@ -23,6 +19,11 @@ public class BlackSlime extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
+        this.updateHints();
+    }
+
+    @Override
+    public void updateHints() {
         this.nextActionSet = new String[]{
                 String.format(hints[0], computeDamage(7)),
                 hints[1],

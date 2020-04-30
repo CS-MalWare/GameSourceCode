@@ -124,10 +124,10 @@ public class MainRole extends Role {
         Collections.shuffle(deck);
         //将卡组加入抽牌堆
         app.getStateManager().getState(DecksState.class).addToDraw(this.deck);
-        this.draw = this.draw_;
+        this.draw = this.draw_; // 复制一回合中的抽牌数
         this.MP_current = this.MP_max;
-        this.strength = this.strength_;
-        this.dexterity = this.dexterity_;
+        this.strength = this.strength_;  // 复制力量
+        this.dexterity = this.dexterity_; // 复制敏捷
     }
 
     public void getCard(Card... cards) {

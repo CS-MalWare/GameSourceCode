@@ -8,14 +8,9 @@ public class KingDarkDragon extends Enemy {
 
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
 
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(20)),
-                hints[1],
-                String.format(hints[3],computeBlock(25)),
-                String.format(hints[7],computeDamage(4),4),
-                String.format(hints[4],computeDamage(10),computeBlock(20))
-        };
-        this.nextActionIndex = (int)(Math.random()*(this.nextActionSet.length));
+        this.updateHints();
+
+        this.nextActionIndex = (int) (Math.random() * (this.nextActionSet.length));
     }
 
     @Override
@@ -25,19 +20,25 @@ public class KingDarkDragon extends Enemy {
         this.treat(2);
         if (stun.getDuration() > 0) {
             return;
-        }this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(20)),
-                hints[1],
-                String.format(hints[3],computeBlock(25)),
-                String.format(hints[7],computeDamage(4),4),
-                String.format(hints[4],computeDamage(10),computeBlock(20))
-        };
+        }
+        this.updateHints();
     }
 
 
     @Override
+    public void updateHints() {
+        this.nextActionSet = new String[]{
+                String.format(hints[0], computeDamage(20)),
+                hints[1],
+                String.format(hints[3], computeBlock(25)),
+                String.format(hints[7], computeDamage(4), 4),
+                String.format(hints[4], computeDamage(10), computeBlock(20))
+        };
+    }
+
+    @Override
     public String enemyAction() {
-        switch (this.nextActionIndex){
+        switch (this.nextActionIndex) {
             case 0:
                 this.attack();
                 this.newAction();
@@ -66,20 +67,20 @@ public class KingDarkDragon extends Enemy {
     @Override
     protected void attack() {
         this.target.getDamage(computeDamage(20));
-        this.setStrength(this.getStrength()+1);
-        this.target.getBuff(new Bleeding(this.target,2));
+        this.setStrength(this.getStrength() + 1);
+        this.target.getBuff(new Bleeding(this.target, 2));
     }
 
     protected void attack2() {
-        for(int i = 0;i<4;i++){
+        for (int i = 0; i < 4; i++) {
             this.target.getDamage(computeDamage(4));
         }
     }
 
     @Override
     protected void releaseDebuff() {
-        this.target.setStrength(this.target.getStrength()-2);
-        this.target.getBuff(new Bleeding(this.target,3));
+        this.target.setStrength(this.target.getStrength() - 2);
+        this.target.getBuff(new Bleeding(this.target, 3));
     }
 
     @Override
@@ -89,13 +90,13 @@ public class KingDarkDragon extends Enemy {
 
     @Override
     protected void getBlocks() {
-        this.setBlock(this.getBlock()+computeBlock(20));
+        this.setBlock(this.getBlock() + computeBlock(20));
     }
 
     @Override
     protected void getBlockAndAttack() {
         this.target.getDamage(computeDamage(10));
-        this.setBlock(this.getBlock()+computeBlock(20));
+        this.setBlock(this.getBlock() + computeBlock(20));
     }
 
     @Override

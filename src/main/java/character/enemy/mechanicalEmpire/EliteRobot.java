@@ -10,15 +10,9 @@ public class EliteRobot extends Enemy {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
 
 
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(20)),
-                hints[2],
-                String.format(hints[3], computeBlock(25)),
-                hints[5],
-                String.format(hints[7],computeDamage(15),2),
-                "???"
-        };
-        this.nextActionIndex = (int)(Math.random()*(this.nextActionSet.length-1));//第一回合不可能随机到最后一个事件
+        this.updateHints();
+
+        this.nextActionIndex = (int) (Math.random() * (this.nextActionSet.length - 1));//第一回合不可能随机到最后一个事件
     }
 
     @Override
@@ -28,25 +22,27 @@ public class EliteRobot extends Enemy {
             return;
         }
         // 确保50%以下血量才能触发最后一个事件
-        while(this.nextActionIndex==this.nextActionSet.length-1){
-            if(this.getHP()<0.5*this.getTotalHP()){
+        while (this.nextActionIndex == this.nextActionSet.length - 1) {
+            if (this.getHP() < 0.5 * this.getTotalHP()) {
                 break;
-            }
-            else{
+            } else {
                 this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
             }
         }
+        this.updateHints();
+    }
+
+    @Override
+    public void updateHints() {
         this.nextActionSet = new String[]{
                 String.format(hints[0], computeDamage(20)),
                 hints[2],
                 String.format(hints[3], computeBlock(25)),
                 hints[5],
-                String.format(hints[7],computeDamage(15),2),
+                String.format(hints[7], computeDamage(15), 2),
                 "???"
         };
     }
-
-
 
     @Override
     public String enemyAction() {

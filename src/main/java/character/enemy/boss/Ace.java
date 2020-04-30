@@ -14,15 +14,8 @@ public class Ace extends Enemy {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
 
 
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(25)),
-                hints[5],
-                hints[1],
-                String.format(hints[3], computeBlock(20)),
-                hints[6],
-                String.format(hints[7], computeDamage(4), 4),
-                String.format(hints[4], computeDamage(10), computeBlock(10)),
-        };
+        this.updateHints();
+
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
@@ -35,6 +28,11 @@ public class Ace extends Enemy {
         if (turnCount % 3 == 0) {
             this.target.getBuff(new Poison(this.target, 2));
         }
+        this.updateHints();
+    }
+
+    @Override
+    public void updateHints() {
         this.nextActionSet = new String[]{
                 String.format(hints[0], computeDamage(25)),
                 hints[5],

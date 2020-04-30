@@ -9,15 +9,9 @@ public class Tuxnet extends Enemy {
     public Tuxnet(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
 
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(lastDamageSum)),
-                String.format(hints[7],computeDamage(1),8),
-                "this enemy will gain some blocks",
-                String.format(hints[4],computeDamage(30),computeBlock(15)),
-                hints[5],
-                hints[2]
-        };
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
+        this.updateHints();
+
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
     @Override
@@ -49,19 +43,25 @@ public class Tuxnet extends Enemy {
                 this.target.getBuff(new Bleeding(this.target,2));
                 break;
             case 2:
-                this.target.getBuff(new Weak(this.target,1));
+                this.target.getBuff(new Weak(this.target, 1));
                 break;
             case 3:
-                this.target.getBuff(new Vulnerable(this.target,1));
+                this.target.getBuff(new Vulnerable(this.target, 1));
                 break;
             default:
                 break;
         }
+        this.updateHints();
+    }
+
+
+    @Override
+    public void updateHints() {
         this.nextActionSet = new String[]{
                 String.format(hints[0], computeDamage(lastDamageSum)),
-                String.format(hints[7],computeDamage(1),8),
+                String.format(hints[7], computeDamage(1), 8),
                 "this enemy will gain some blocks",
-                String.format(hints[4],computeDamage(30),computeBlock(15)),
+                String.format(hints[4], computeDamage(30), computeBlock(15)),
                 hints[5],
                 hints[2]
         };

@@ -14,14 +14,7 @@ public class KingWolfman extends Enemy {
     public KingWolfman(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
 
-        this.nextActionSet = new String[]{
-                String.format(hints[4], computeDamage(20),computeBlock(10)),
-                hints[1],
-                String.format(hints[7], computeDamage(5),3),
-                hints[2],
-                hints[5],
-                String.format(hints[3],computeBlock(20))
-        };
+        this.updateHints();
 
         this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
     }
@@ -32,20 +25,23 @@ public class KingWolfman extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
-        if(this.getHP() == this.getTotalHP()/2 && canIncreaseStrength){
-            this.setStrength(this.getStrength()+5);
+        if (this.getHP() == this.getTotalHP() / 2 && canIncreaseStrength) {
+            this.setStrength(this.getStrength() + 5);
         }
-        this.nextActionSet = new String[]{
-                String.format(hints[4], computeDamage(20),computeBlock(10)),
-                hints[1],
-                String.format(hints[7], computeDamage(5),3),
-                hints[2],
-                hints[5],
-                String.format(hints[3],computeBlock(20))
-        };
+        this.updateHints();
     }
 
-
+    @Override
+    public void updateHints() {
+        this.nextActionSet = new String[]{
+                String.format(hints[4], computeDamage(20), computeBlock(10)),
+                hints[1],
+                String.format(hints[7], computeDamage(5), 3),
+                hints[2],
+                hints[5],
+                String.format(hints[3], computeBlock(20))
+        };
+    }
 
     @Override
     protected void attack() {

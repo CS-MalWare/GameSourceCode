@@ -7,11 +7,7 @@ public class StrongRobot extends Enemy {
     //TODO 固化HP和SRC等属性
     public StrongRobot(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(20)),
-                hints[6],
-                String.format(hints[3],computeBlock(15)),
-        };
+        this.updateHints();
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
@@ -21,16 +17,21 @@ public class StrongRobot extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
+        this.updateHints();
+    }
+
+    @Override
+    public void updateHints() {
         this.nextActionSet = new String[]{
                 String.format(hints[0], computeDamage(20)),
                 hints[6],
-                String.format(hints[3],computeBlock(15)),
+                String.format(hints[3], computeBlock(15)),
         };
     }
 
     @Override
     public String enemyAction() {
-        switch (this.nextActionIndex){
+        switch (this.nextActionIndex) {
             case 0:
                 this.attack();
                 this.newAction();
@@ -65,7 +66,7 @@ public class StrongRobot extends Enemy {
 
     @Override
     protected void getBlocks() {
-        this.setBlock(this.getBlock()+computeBlock(15));
+        this.setBlock(this.getBlock() + computeBlock(15));
     }
 
     @Override
@@ -80,7 +81,7 @@ public class StrongRobot extends Enemy {
 
     @Override
     protected void getBlessing() {
-        this.setStrength(this.getStrength()+3);
+        this.setStrength(this.getStrength() + 3);
         this.treat(5);
     }
 }

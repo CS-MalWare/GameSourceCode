@@ -207,6 +207,9 @@ public class DecksState extends BaseAppState {
             count++;
         }
         this.setImages(app);
+        for (Enemy enemy : EnemyState.getInstance().getEnemies()) {
+            enemy.updateHints();
+        }
         MainRole.getInstance().startTurn();
     }
 

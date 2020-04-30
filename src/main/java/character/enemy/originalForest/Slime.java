@@ -9,11 +9,7 @@ class Slime extends Enemy {
     public Slime(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
 
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(5)),
-                hints[1],
-                String.format(hints[3], computeBlock(5)),
-        };
+        this.updateHints();
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
@@ -24,6 +20,11 @@ class Slime extends Enemy {
         if (stun.getDuration() > 0) {
             return;
         }
+        this.updateHints();
+    }
+
+    @Override
+    public void updateHints() {
         this.nextActionSet = new String[]{
                 String.format(hints[0], computeDamage(5)),
                 hints[1],

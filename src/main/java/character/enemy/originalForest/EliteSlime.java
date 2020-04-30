@@ -10,11 +10,8 @@ public class EliteSlime extends Enemy {
     public EliteSlime(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
 
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(20)),
-                hints[1],
-                String.format(hints[4], computeDamage(5), computeBlock(10)),
-        };
+        this.updateHints();
+
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
@@ -25,6 +22,11 @@ public class EliteSlime extends Enemy {
             return;
         }
         this.treat(5);//每回合开始回复5点血量
+        this.updateHints();
+    }
+
+    @Override
+    public void updateHints() {
         this.nextActionSet = new String[]{
                 String.format(hints[0], computeDamage(20)),
                 hints[1],

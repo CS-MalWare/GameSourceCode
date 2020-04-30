@@ -10,15 +10,8 @@ public class Zac extends Enemy {
     public Zac(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
 
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(25)),
-                String.format(hints[7],computeDamage(4),8),
-                hints[1],
-                String.format(hints[3], computeBlock(50)),
-                hints[2],
-                hints[5],
-        };
-        this.nextActionIndex = (int)(Math.random()*this.nextActionSet.length);
+        this.updateHints();
+        this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
         this.getBuff(new Intangible(this,1));
     }
 
@@ -32,21 +25,25 @@ public class Zac extends Enemy {
         this.setMultiplyingGetDamage(1.0);
 
         //当生命值小于50%增加能力
-        if(canImprove&&this.getHP()*2<=this.getTotalHP()){
+        if (canImprove && this.getHP() * 2 <= this.getTotalHP()) {
             this.canImprove = false;
-            this.setStrength(this.getStrength()+5);
-            this.setDexterity(this.getDexterity()+5);
+            this.setStrength(this.getStrength() + 5);
+            this.setDexterity(this.getDexterity() + 5);
         }
+
+    }
+
+    @Override
+    public void updateHints() {
         this.nextActionSet = new String[]{
                 String.format(hints[0], computeDamage(25)),
-                String.format(hints[7],computeDamage(4),8),
+                String.format(hints[7], computeDamage(4), 8),
                 hints[1],
                 String.format(hints[3], computeBlock(50)),
                 hints[2],
                 hints[5],
         };
     }
-
 
     //重写获得伤害的方法，用于每次受伤增加下次收到伤害
     @Override

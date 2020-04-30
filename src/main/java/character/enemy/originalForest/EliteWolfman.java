@@ -12,13 +12,7 @@ public class EliteWolfman extends Enemy {
 
     public EliteWolfman(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
-        this.nextActionSet = new String[]{
-                String.format(hints[7], computeDamage(3), 2),
-                String.format(hints[4], computeDamage(15), computeBlock(8)),
-                String.format(hints[3], computeBlock(20)),
-                hints[1],
-                hints[2],
-        };
+        this.updateHints();
 
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
@@ -34,10 +28,14 @@ public class EliteWolfman extends Enemy {
         if (this.getHP() < 0.3 * this.getTotalHP()) {
             this.strength += 2;
             this.isWake = true;
-        }
-        else{
+        } else {
             this.isWake = false;
         }
+        this.updateHints();
+    }
+
+    @Override
+    public void updateHints() {
         this.nextActionSet = new String[]{
                 String.format(hints[7], computeDamage(3), 2),
                 String.format(hints[4], computeDamage(15), computeBlock(8)),

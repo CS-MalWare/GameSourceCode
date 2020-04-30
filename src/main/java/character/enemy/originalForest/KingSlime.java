@@ -13,11 +13,7 @@ public class KingSlime extends Enemy {
     public KingSlime(int HP, String src, int block, int strength, int dexterity, int dodge, int artifact, int shield, int disarm, int silence) {
         super(HP, src, block, strength, dexterity, dodge, artifact, shield, disarm, silence);
 
-        this.nextActionSet = new String[]{
-                String.format(hints[0], computeDamage(35)),
-                hints[1],
-                hints[2]
-        };
+        this.updateHints();
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
     }
 
@@ -29,6 +25,12 @@ public class KingSlime extends Enemy {
             return;
         }
         this.nextActionIndex = (int) (Math.random() * this.nextActionSet.length);
+        this.updateHints();
+    }
+
+
+    @Override
+    public void updateHints() {
         this.nextActionSet = new String[]{
                 String.format(hints[0], computeDamage(35)),
                 hints[1],
@@ -36,10 +38,9 @@ public class KingSlime extends Enemy {
         };
     }
 
-
     @Override
     public String enemyAction() {
-        switch (this.nextActionIndex){
+        switch (this.nextActionIndex) {
             case 0:
                 attack();
                 this.newAction();
@@ -75,7 +76,7 @@ public class KingSlime extends Enemy {
 
     @Override
     protected void releaseCurses() {
-        this.target.getBuff(new Weak(this.target,3),new Vulnerable(this.target,3));
+        this.target.getBuff(new Weak(this.target, 3), new Vulnerable(this.target, 3));
     }
 
     @Override
